@@ -1,0 +1,152 @@
+---
+title: Warp Background
+description: A 3D perspective grid background with animated light beams that create a warping effect.
+---
+
+# Warp Background
+
+A stunning 3D perspective grid with animated colored light beams. Creates a futuristic warping effect perfect for hero sections and feature cards.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/warp-background.json
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/warp-background.json
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/warp-background.json
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { WarpBackground } from "$lib/components/magic-ui/warp-background";
+  import * as Card from "$lib/components/ui/card";
+</script>
+
+<WarpBackground>
+  <Card.Root class="w-80">
+    <Card.Content class="flex flex-col gap-2 p-4">
+      <Card.Title>Welcome to the Future</Card.Title>
+      <Card.Description>
+        Experience the next generation of web design with our 3D animated backgrounds.
+      </Card.Description>
+    </Card.Content>
+  </Card.Root>
+</WarpBackground>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to display on top of the warp background.
+</ParamField>
+
+<ParamField path="perspective" type="number" default="100">
+  The CSS perspective value in pixels. Controls the depth of the 3D effect.
+</ParamField>
+
+<ParamField path="beamsPerSide" type="number" default="3">
+  The number of animated light beams to display on each side of the grid.
+</ParamField>
+
+<ParamField path="beamSize" type="number" default="5">
+  The width of each beam as a percentage of the grid.
+</ParamField>
+
+<ParamField path="beamDelayMin" type="number" default="0">
+  The minimum delay before a beam animation starts in seconds.
+</ParamField>
+
+<ParamField path="beamDelayMax" type="number" default="3">
+  The maximum delay before a beam animation starts in seconds.
+</ParamField>
+
+<ParamField path="beamDuration" type="number" default="3">
+  The duration of each beam's animation cycle in seconds.
+</ParamField>
+
+<ParamField path="gridColor" type="string" default="var(--border)">
+  The color of the grid lines. Accepts any valid CSS color.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the container element.
+</ParamField>
+
+## Examples
+
+### Basic Warp Background
+
+```svelte
+<WarpBackground>
+  <h1>Your Content Here</h1>
+</WarpBackground>
+```
+
+### More Beams
+
+```svelte
+<WarpBackground beamsPerSide={5}>
+  <p>More light beams create a busier effect</p>
+</WarpBackground>
+```
+
+### Faster Animation
+
+```svelte
+<WarpBackground
+  beamDuration={2}
+  beamDelayMax={2}
+>
+  <p>Faster moving beams</p>
+</WarpBackground>
+```
+
+### Custom Grid Color
+
+```svelte
+<WarpBackground
+  gridColor="rgb(59, 130, 246)"
+  class="border-blue-500"
+>
+  <p>Blue grid lines</p>
+</WarpBackground>
+```
+
+### Deeper Perspective
+
+```svelte
+<WarpBackground perspective={200}>
+  <p>More dramatic 3D effect</p>
+</WarpBackground>
+```
+
+### Wider Beams
+
+```svelte
+<WarpBackground
+  beamSize={8}
+  beamsPerSide={4}
+>
+  <p>Thicker light beams</p>
+</WarpBackground>
+```
+
+## Notes
+
+- Uses motion-sv for smooth beam animations
+- Beams have randomized colors (hue) and aspect ratios
+- Grid is rendered on all four sides (top, bottom, left, right)
+- Each beam animates independently with random delays
+- Uses CSS container queries for responsive sizing
+- The component includes a border and padding by default
+- Content is rendered in a relative positioned layer above the background
+- Beams move from back to front creating a depth effect

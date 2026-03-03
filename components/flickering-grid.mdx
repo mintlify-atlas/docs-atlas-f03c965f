@@ -1,0 +1,150 @@
+---
+title: Flickering Grid
+description: An animated flickering grid pattern component that creates a dynamic canvas-based background with randomly flickering squares.
+---
+
+# Flickering Grid
+
+A canvas-based component that creates a dynamic flickering grid background. Squares randomly change opacity to create a subtle, animated matrix-like effect.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/flickering-grid.json
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/flickering-grid.json
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/flickering-grid.json
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { FlickeringGrid } from "$lib/components/magic-ui/flickering-grid";
+</script>
+
+<div class="relative h-[500px] w-full overflow-hidden rounded-lg border">
+  <FlickeringGrid
+    squareSize={4}
+    gridGap={6}
+    color="rgb(0, 0, 0)"
+    maxOpacity={0.5}
+    flickerChance={0.3}
+  />
+  <div class="relative z-10 flex h-full items-center justify-center">
+    <p class="text-5xl font-medium tracking-tighter text-black dark:text-white">
+      Flickering Grid
+    </p>
+  </div>
+</div>
+```
+
+## Props
+
+<ParamField path="squareSize" type="number" default="4">
+  The size of each square in pixels.
+</ParamField>
+
+<ParamField path="gridGap" type="number" default="6">
+  The gap between squares in pixels.
+</ParamField>
+
+<ParamField path="flickerChance" type="number" default="0.3">
+  The probability that a square will change opacity each frame (0-1). Higher values create more rapid flickering.
+</ParamField>
+
+<ParamField path="color" type="string" default="rgb(0, 0, 0)">
+  The color of the squares. Accepts any valid CSS color value (rgb, hex, hsl, named colors).
+</ParamField>
+
+<ParamField path="width" type="number">
+  Optional fixed width in pixels. If not provided, the component fills its container.
+</ParamField>
+
+<ParamField path="height" type="number">
+  Optional fixed height in pixels. If not provided, the component fills its container.
+</ParamField>
+
+<ParamField path="maxOpacity" type="number" default="0.3">
+  The maximum opacity for squares (0-1).
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the container element.
+</ParamField>
+
+## Examples
+
+### Basic Flickering Grid
+
+```svelte
+<FlickeringGrid
+  squareSize={4}
+  gridGap={6}
+  color="rgb(0, 0, 0)"
+  maxOpacity={0.5}
+/>
+```
+
+### Dark Theme with Blue Tint
+
+```svelte
+<FlickeringGrid
+  squareSize={4}
+  gridGap={6}
+  color="rgb(59, 130, 246)"
+  maxOpacity={0.4}
+  flickerChance={0.2}
+  class="dark:block hidden"
+/>
+```
+
+### Faster Flicker Rate
+
+```svelte
+<FlickeringGrid
+  squareSize={3}
+  gridGap={5}
+  flickerChance={0.5}
+  maxOpacity={0.6}
+/>
+```
+
+### Larger Squares
+
+```svelte
+<FlickeringGrid
+  squareSize={8}
+  gridGap={10}
+  color="rgb(139, 92, 246)"
+  maxOpacity={0.3}
+/>
+```
+
+### Custom Color with High Contrast
+
+```svelte
+<FlickeringGrid
+  squareSize={4}
+  gridGap={6}
+  color="rgb(34, 197, 94)"
+  maxOpacity={0.7}
+  flickerChance={0.4}
+/>
+```
+
+## Notes
+
+- Uses HTML5 Canvas for high-performance rendering
+- Animation pauses when component is not in viewport (uses Intersection Observer)
+- Automatically handles device pixel ratio for crisp rendering
+- Responsive to container size changes (uses ResizeObserver)
+- Each square has random opacity assigned when flickering occurs
+- Color conversion happens automatically for any CSS color format

@@ -1,0 +1,286 @@
+---
+title: Dither Shader
+description: A canvas-based component that applies dithering effects to images with customizable patterns and color modes.
+---
+
+# Dither Shader
+
+A powerful canvas-based component that applies various dithering effects to images. Supports multiple dithering algorithms (Bayer, Halftone, Noise, Crosshatch) and color modes (Original, Grayscale, Duotone, Custom) with extensive customization options.
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte add https://animations.sikandar.in/magic/dither-shader
+```
+
+```bash Manual
+# Copy the component files to your project:
+# src/lib/components/magic-ui/dither-shader/dither-shader.svelte
+# src/lib/components/magic-ui/dither-shader/index.ts
+```
+
+</CodeGroup>
+
+## Usage
+
+### Basic Grayscale Dithering
+
+```svelte
+<script>
+  import { DitherShader } from "$lib/components/magic-ui/dither-shader";
+</script>
+
+<DitherShader
+  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
+  gridSize={4}
+  ditherMode="bayer"
+  colorMode="grayscale"
+  class="h-64 w-80"
+/>
+```
+
+### Duotone Effect
+
+```svelte
+<script>
+  import { DitherShader } from "$lib/components/magic-ui/dither-shader";
+</script>
+
+<DitherShader
+  src="/images/portrait.jpg"
+  ditherMode="halftone"
+  colorMode="duotone"
+  primaryColor="#FF6B6B"
+  secondaryColor="#4ECDC4"
+  gridSize={6}
+  class="h-96 w-full"
+/>
+```
+
+### Animated Noise Effect
+
+```svelte
+<script>
+  import { DitherShader } from "$lib/components/magic-ui/dither-shader";
+</script>
+
+<DitherShader
+  src="/images/landscape.jpg"
+  ditherMode="noise"
+  colorMode="original"
+  animated={true}
+  animationSpeed={0.05}
+  gridSize={3}
+  class="h-screen w-full"
+/>
+```
+
+### Custom Palette
+
+```svelte
+<script>
+  import { DitherShader } from "$lib/components/magic-ui/dither-shader";
+</script>
+
+<DitherShader
+  src="/images/photo.jpg"
+  ditherMode="bayer"
+  colorMode="custom"
+  customPalette={["#000000", "#434343", "#8B8B8B", "#FFFFFF"]}
+  gridSize={4}
+  class="h-80 w-80"
+/>
+```
+
+## Props
+
+<ParamField path="src" type="string" required>
+  Source URL of the image to apply dithering effects to. Can be a relative path or absolute URL.
+</ParamField>
+
+<ParamField path="gridSize" type="number" default="4">
+  Size of the dithering grid cells in pixels. Smaller values create finer dithering patterns. Typical range: 2-8.
+</ParamField>
+
+<ParamField path="ditherMode" type="'bayer' | 'halftone' | 'noise' | 'crosshatch'" default="'bayer'">
+  Type of dithering pattern to apply:
+  - `bayer`: Ordered dithering using Bayer matrix (classic dithering)
+  - `halftone`: Rotated dot pattern similar to print halftones
+  - `noise`: Random noise-based dithering
+  - `crosshatch`: Crosshatch line pattern
+</ParamField>
+
+<ParamField path="colorMode" type="'original' | 'grayscale' | 'duotone' | 'custom'" default="'original'">
+  Color processing mode:
+  - `original`: Preserves colors with quantization
+  - `grayscale`: Converts to black and white
+  - `duotone`: Maps to two custom colors
+  - `custom`: Uses a custom color palette
+</ParamField>
+
+<ParamField path="invert" type="boolean" default="false">
+  Inverts the dithered output colors (dark becomes light, light becomes dark).
+</ParamField>
+
+<ParamField path="pixelRatio" type="number" default="1">
+  Pixelation multiplier. Values greater than 1 create larger pixelated blocks. Useful for retro effects.
+</ParamField>
+
+<ParamField path="primaryColor" type="string" default="'#000000'">
+  Primary (dark) color for duotone mode. Accepts hex, rgb, or named colors.
+</ParamField>
+
+<ParamField path="secondaryColor" type="string" default="'#ffffff'">
+  Secondary (light) color for duotone mode. Accepts hex, rgb, or named colors.
+</ParamField>
+
+<ParamField path="customPalette" type="string[]" default="['#000000', '#ffffff']">
+  Array of colors for custom color mode. Can be 2 colors for binary dithering or more for multi-tone effects.
+</ParamField>
+
+<ParamField path="brightness" type="number" default="0">
+  Brightness adjustment from -1 (darker) to 1 (brighter). 0 is neutral.
+</ParamField>
+
+<ParamField path="contrast" type="number" default="1">
+  Contrast adjustment from 0 (no contrast) to 2 (high contrast). 1 is neutral/normal.
+</ParamField>
+
+<ParamField path="backgroundColor" type="string" default="'transparent'">
+  Background color behind the dithered image. Useful when image has transparency.
+</ParamField>
+
+<ParamField path="objectFit" type="'cover' | 'contain' | 'fill' | 'none'" default="'cover'">
+  How the image should fit within the container:
+  - `cover`: Fills container, crops as needed
+  - `contain`: Fits entirely within container
+  - `fill`: Stretches to fill container
+  - `none`: Uses original dimensions
+</ParamField>
+
+<ParamField path="threshold" type="number" default="0.5">
+  Dithering threshold bias from 0 to 1. Lower values make the image darker, higher values make it lighter.
+</ParamField>
+
+<ParamField path="animated" type="boolean" default="false">
+  Enables continuous animation effect. Works best with `noise` dither mode.
+</ParamField>
+
+<ParamField path="animationSpeed" type="number" default="0.02">
+  Speed of animation effect. Lower values are slower. Only applies when `animated` is true.
+</ParamField>
+
+<ParamField path="class" type="string" default="undefined">
+  Additional CSS classes for the container. Use this to set the size of the component (e.g., `"h-64 w-80"`).
+</ParamField>
+
+## Dithering Modes Explained
+
+### Bayer Dithering
+
+Uses an ordered Bayer matrix (4×4 or 8×8) to create a classic dithered look. This is the most common dithering technique used in computer graphics and provides consistent, repeatable patterns.
+
+### Halftone Dithering
+
+Creates a rotated dot pattern similar to traditional print halftones. The pattern rotates at 45 degrees and creates circular or diamond-shaped dots that vary in size based on image brightness.
+
+### Noise Dithering
+
+Applies random noise-based dithering that creates a more organic, film-grain-like appearance. When animated, creates a dynamic, constantly-shifting effect.
+
+### Crosshatch Dithering
+
+Generates a crosshatch line pattern similar to hand-drawn cross-hatching. Creates intersecting diagonal lines that darken areas based on image luminance.
+
+## Color Modes Explained
+
+### Original Mode
+
+Preserves the original colors of the image while applying dithering. Colors are quantized to fewer levels (typically 4 per channel) to create the dithered appearance while maintaining the original color palette.
+
+### Grayscale Mode
+
+Converts the image to pure black and white using luminance values. Creates high-contrast, newspaper-style images.
+
+### Duotone Mode
+
+Maps the image to two colors of your choice. Dark areas use the primary color, light areas use the secondary color. Perfect for creating branded images or artistic effects.
+
+### Custom Mode
+
+Allows you to define a custom color palette. With 2 colors, works like duotone. With 3+ colors, creates multi-tone effects by quantizing the image to your specific palette.
+
+## Performance Considerations
+
+<Warning>
+  Dithering is computationally intensive, especially for large images. Consider the following:
+  - Use smaller `gridSize` values (2-4) for better performance
+  - Avoid animation on mobile devices or use higher `animationSpeed` values
+  - Set explicit dimensions with the `class` prop to avoid unnecessary recalculations
+  - Use lower resolution source images when possible
+</Warning>
+
+## CORS Considerations
+
+<Info>
+  The component sets `crossOrigin="anonymous"` on the image. If you're loading images from external domains, ensure they have proper CORS headers set, or you'll receive a canvas security error.
+</Info>
+
+## Examples
+
+### Retro Terminal Effect
+
+```svelte
+<DitherShader
+  src="/portrait.jpg"
+  ditherMode="bayer"
+  colorMode="duotone"
+  primaryColor="#00FF00"
+  secondaryColor="#000000"
+  gridSize={3}
+  pixelRatio={2}
+  backgroundColor="#000000"
+  class="h-96 w-96"
+/>
+```
+
+### Film Grain Effect
+
+```svelte
+<DitherShader
+  src="/landscape.jpg"
+  ditherMode="noise"
+  colorMode="grayscale"
+  animated={true}
+  animationSpeed={0.01}
+  gridSize={2}
+  brightness={0.1}
+  contrast={1.2}
+  class="h-full w-full"
+/>
+```
+
+### Pop Art Style
+
+```svelte
+<DitherShader
+  src="/portrait.jpg"
+  ditherMode="halftone"
+  colorMode="custom"
+  customPalette={["#FF0000", "#FFFF00", "#00FFFF", "#FF00FF"]}
+  gridSize={5}
+  threshold={0.6}
+  contrast={1.5}
+  class="h-96 w-96"
+/>
+```
+
+## Tips
+
+<Tip>
+  Experiment with different combinations of `ditherMode` and `colorMode` to achieve various artistic effects. The `halftone` mode with `duotone` colors creates beautiful print-style images.
+</Tip>
+
+<Tip>
+  Use the `threshold` prop to fine-tune the balance between light and dark areas in your dithered image.
+</Tip>

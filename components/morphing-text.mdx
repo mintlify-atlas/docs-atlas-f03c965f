@@ -1,0 +1,251 @@
+---
+title: Morphing Text
+description: A text component that smoothly morphs between multiple text strings with a blur transition effect.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/morphing-text
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/morphing-text
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/morphing-text
+```
+
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { MorphingText } from "$lib/components/magic/morphing-text";
+</script>
+
+<MorphingText texts={["Build", "Ship", "Scale"]} />
+```
+
+## Examples
+
+### Basic Example
+
+Cycle through multiple words with a smooth morph effect.
+
+```svelte
+<MorphingText texts={["Hello", "Bonjour", "Hola", "Ciao"]} />
+```
+
+### Feature Highlights
+
+Showcase multiple product features.
+
+```svelte
+<MorphingText 
+  texts={[
+    "Fast",
+    "Reliable",
+    "Secure",
+    "Scalable"
+  ]} 
+/>
+```
+
+### Brand Values
+
+Rotate through brand messages.
+
+```svelte
+<MorphingText 
+  texts={[
+    "Innovation",
+    "Quality",
+    "Excellence",
+    "Trust"
+  ]} 
+/>
+```
+
+### With Custom Styling
+
+Apply custom styles to the container.
+
+```svelte
+<MorphingText 
+  texts={["Design", "Develop", "Deploy"]}
+  class="text-primary"
+/>
+```
+
+### Hero Section
+
+Use in a hero section with large text.
+
+```svelte
+<div class="flex items-center justify-center min-h-screen">
+  <h1 class="text-center">
+    <span class="text-6xl font-bold">We </span>
+    <MorphingText 
+      texts={["Build", "Design", "Create", "Ship"]}
+      class="text-6xl font-bold text-blue-600"
+    />
+    <span class="text-6xl font-bold"> Amazing Products</span>
+  </h1>
+</div>
+```
+
+## Props
+
+<ParamField path="texts" type="string[]" required>
+  Array of text strings to cycle through. The component will continuously morph between these values.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component container.
+</ParamField>
+
+## Animation Timing
+
+The component uses fixed timing constants for the morphing effect:
+
+- **Morph time**: 1.5 seconds (duration of the morph transition)
+- **Cooldown time**: 0.5 seconds (pause between morphs)
+
+This creates a cycle of approximately 2 seconds per text string.
+
+## How It Works
+
+The morphing effect is achieved through:
+
+1. **Dual text layers**: Two overlapping `<span>` elements contain the current and next text
+2. **Blur transition**: Text blurs as it morphs from one to another
+3. **Opacity fade**: Text fades out while morphing
+4. **SVG filter**: An SVG threshold filter enhances the morph effect
+5. **Animation loop**: Continuous requestAnimationFrame loop drives smooth animation
+
+## Technical Details
+
+### SVG Filter
+
+The component uses an SVG color matrix filter to sharpen the blur transitions:
+
+```svelte
+<svg id="filters">
+  <defs>
+    <filter id="threshold">
+      <feColorMatrix
+        type="matrix"
+        values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 255 -140"
+      />
+    </filter>
+  </defs>
+</svg>
+```
+
+This filter creates a high-contrast edge that makes the morph effect more pronounced.
+
+## Customization
+
+### Two Words Only
+
+Morph between just two words.
+
+```svelte
+<MorphingText texts={["Day", "Night"]} />
+```
+
+### Many Words
+
+Cycle through a large set of words.
+
+```svelte
+<MorphingText 
+  texts={[
+    "React", "Vue", "Angular", "Svelte", 
+    "Next", "Nuxt", "SvelteKit", "Remix"
+  ]} 
+/>
+```
+
+### Longer Phrases
+
+Morph between complete phrases.
+
+```svelte
+<MorphingText 
+  texts={[
+    "Welcome to our site",
+    "Discover our products",
+    "Join our community"
+  ]} 
+/>
+```
+
+### Custom Colors
+
+Style the text with custom colors.
+
+```svelte
+<MorphingText 
+  texts={["Red", "Green", "Blue"]}
+  class="text-gradient bg-gradient-to-r from-red-500 via-green-500 to-blue-500 bg-clip-text text-transparent"
+/>
+```
+
+### Smaller Size
+
+Adjust for smaller text sizes.
+
+```svelte
+<MorphingText 
+  texts={["Small", "Text"]}
+  class="text-2xl h-8"
+/>
+```
+
+## Use Cases
+
+- **Hero sections**: Create dynamic, eye-catching headlines
+- **Feature showcases**: Rotate through product features
+- **Brand messaging**: Cycle through brand values or USPs
+- **Loading states**: Show dynamic loading messages
+- **Multi-language support**: Display text in multiple languages
+- **Testimonials**: Rotate through customer quotes
+- **Stats rotation**: Cycle through different metrics
+
+## Best Practices
+
+1. **Similar length texts**: Works best when texts are similar in length
+2. **Contrast**: Ensure sufficient contrast with background
+3. **Font selection**: Bold, sans-serif fonts work best
+4. **Center alignment**: The effect is most visible with center-aligned text
+5. **Limited count**: 3-6 texts provide the best user experience
+
+## Accessibility
+
+Considerations for accessibility:
+
+- The component cycles automatically, which may be distracting for some users
+- Text is always readable, but morphs continuously
+- Consider adding a pause button for users who need it
+- Ensure text content is meaningful and not critical information that might be missed
+
+<Info>
+The morphing effect is created using a combination of blur filters and opacity transitions, enhanced by an SVG threshold filter that creates sharp edges during the transition.
+</Info>
+
+<Warning>
+Very short or very long text strings may not morph as smoothly. The effect works best with single words or short phrases of similar length.
+</Warning>
+
+## Performance
+
+The component uses `requestAnimationFrame` for smooth, 60fps animations. The animation is automatically cleaned up when the component is destroyed to prevent memory leaks.

@@ -1,0 +1,139 @@
+---
+title: Animated Grid Pattern
+description: An animated grid pattern component that creates a dynamic background with moving squares that fade in and out.
+---
+
+# Animated Grid Pattern
+
+An animated grid pattern component that creates a dynamic background with moving squares that fade in and out. Perfect for hero sections and background effects.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/animated-grid-pattern.json
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/animated-grid-pattern.json
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/animated-grid-pattern.json
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { AnimatedGridPattern } from "$lib/components/magic-ui/animated-grid-pattern";
+  import { cn } from "$lib/utils";
+</script>
+
+<div class="relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg border">
+  <AnimatedGridPattern
+    numSquares={30}
+    maxOpacity={0.1}
+    duration={3}
+    repeatDelay={1}
+    class={cn(
+      "mask-[radial-gradient(500px_circle_at_center,white,transparent)]",
+      "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
+    )}
+  />
+  <p class="z-10 whitespace-pre-wrap text-center text-5xl font-medium tracking-tighter text-black dark:text-white">
+    Animated Grid Pattern
+  </p>
+</div>
+```
+
+## Props
+
+<ParamField path="width" type="number" default="40">
+  The width of each grid square in pixels.
+</ParamField>
+
+<ParamField path="height" type="number" default="40">
+  The height of each grid square in pixels.
+</ParamField>
+
+<ParamField path="x" type="number" default="-1">
+  The x-offset of the grid pattern.
+</ParamField>
+
+<ParamField path="y" type="number" default="-1">
+  The y-offset of the grid pattern.
+</ParamField>
+
+<ParamField path="strokeDasharray" type="number" default="0">
+  The stroke dash array for the grid lines. Set to a non-zero value to create dashed lines.
+</ParamField>
+
+<ParamField path="numSquares" type="number" default="50">
+  The number of animated squares to display.
+</ParamField>
+
+<ParamField path="maxOpacity" type="number" default="0.5">
+  The maximum opacity of animated squares (0-1).
+</ParamField>
+
+<ParamField path="duration" type="number" default="4">
+  The duration of each square's fade animation in seconds.
+</ParamField>
+
+<ParamField path="repeatDelay" type="number" default="0.5">
+  The delay before repeating the animation in seconds.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the SVG element.
+</ParamField>
+
+## Examples
+
+### With Radial Gradient Mask
+
+```svelte
+<AnimatedGridPattern
+  numSquares={30}
+  maxOpacity={0.1}
+  duration={3}
+  repeatDelay={1}
+  class={cn(
+    "mask-[radial-gradient(500px_circle_at_center,white,transparent)]",
+    "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
+  )}
+/>
+```
+
+### With Linear Gradient
+
+```svelte
+<AnimatedGridPattern
+  width={20}
+  height={20}
+  numSquares={40}
+  maxOpacity={0.3}
+  class="mask-[linear-gradient(to_bottom,white,transparent,transparent)]"
+/>
+```
+
+### With Dashed Grid Lines
+
+```svelte
+<AnimatedGridPattern
+  strokeDasharray={4}
+  numSquares={25}
+  maxOpacity={0.2}
+  class="text-blue-500"
+/>
+```
+
+## Notes
+
+- The component uses motion-sv for smooth animations
+- Squares are randomly positioned across the grid
+- Each square fades in and out, then moves to a new random position
+- The component automatically resizes based on its container
+- Use CSS masks to create interesting reveal effects

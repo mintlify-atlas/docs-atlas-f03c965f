@@ -1,0 +1,130 @@
+---
+title: Border Beam
+description: A component for creating animated border beam effects around elements with customizable gradients, duration, and direction.
+---
+
+<ComponentPreview name="border-beam-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@next add border-beam
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Install dependencies</Step>
+      ```bash
+      npm install motion-sv
+      ```
+      <Step>Copy component source</Step>
+      <ComponentSource name="border-beam" />
+      <Step>Update Tailwind config</Step>
+      Add the following animations to your `tailwind.config.js`:
+      ```js
+      {
+        theme: {
+          extend: {
+            animation: {
+              'border-beam': 'border-beam 6s linear infinite'
+            }
+          }
+        }
+      }
+      ```
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { BorderBeam } from "$lib/components/magic/border-beam";
+</script>
+
+<div class="relative h-[200px] w-[400px] rounded-lg border">
+  <BorderBeam />
+  <div class="p-8">Your content here</div>
+</div>
+```
+
+## Examples
+
+### Custom Colors
+
+<ComponentPreview name="border-beam-custom-colors" />
+
+```svelte
+<div class="relative h-[200px] w-[400px] rounded-lg border">
+  <BorderBeam colorFrom="#3b82f6" colorTo="#10b981" />
+</div>
+```
+
+### Reverse Direction
+
+<ComponentPreview name="border-beam-reverse" />
+
+```svelte
+<div class="relative h-[200px] w-[400px] rounded-lg border">
+  <BorderBeam reverse={true} />
+</div>
+```
+
+### Custom Size and Duration
+
+<ComponentPreview name="border-beam-custom" />
+
+```svelte
+<div class="relative h-[200px] w-[400px] rounded-lg border">
+  <BorderBeam size={100} duration={8} borderWidth={2} />
+</div>
+```
+
+## Props
+
+<ParamField path="size" type="number" default="50">
+  The size of the beam element in pixels.
+</ParamField>
+
+<ParamField path="duration" type="number" default="6">
+  The duration of the animation in seconds.
+</ParamField>
+
+<ParamField path="delay" type="number" default="0">
+  The delay before the animation starts in seconds.
+</ParamField>
+
+<ParamField path="colorFrom" type="string" default="#ffaa40">
+  The starting color of the gradient.
+</ParamField>
+
+<ParamField path="colorTo" type="string" default="#9c40ff">
+  The ending color of the gradient.
+</ParamField>
+
+<ParamField path="borderWidth" type="number" default="1">
+  The width of the border in pixels.
+</ParamField>
+
+<ParamField path="reverse" type="boolean" default="false">
+  Whether to reverse the animation direction.
+</ParamField>
+
+<ParamField path="initialOffset" type="number" default="0">
+  The initial offset position of the beam (0-100).
+</ParamField>
+
+<ParamField path="transition" type="Transition">
+  Custom motion-sv transition configuration to override default animation settings.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the beam element.
+</ParamField>
+
+<ParamField path="style" type="string">
+  Inline styles to apply to the container.
+</ParamField>

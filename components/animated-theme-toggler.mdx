@@ -1,0 +1,147 @@
+---
+title: Animated Theme Toggler
+description: A smooth animated theme toggler that uses the View Transition API to create a circular reveal effect when switching between light and dark themes.
+---
+
+# Animated Theme Toggler
+
+A smooth animated theme toggler button that creates a circular reveal effect when switching between light and dark themes. Uses the View Transition API for browsers that support it, with a graceful fallback for browsers that don't.
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte add https://animations.sikandar.in/magic/animated-theme-toggler
+```
+
+```bash Manual
+# Copy the component files to your project:
+# src/lib/components/magic-ui/animated-theme-toggler/animated-theme-toggler.svelte
+# src/lib/components/magic-ui/animated-theme-toggler/index.ts
+```
+
+</CodeGroup>
+
+## Installation
+
+### Install Dependencies
+
+This component requires Lucide Svelte for the icons:
+
+```bash
+npm install @lucide/svelte
+```
+
+### Add CSS
+
+Add the following CSS to your global stylesheet or `app.css`:
+
+```css
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+```
+
+## Usage
+
+### Basic Example
+
+```svelte
+<script>
+  import { AnimatedThemeToggler } from "$lib/components/magic-ui/animated-theme-toggler";
+</script>
+
+<AnimatedThemeToggler />
+```
+
+### Custom Styling
+
+```svelte
+<script>
+  import { AnimatedThemeToggler } from "$lib/components/magic-ui/animated-theme-toggler";
+</script>
+
+<AnimatedThemeToggler 
+  class="rounded-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+  duration={600}
+/>
+```
+
+### With Custom Duration
+
+```svelte
+<script>
+  import { AnimatedThemeToggler } from "$lib/components/magic-ui/animated-theme-toggler";
+</script>
+
+<AnimatedThemeToggler duration={300} />
+```
+
+## Props
+
+<ParamField path="class" type="string" default="undefined">
+  Additional CSS classes to apply to the button element. Use this to customize the button's appearance with Tailwind classes.
+</ParamField>
+
+<ParamField path="duration" type="number" default="400">
+  Duration of the circular reveal animation in milliseconds. Only applies when the View Transition API is supported.
+</ParamField>
+
+## Features
+
+### View Transition API
+
+The component uses the modern View Transition API to create a smooth circular reveal effect that originates from the button position. The animation expands outward to fill the entire viewport.
+
+### Automatic Theme Detection
+
+The component automatically detects the current theme by checking the `dark` class on the document element and updates the icon accordingly.
+
+### Theme Persistence
+
+Theme preference is automatically saved to `localStorage` when toggled, ensuring the user's choice persists across page reloads.
+
+### Graceful Fallback
+
+For browsers that don't support the View Transition API, the component falls back to an instant theme switch without the animation.
+
+### Reactive Icons
+
+The button displays a Sun icon in dark mode and a Moon icon in light mode, making it clear what action will occur when clicked.
+
+## Browser Support
+
+The circular reveal animation requires the View Transition API, which is supported in:
+
+- Chrome/Edge 111+
+- Safari 18+
+- Opera 97+
+
+For unsupported browsers, the theme still toggles but without the animated transition effect.
+
+## Accessibility
+
+- Includes a screen-reader-only label ("Toggle theme") for accessibility
+- Supports keyboard navigation (Enter/Space to toggle)
+- Properly updates ARIA attributes based on current theme state
+
+## Technical Details
+
+### Theme Detection
+
+The component uses a `MutationObserver` to watch for changes to the document's class list, allowing it to stay in sync even if the theme is changed by other means.
+
+### Animation Calculation
+
+The circular reveal effect calculates the maximum radius needed to cover the entire viewport from the button's position, ensuring the animation always covers the full screen regardless of where the button is positioned.
+
+## Tips
+
+<Tip>
+  Position the theme toggler in a fixed or sticky header to ensure the animation origin point remains consistent across page scrolls.
+</Tip>
+
+<Warning>
+  Make sure your application properly implements dark mode using the `dark` class on the `<html>` or `<body>` element and Tailwind's dark mode utilities.
+</Warning>

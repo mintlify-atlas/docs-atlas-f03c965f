@@ -1,0 +1,257 @@
+---
+title: Hyper Text
+description: An animated text component that creates a glitch effect by cycling through random characters before revealing the final text.
+---
+
+<Note>
+This component requires the `motion-sv` dependency.
+</Note>
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/hyper-text
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/hyper-text
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/hyper-text
+```
+
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { HyperText } from "$lib/components/magic/hyper-text";
+</script>
+
+<HyperText text="HYPER TEXT" />
+```
+
+## Examples
+
+### Basic Example
+
+Simple hyper text with default settings.
+
+```svelte
+<HyperText text="HELLO WORLD" />
+```
+
+### Animate on Hover
+
+Trigger the animation when hovering over the text.
+
+```svelte
+<HyperText 
+  text="HOVER ME" 
+  animateOnHover={true}
+/>
+```
+
+### Custom Duration
+
+Control how fast the scramble effect completes.
+
+```svelte
+<HyperText 
+  text="FAST ANIMATION" 
+  duration={400}
+/>
+
+<HyperText 
+  text="SLOW ANIMATION" 
+  duration={1600}
+/>
+```
+
+### Start on View
+
+Animate when the element enters the viewport.
+
+```svelte
+<HyperText 
+  text="SCROLL TO SEE" 
+  startOnView={true}
+/>
+```
+
+### With Delay
+
+Delay the animation start.
+
+```svelte
+<HyperText 
+  text="DELAYED START" 
+  delay={1000}
+/>
+```
+
+### Custom Character Set
+
+Define which characters to use during the scramble.
+
+```svelte
+<HyperText 
+  text="NUMBERS" 
+  characterSet={['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']}
+/>
+```
+
+### Different Element Types
+
+Render as different HTML elements.
+
+```svelte
+<HyperText text="HEADING" as="h1" />
+<HyperText text="PARAGRAPH" as="p" />
+<HyperText text="SPAN" as="span" />
+```
+
+### Styled Examples
+
+Combine with custom styles.
+
+```svelte
+<HyperText 
+  text="LARGE TEXT" 
+  class="text-6xl font-bold text-primary"
+/>
+
+<HyperText 
+  text="COLORED TEXT" 
+  class="text-2xl text-blue-500 font-mono"
+/>
+```
+
+## Props
+
+<ParamField path="text" type="string" required>
+  The text to display and animate.
+</ParamField>
+
+<ParamField path="duration" type="number" default={800}>
+  The duration in milliseconds for the complete animation sequence.
+</ParamField>
+
+<ParamField path="delay" type="number" default={0}>
+  Delay in milliseconds before the animation starts.
+</ParamField>
+
+<ParamField path="animateOnHover" type="boolean" default={true}>
+  Whether to trigger the animation on mouse hover.
+</ParamField>
+
+<ParamField path="startOnView" type="boolean" default={false}>
+  Whether to trigger the animation when the element enters the viewport.
+</ParamField>
+
+<ParamField path="characterSet" type="string[] | readonly string[]" default='["A", "B", "C", ..., "Z"]'>
+  Array of characters to use during the scramble animation. Defaults to uppercase English alphabet.
+</ParamField>
+
+<ParamField path="as" type="ElementType" default="div">
+  The HTML element type to render. Options: `div`, `span`, `p`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## How It Works
+
+The hyper text effect creates a "decryption" or "glitch" animation:
+
+1. **Initialization**: Text starts as random characters from the character set
+2. **Progressive reveal**: Characters are revealed one by one from left to right
+3. **Smooth transition**: Each character cycles through random replacements before settling on the final character
+4. **Monospace font**: Uses font-mono to ensure consistent character widths
+5. **Uppercase**: Characters are displayed in uppercase for a more dramatic effect
+
+## Customization
+
+### Lowercase Text
+
+Use lowercase character set and remove uppercase transform:
+
+```svelte
+<HyperText 
+  text="lowercase effect" 
+  characterSet={['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']}
+  class="normal-case"
+/>
+```
+
+### Symbol Character Set
+
+Use special characters for a hacker/matrix effect:
+
+```svelte
+<HyperText 
+  text="CYBER TEXT" 
+  characterSet={['@', '#', '$', '%', '&', '*', '!', '?', '<', '>', '/', '\\']}
+/>
+```
+
+### Binary Effect
+
+Use only 0s and 1s:
+
+```svelte
+<HyperText 
+  text="BINARY" 
+  characterSet={['0', '1']}
+/>
+```
+
+### Continuous Hover Animation
+
+Disable initial animation and only animate on hover:
+
+```svelte
+<HyperText 
+  text="HOVER ME" 
+  startOnView={false}
+  animateOnHover={true}
+  delay={0}
+/>
+```
+
+### Longer Scramble
+
+Increase duration for a more dramatic effect:
+
+```svelte
+<HyperText 
+  text="DRAMATIC" 
+  duration={2000}
+/>
+```
+
+## Use Cases
+
+- **Landing pages**: Create attention-grabbing hero text
+- **Section headers**: Add interest to content sections
+- **Loading states**: Show dynamic loading text
+- **Hover effects**: Add interactivity to navigation or CTAs
+- **Sci-fi themes**: Perfect for tech or cyberpunk aesthetics
+- **Product launches**: Create buzz with dynamic reveals
+
+## Accessibility
+
+The component uses `motion-sv`'s AnimatePresence for smooth transitions and maintains proper text content for screen readers. The actual text content is always present in the DOM, just visually scrambled during animation.
+
+<Info>
+Spaces in the text are preserved and not scrambled, ensuring word boundaries remain clear during the animation.
+</Info>
+
+<Warning>
+Very long text with short duration may make the scramble effect less noticeable. Adjust the duration proportionally to your text length.
+</Warning>

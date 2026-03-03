@@ -1,0 +1,244 @@
+---
+title: Orbiting Circles
+description: A component that displays icons or elements orbiting in a circular path with customizable radius, duration, and direction.
+---
+
+<ComponentPreview name="orbiting-circles-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@latest add orbiting-circles
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Add the animation to your CSS</Step>
+      Add the orbit animation keyframes to your `app.css` or global styles:
+      
+      ```css
+      @keyframes orbit {
+        0% {
+          transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+        }
+        100% {
+          transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
+        }
+      }
+      ```
+      
+      <Step>Copy component source</Step>
+      Copy the component source code from the [repository](https://github.com/example/magic-ui).
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import OrbitingCircles from "$lib/components/magic/orbiting-circles/orbiting-circles.svelte";
+</script>
+
+<div class="relative h-96 w-96">
+  <OrbitingCircles radius={80}>
+    <div class="h-8 w-8 rounded-full bg-blue-500" />
+  </OrbitingCircles>
+  
+  <OrbitingCircles radius={120} delay={2}>
+    <div class="h-8 w-8 rounded-full bg-purple-500" />
+  </OrbitingCircles>
+</div>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to orbit (icon, image, or any element).
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the orbiting container.
+</ParamField>
+
+<ParamField path="reverse" type="boolean" default="false">
+  When true, the orbit direction is reversed (clockwise instead of counter-clockwise).
+</ParamField>
+
+<ParamField path="duration" type="number" default="20">
+  Base duration of one complete orbit in seconds.
+</ParamField>
+
+<ParamField path="radius" type="number" default="160">
+  Radius of the orbit path in pixels.
+</ParamField>
+
+<ParamField path="path" type="boolean" default="false">
+  When true, displays a visual dashed circle showing the orbit path.
+</ParamField>
+
+<ParamField path="iconSize" type="number" default="30">
+  Size of the orbiting element container in pixels.
+</ParamField>
+
+<ParamField path="speed" type="number" default="1">
+  Speed multiplier for the orbit. Values > 1 are faster, values < 1 are slower.
+</ParamField>
+
+<ParamField path="angle" type="number" default="0">
+  Starting angle of the orbit in degrees (0-360).
+</ParamField>
+
+<ParamField path="delay" type="number" default="0">
+  Animation delay in seconds before the orbit starts.
+</ParamField>
+
+## Examples
+
+### Multiple Orbits
+
+```svelte
+<div class="relative flex h-[500px] w-full items-center justify-center">
+  <OrbitingCircles radius={60}>
+    <span class="text-2xl">⚡</span>
+  </OrbitingCircles>
+  
+  <OrbitingCircles radius={100} reverse>
+    <span class="text-2xl">🚀</span>
+  </OrbitingCircles>
+  
+  <OrbitingCircles radius={140} delay={1}>
+    <span class="text-2xl">⭐</span>
+  </OrbitingCircles>
+</div>
+```
+
+### With Visible Paths
+
+```svelte
+<div class="relative flex h-96 w-96 items-center justify-center">
+  <OrbitingCircles radius={80} path>
+    <div class="h-10 w-10 rounded-full bg-blue-500" />
+  </OrbitingCircles>
+  
+  <OrbitingCircles radius={120} path reverse>
+    <div class="h-10 w-10 rounded-full bg-purple-500" />
+  </OrbitingCircles>
+</div>
+```
+
+### Different Starting Angles
+
+```svelte
+<div class="relative flex h-96 w-96 items-center justify-center">
+  <OrbitingCircles radius={100} angle={0}>
+    <span>0°</span>
+  </OrbitingCircles>
+  
+  <OrbitingCircles radius={100} angle={90}>
+    <span>90°</span>
+  </OrbitingCircles>
+  
+  <OrbitingCircles radius={100} angle={180}>
+    <span>180°</span>
+  </OrbitingCircles>
+  
+  <OrbitingCircles radius={100} angle={270}>
+    <span>270°</span>
+  </OrbitingCircles>
+</div>
+```
+
+### Different Speeds
+
+```svelte
+<div class="relative flex h-96 w-96 items-center justify-center">
+  <OrbitingCircles radius={80} speed={0.5}>
+    <span>Slow</span>
+  </OrbitingCircles>
+  
+  <OrbitingCircles radius={120} speed={2}>
+    <span>Fast</span>
+  </OrbitingCircles>
+</div>
+```
+
+### Technology Stack Display
+
+```svelte
+<div class="relative flex h-[600px] w-full items-center justify-center">
+  <!-- Center logo -->
+  <div class="h-20 w-20 rounded-full border-4 border-primary" />
+  
+  <!-- Inner ring -->
+  <OrbitingCircles radius={120} duration={15} angle={0}>
+    <img src="/icons/react.svg" alt="React" class="h-12 w-12" />
+  </OrbitingCircles>
+  <OrbitingCircles radius={120} duration={15} angle={120}>
+    <img src="/icons/vue.svg" alt="Vue" class="h-12 w-12" />
+  </OrbitingCircles>
+  <OrbitingCircles radius={120} duration={15} angle={240}>
+    <img src="/icons/svelte.svg" alt="Svelte" class="h-12 w-12" />
+  </OrbitingCircles>
+  
+  <!-- Outer ring (reversed) -->
+  <OrbitingCircles radius={200} duration={20} reverse angle={0}>
+    <img src="/icons/typescript.svg" alt="TypeScript" class="h-10 w-10" />
+  </OrbitingCircles>
+  <OrbitingCircles radius={200} duration={20} reverse angle={90}>
+    <img src="/icons/javascript.svg" alt="JavaScript" class="h-10 w-10" />
+  </OrbitingCircles>
+  <OrbitingCircles radius={200} duration={20} reverse angle={180}>
+    <img src="/icons/node.svg" alt="Node" class="h-10 w-10" />
+  </OrbitingCircles>
+  <OrbitingCircles radius={200} duration={20} reverse angle={270}>
+    <img src="/icons/python.svg" alt="Python" class="h-10 w-10" />
+  </OrbitingCircles>
+</div>
+```
+
+## CSS Custom Properties
+
+The component uses CSS custom properties for animation:
+
+- `--duration`: Calculated duration (duration / speed)
+- `--radius`: Orbit radius in pixels
+- `--angle`: Starting angle in degrees
+- `--delay`: Animation delay in seconds
+- `--icon-size`: Size of the orbiting container
+
+## Animation Details
+
+The orbit animation:
+1. Rotates the element around the center point
+2. Translates it by the radius value
+3. Counter-rotates to keep the element upright
+4. Loops infinitely with linear timing
+
+The rotation math ensures that orbiting elements stay visually upright rather than rotating with the orbit path.
+
+## Features
+
+- Smooth circular orbit animations
+- Customizable orbit radius and speed
+- Reversible orbit direction
+- Configurable starting angles
+- Optional visible orbit paths
+- Staggered animation delays
+- Responsive sizing
+- GPU-accelerated transforms
+- Infinite looping animation
+
+## Layout Tips
+
+- Use a parent container with `relative` positioning
+- Center the container with flexbox for best results
+- All orbiting elements are absolutely positioned
+- Set explicit height/width on the parent container
+- Stack multiple OrbitingCircles components for multi-ring effects
+
+## Performance
+
+The component uses CSS animations with `transform-gpu` for optimal performance. The animations run on the GPU and won't block the main thread.

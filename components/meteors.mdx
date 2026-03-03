@@ -1,0 +1,169 @@
+---
+title: Meteors
+description: A meteor shower effect component with customizable number of meteors and animated falling effects.
+---
+
+# Meteors
+
+A beautiful meteor shower effect that creates falling streaks across your interface. Perfect for adding dynamic background animation to hero sections.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/meteors.json
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/meteors.json
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/meteors.json
+```
+</CodeGroup>
+
+## CSS Variables
+
+Add the following to your global CSS file:
+
+```css src/routes/+layout.css
+@theme inline {
+  --animate-meteor: meteor 5s linear infinite;
+
+  @keyframes meteor {
+    0% {
+      transform: rotate(var(--angle)) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(var(--angle)) translateX(-500px);
+      opacity: 0;
+    }
+  }
+}
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Meteors } from "$lib/components/magic-ui/meteors";
+</script>
+
+<div class="relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg border bg-black">
+  <Meteors number={20} />
+  <p class="z-10 text-center text-5xl font-medium tracking-tighter text-white">
+    Meteor Shower
+  </p>
+</div>
+```
+
+## Props
+
+<ParamField path="number" type="number" default="20">
+  The number of meteors to display.
+</ParamField>
+
+<ParamField path="minDelay" type="number" default="0.2">
+  The minimum animation delay in seconds before a meteor starts falling.
+</ParamField>
+
+<ParamField path="maxDelay" type="number" default="1.2">
+  The maximum animation delay in seconds before a meteor starts falling.
+</ParamField>
+
+<ParamField path="minDuration" type="number" default="2">
+  The minimum duration of a meteor's fall animation in seconds.
+</ParamField>
+
+<ParamField path="maxDuration" type="number" default="10">
+  The maximum duration of a meteor's fall animation in seconds.
+</ParamField>
+
+<ParamField path="angle" type="number" default="215">
+  The angle of the meteor's trajectory in degrees. Default creates a diagonal fall from top-right to bottom-left.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to each meteor element.
+</ParamField>
+
+## Examples
+
+### Basic Meteor Shower
+
+```svelte
+<Meteors number={20} />
+```
+
+### Dense Meteor Shower
+
+```svelte
+<Meteors number={40} />
+```
+
+### Slower Meteors
+
+```svelte
+<Meteors
+  number={15}
+  minDuration={5}
+  maxDuration={15}
+/>
+```
+
+### Different Angle
+
+```svelte
+<Meteors
+  number={20}
+  angle={180}
+/>
+```
+
+### Custom Color
+
+```svelte
+<Meteors
+  number={25}
+  class="bg-blue-500"
+/>
+```
+
+### Quick Meteors
+
+```svelte
+<Meteors
+  number={30}
+  minDuration={1}
+  maxDuration={5}
+  minDelay={0.1}
+  maxDelay={0.5}
+/>
+```
+
+### Sparse Shower
+
+```svelte
+<Meteors
+  number={10}
+  minDelay={1}
+  maxDelay={3}
+/>
+```
+
+## Notes
+
+- Each meteor has a randomized starting position, delay, and duration
+- Meteors are created with a small circular head and a tail gradient
+- Animation runs infinitely, creating a continuous shower effect
+- Uses CSS transforms for smooth performance
+- Meteors start from -5% above the container for smooth entrance
+- The tail is created using a linear gradient
+- Default angle of 215° creates a natural diagonal fall
+- Best used with dark backgrounds for maximum visibility
+- Meteors are pointer-events-none to avoid interfering with content

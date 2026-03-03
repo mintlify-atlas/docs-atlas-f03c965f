@@ -1,0 +1,148 @@
+---
+title: Retro Grid
+description: An animated retro-style grid background component with customizable angle, cell size, opacity, and colors.
+---
+
+# Retro Grid
+
+A nostalgic retro-style grid background with 3D perspective. Creates an animated grid that scrolls infinitely, perfect for 80s/90s inspired designs.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/retro-grid.json
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/retro-grid.json
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/retro-grid.json
+```
+</CodeGroup>
+
+## CSS Variables
+
+Add the following to your global CSS file:
+
+```css src/routes/+layout.css
+@theme inline {
+  --animate-grid: grid 15s linear infinite;
+
+  @keyframes grid {
+    0% {
+      transform: translateY(-50%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { RetroGrid } from "$lib/components/magic-ui/retro-grid";
+</script>
+
+<div class="relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg border">
+  <span class="pointer-events-none z-10 whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-center text-7xl font-bold leading-none tracking-tighter text-transparent">
+    Retro Grid
+  </span>
+  <RetroGrid />
+</div>
+```
+
+## Props
+
+<ParamField path="angle" type="number" default="65">
+  The rotation angle of the grid in degrees. Controls the 3D perspective tilt.
+</ParamField>
+
+<ParamField path="cellSize" type="number" default="60">
+  The size of each grid cell in pixels.
+</ParamField>
+
+<ParamField path="opacity" type="number" default="0.5">
+  The opacity of the grid (0-1).
+</ParamField>
+
+<ParamField path="lightLineColor" type="string" default="gray">
+  The color of grid lines in light mode. Accepts any valid CSS color.
+</ParamField>
+
+<ParamField path="darkLineColor" type="string" default="gray">
+  The color of grid lines in dark mode. Accepts any valid CSS color.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the container element.
+</ParamField>
+
+## Examples
+
+### Basic Retro Grid
+
+```svelte
+<RetroGrid />
+```
+
+### Custom Angle
+
+```svelte
+<RetroGrid angle={70} />
+```
+
+### Larger Grid Cells
+
+```svelte
+<RetroGrid
+  cellSize={80}
+  opacity={0.6}
+/>
+```
+
+### Custom Colors
+
+```svelte
+<RetroGrid
+  lightLineColor="rgb(59, 130, 246)"
+  darkLineColor="rgb(96, 165, 250)"
+  opacity={0.7}
+/>
+```
+
+### Purple Cyberpunk Style
+
+```svelte
+<RetroGrid
+  angle={60}
+  cellSize={50}
+  lightLineColor="rgb(168, 85, 247)"
+  darkLineColor="rgb(192, 132, 252)"
+  opacity={0.8}
+/>
+```
+
+### Dense Grid
+
+```svelte
+<RetroGrid
+  cellSize={40}
+  opacity={0.4}
+  angle={65}
+/>
+```
+
+## Notes
+
+- Uses CSS 3D transforms for the perspective effect
+- Grid animates infinitely with vertical scrolling
+- Automatically adapts to light and dark themes
+- Has a gradient fade at the bottom for seamless integration
+- The animation creates a continuous loop for smooth motion
+- Perspective is fixed at 200px for the retro look

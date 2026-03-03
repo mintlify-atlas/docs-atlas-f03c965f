@@ -1,0 +1,188 @@
+---
+title: Pulsating Button
+description: A button component with a pulsating ring effect that expands and fades around the button.
+---
+
+# Pulsating Button
+
+A button component with a pulsating ring effect that continuously expands and fades around the button, creating an attention-grabbing animation. Perfect for call-to-action buttons or highlighting important actions.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://magicui.design/r/pulsating-button
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://magicui.design/r/pulsating-button
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://magicui.design/r/pulsating-button
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { PulsatingButton } from "$lib/components/magic/pulsating-button";
+</script>
+
+<PulsatingButton>
+  Click me
+</PulsatingButton>
+```
+
+## Examples
+
+### Basic Usage
+
+```svelte
+<script lang="ts">
+  import { PulsatingButton } from "$lib/components/magic/pulsating-button";
+</script>
+
+<PulsatingButton>
+  Get Started
+</PulsatingButton>
+```
+
+### Custom Pulse Color
+
+```svelte
+<script lang="ts">
+  import { PulsatingButton } from "$lib/components/magic/pulsating-button";
+</script>
+
+<PulsatingButton pulseColor="#ff0000">
+  Red Pulse
+</PulsatingButton>
+```
+
+### Custom Duration
+
+```svelte
+<script lang="ts">
+  import { PulsatingButton } from "$lib/components/magic/pulsating-button";
+</script>
+
+<PulsatingButton duration="2s">
+  Slow Pulse
+</PulsatingButton>
+```
+
+### Custom Styling with All Props
+
+```svelte
+<script lang="ts">
+  import { PulsatingButton } from "$lib/components/magic/pulsating-button";
+</script>
+
+<PulsatingButton 
+  pulseColor="#3b82f6"
+  duration="1s"
+  class="px-8 py-3 text-lg"
+>
+  Premium Action
+</PulsatingButton>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to display inside the button.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="pulseColor" type="string" default="#808080">
+  The color of the pulsating ring effect. Accepts any valid CSS color value (hex, rgb, hsl, etc.).
+</ParamField>
+
+<ParamField path="duration" type="string" default="1.5s">
+  The duration of one complete pulse animation cycle. Accepts any valid CSS duration value (e.g., "1s", "2000ms").
+</ParamField>
+
+<ParamField path="...props" type="HTMLButtonAttributes">
+  All standard HTML button attributes are supported (onclick, disabled, type, etc.).
+</ParamField>
+
+## Component Details
+
+### Animation Behavior
+
+The Pulsating Button creates a continuous pulse effect through:
+
+1. **Ring Expansion**: A duplicate element expands from the button's center
+2. **Box Shadow Animation**: The shadow grows from 0 to 8px while fading out
+3. **Infinite Loop**: The animation repeats continuously with an ease-out timing function
+
+### Keyframe Animation
+
+The component requires this CSS keyframe animation (automatically included via registry):
+
+```css
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 var(--pulse-color);
+  }
+  100% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+```
+
+### CSS Variables
+
+The component uses these CSS custom properties:
+
+- `--pulse-color`: Controls the color of the pulsating ring
+- `--duration`: Controls the animation duration
+
+### CSS Classes
+
+Default classes applied:
+
+- Base: `bg-primary text-primary-foreground relative flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-center`
+- Pulse ring: `animate-pulse-ring absolute top-1/2 left-1/2 size-full -translate-x-1/2 -translate-y-1/2 rounded-lg bg-inherit`
+- Content wrapper: `relative z-10`
+
+### Dependencies
+
+- Tailwind CSS - For styling and animations
+- Custom animation keyframe - Included via registry
+
+## Accessibility
+
+<Note>
+  The pulsating effect is purely decorative and doesn't affect button functionality or accessibility.
+</Note>
+
+The component maintains full button accessibility:
+
+- Semantic `<button>` element
+- Keyboard navigation support
+- Screen reader compatible
+- Focus states
+- All ARIA attributes supported
+
+## Use Cases
+
+The Pulsating Button is ideal for:
+
+- **Call-to-action buttons**: Draw attention to primary actions
+- **Notification triggers**: Indicate new or important content
+- **Live status indicators**: Show active or real-time features
+- **Promotional elements**: Highlight special offers or features
+
+## Performance Notes
+
+The animation uses CSS transforms and box-shadow, which are hardware-accelerated in modern browsers. The pulsating element is absolutely positioned to avoid layout thrashing.
+
+## Browser Compatibility
+
+The component works in all modern browsers with CSS animation support. The animation will gracefully degrade in older browsers, displaying a static button.

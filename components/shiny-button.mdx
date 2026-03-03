@@ -1,0 +1,315 @@
+---
+title: Shiny Button
+description: A button component with a shiny gradient mask effect that animates across the text on hover and press.
+---
+
+# Shiny Button
+
+A button component with a shiny gradient mask effect that continuously animates across the text, creating an elegant shine effect. The button features smooth spring animations and scales down on press, providing a premium interactive experience.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://magicui.design/r/shiny-button
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://magicui.design/r/shiny-button
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://magicui.design/r/shiny-button
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { ShinyButton } from "$lib/components/magic/shiny-button";
+</script>
+
+<ShinyButton>
+  Click me
+</ShinyButton>
+```
+
+## Examples
+
+### Basic Usage
+
+```svelte
+<script lang="ts">
+  import { ShinyButton } from "$lib/components/magic/shiny-button";
+</script>
+
+<ShinyButton>
+  Get Started
+</ShinyButton>
+```
+
+### With Custom Styling
+
+```svelte
+<script lang="ts">
+  import { ShinyButton } from "$lib/components/magic/shiny-button";
+</script>
+
+<ShinyButton class="px-8 py-3 text-lg">
+  Large Button
+</ShinyButton>
+```
+
+### Dark Theme
+
+```svelte
+<script lang="ts">
+  import { ShinyButton } from "$lib/components/magic/shiny-button";
+</script>
+
+<div class="dark">
+  <ShinyButton>
+    Dark Mode Shine
+  </ShinyButton>
+</div>
+```
+
+### With Click Handler
+
+```svelte
+<script lang="ts">
+  import { ShinyButton } from "$lib/components/magic/shiny-button";
+
+  function handleClick() {
+    console.log("Shiny button clicked!");
+  }
+</script>
+
+<ShinyButton onclick={handleClick}>
+  Click Me
+</ShinyButton>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to display inside the button.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="...props" type="HTMLButtonAttributes">
+  All standard HTML button attributes are supported (onclick, disabled, type, etc.).
+</ParamField>
+
+## Component Details
+
+### Animation Behavior
+
+The Shiny Button creates its effect through motion-sv (Framer Motion for Svelte) animations:
+
+1. **Gradient Mask**: A linear gradient masks the text, creating the shine effect
+2. **Horizontal Movement**: The gradient position animates from right (-75deg) to left
+3. **Border Shine**: A complementary gradient animates on the border
+4. **Spring Physics**: Natural spring animations for scale effects
+5. **Press Feedback**: Scales down to 0.95 when pressed
+6. **Infinite Loop**: Continuously repeats with a 1-second delay between cycles
+
+### Motion Configuration
+
+The component uses sophisticated motion properties:
+
+```typescript
+let animationProps: MotionProps = {
+  initial: { "--x": "100%", scale: 0.8 },
+  animate: { "--x": "-100%", scale: 1 },
+  whilePress: { scale: 0.95 },
+  transition: {
+    repeat: Infinity,
+    repeatType: "loop",
+    repeatDelay: 1,
+    type: "spring",
+    stiffness: 20,
+    damping: 15,
+    mass: 2,
+    scale: {
+      type: "spring",
+      stiffness: 200,
+      damping: 5,
+      mass: 0.5,
+    },
+  },
+};
+```
+
+### Gradient Masks
+
+The component uses two gradient masks:
+
+**Text Gradient:**
+```css
+mask-image: linear-gradient(
+  -75deg,
+  var(--primary) calc(var(--x) + 20%),
+  transparent calc(var(--x) + 30%),
+  var(--primary) calc(var(--x) + 100%)
+);
+```
+
+**Border Gradient:**
+```css
+background-image: linear-gradient(
+  -75deg,
+  var(--primary)/10% calc(var(--x)+20%),
+  var(--primary)/50% calc(var(--x)+25%),
+  var(--primary)/10% calc(var(--x)+100%)
+);
+```
+
+### CSS Variables
+
+The component uses the `--x` CSS variable to control the gradient position, which is animated by motion-sv.
+
+### Dark Mode Adaptation
+
+The button automatically adapts to dark mode:
+
+- **Light mode**: 65% black text
+- **Dark mode**: 90% white text with lighter font weight
+- **Background**: Radial gradient from primary color in dark mode
+- **Shadow**: Enhanced shadow on hover in dark mode
+
+### Dependencies
+
+- `motion-sv` - For spring animations and gesture handling
+- Tailwind CSS - For styling
+
+## Accessibility
+
+The component maintains full button accessibility:
+
+- Semantic `<button>` element via motion.button
+- Full keyboard support (Tab, Enter, Space)
+- Screen reader compatible
+- Focus states maintained
+- Press states with tactile feedback
+- All ARIA attributes supported
+
+<Note>
+  The shine effect is purely decorative and doesn't interfere with accessibility.
+</Note>
+
+## Use Cases
+
+The Shiny Button is ideal for:
+
+- **Premium actions**: Highlight important or premium features
+- **Call-to-action**: Draw attention to primary actions
+- **Hero sections**: Create visual interest in landing pages
+- **Modern interfaces**: Add polish to contemporary designs
+- **Interactive elements**: Provide engaging user feedback
+
+## Performance Notes
+
+The component is optimized for performance:
+
+- **Hardware acceleration**: Uses CSS transforms
+- **Spring physics**: Natural, efficient animations
+- **CSS variables**: Animated via CSS custom properties
+- **Motion-sv optimization**: Leverages motion-sv's performance features
+
+### Motion-sv Benefits
+
+motion-sv provides:
+- Automatic hardware acceleration
+- Optimized animation scheduling
+- Efficient spring physics calculations
+- Gesture handling without extra event listeners
+
+## Browser Compatibility
+
+The component requires:
+
+- **CSS Variables**: All modern browsers
+- **CSS Mask**: All modern browsers (Safari 15.4+, Chrome 120+, Firefox 115+)
+- **Spring animations**: Handled by motion-sv
+
+<Warning>
+  CSS `mask-image` may not work in older browsers. The button will still function but the shine effect may not appear.
+</Warning>
+
+## Customization Tips
+
+### Adjust Shine Speed
+
+Modify the transition properties:
+
+```svelte
+<script lang="ts">
+  import { ShinyButton } from "$lib/components/magic/shiny-button";
+  // Note: You'll need to create a custom version to modify animation props
+</script>
+```
+
+### Custom Colors
+
+Override the primary color:
+
+```svelte
+<ShinyButton style="--primary: 59 130 246;">
+  Blue Shine
+</ShinyButton>
+```
+
+### Border Styling
+
+Customize the border:
+
+```svelte
+<ShinyButton class="border-2 border-blue-500">
+  Custom Border
+</ShinyButton>
+```
+
+### Background Effects
+
+Add custom backgrounds:
+
+```svelte
+<ShinyButton class="bg-gradient-to-r from-purple-500 to-pink-500">
+  Gradient Background
+</ShinyButton>
+```
+
+## Reduced Motion Support
+
+For users who prefer reduced motion, consider adding:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  motion-button {
+    animation: none;
+    transition: none;
+  }
+}
+```
+
+The motion-sv library respects `prefers-reduced-motion` automatically for most animations.
+
+## Comparison with Shimmer Button
+
+While similar, the Shiny Button differs from the Shimmer Button:
+
+| Feature | Shiny Button | Shimmer Button |
+|---------|--------------|----------------|
+| Animation Library | motion-sv | CSS only |
+| Effect Type | Gradient mask on text | Rotating spark |
+| Press Feedback | Spring scale | Vertical shift |
+| Complexity | Moderate | High |
+| Performance | Excellent | Excellent |
+| Customization | Limited | Extensive |
+
+Choose Shiny Button for elegant text effects with spring physics, or Shimmer Button for more dramatic rotating sparkle effects.

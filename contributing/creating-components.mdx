@@ -1,0 +1,364 @@
+---
+title: 'Creating Components'
+description: 'Complete guide to creating and publishing new animation components in Svelte 5 Animations'
+---
+
+## Quick Overview
+
+Creating a new component involves these main steps:
+
+1. Create main component in `src/lib/components/magic-ui/`
+2. Create route in `src/routes/magic/docs/components/`
+3. Add component to `registry.json`
+4. Build registry with `pnpm registry:build`
+5. Test component installation
+6. Submit a pull request
+
+<Note>
+  Follow each step carefully to ensure your component integrates properly with the project.
+</Note>
+
+## Component Creation Workflow
+
+<Steps>
+  <Step title="Create Main Component">
+    Create your component folder inside `src/lib/components/magic-ui/`.
+    
+    ### Folder Structure
+    
+    ```
+    src/lib/components/magic-ui/
+    └── your-component/
+        ├── your-component.svelte    # Main component
+        ├── index.ts                 # Exports
+        ├── types.ts                 # (optional) TypeScript types
+        └── use-*.svelte.ts          # (optional) Composable
+    ```
+    
+    **Example component structure:**
+    
+    ```typescript
+    // src/lib/components/magic-ui/your-component/index.ts
+    export { default as YourComponent } from './your-component.svelte';
+    ```
+    
+    <Note>
+      Use TypeScript for type safety and better developer experience.
+    </Note>
+  </Step>
+
+  <Step title="Create Documentation Route">
+    Create a new folder inside `src/routes/magic/docs/components/` with your component name.
+    
+    ### Required Files Structure
+    
+    ```
+    src/routes/magic/docs/components/your-component/
+    ├── +page.svelte          # Page component
+    ├── docs.md               # Documentation for AI/LLMs
+    ├── data.ts               # Component data (types, code, SEO, examples)
+    ├── examples/
+    │   ├── preview.svelte    # Main preview component
+    │   └── *.svelte          # Additional example files
+    └── llms.txt/
+        └── +server.ts        # Serves docs.md as plain text
+    ```
+    
+    ### Create llms.txt Server Endpoint
+    
+    Copy this code to serve your component documentation:
+    
+    ```typescript
+    // src/routes/magic/docs/components/your-component/llms.txt/+server.ts
+    import type { RequestHandler } from "./$types";
+    import docs from "../docs.md?raw";
+    
+    export const GET: RequestHandler = async () => {
+      return new Response(docs, {
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Cache-Control": "public, max-age=3600",
+        },
+      });
+    };
+    ```
+    
+    <Note>
+      The llms.txt endpoint makes your component documentation accessible to AI tools.
+    </Note>
+  </Step>
+
+  <Step title="Add Component to Registry">
+    Add your component entry to the `items` array in `registry.json`.
+    
+    ### Basic Component Entry
+    
+    ```json
+    {
+      "name": "your-component",
+      "type": "registry:block",
+      "title": "Your Component",
+      "description": "Brief description of the component.",
+      "files": [
+        {
+          "path": "./src/lib/components/magic-ui/your-component/your-component.svelte",
+          "type": "registry:component",
+          "target": "magic/your-component/your-component.svelte"
+        },
+        {
+          "path": "./src/lib/components/magic-ui/your-component/index.ts",
+          "type": "registry:file",
+          "target": "magic/your-component/index.ts"
+        }
+      ],
+      "registryDependencies": [],
+      "dependencies": ["motion-sv"]
+    }
+    ```
+    
+    ### Adding CSS and Keyframes
+    
+    For components with custom CSS animations:
+    
+    ```json
+    {
+      "name": "your-component",
+      "type": "registry:block",
+      "title": "Your Component",
+      "description": "Component with custom animations.",
+      "files": [...],
+      "cssVars": {
+        "theme": {
+          "animate-your-animation": "your-animation 2s ease infinite"
+        }
+      },
+      "css": {
+        "@keyframes your-animation": {
+          "0%": { "opacity": "0" },
+          "100%": { "opacity": "1" }
+        }
+      },
+      "dependencies": ["motion-sv"]
+    }
+    ```
+    
+    <Note>
+      CSS variables and keyframes defined here will be automatically added during installation.
+    </Note>
+  </Step>
+
+  <Step title="Build Registry">
+    Run the registry build command to generate installation files:
+    
+    ```bash
+    pnpm registry:build
+    ```
+    
+    This generates JSON files in `static/r/` for each component, enabling CLI installation.
+    
+    <Note>
+      Always rebuild the registry after making changes to ensure the installation files are up to date.
+    </Note>
+  </Step>
+
+  <Step title="Test Component Installation">
+    Test that your component can be installed correctly using the CLI.
+    
+    ### Start the Development Server
+    
+    ```bash
+    pnpm dev
+    ```
+    
+    ### Test Installation in a Sample Project
+    
+    In a separate test Svelte project with shadcn-svelte installed:
+    
+    ```bash
+    npx shadcn-svelte@latest add "http://localhost:5173/r/your-component.json"
+    ```
+    
+    ### Verification Checklist
+    
+    - Component files are copied to the correct location
+    - Dependencies are added to `package.json`
+    - CSS variables and keyframes are added (if any)
+    - Component renders and works as expected
+    - No console errors or warnings
+    
+    <Note>
+      Testing installation in a fresh project helps catch issues before submitting your PR.
+    </Note>
+  </Step>
+
+  <Step title="Submit Pull Request">
+    Once everything is working, create a pull request.
+    
+    ### Create and Push Your Branch
+    
+    ```bash
+    git checkout -b feat/your-component
+    git add .
+    git commit -m "feat: add your-component"
+    git push origin feat/your-component
+    ```
+    
+    ### PR Submission Checklist
+    
+    Before submitting, verify:
+    
+    - Component created in `src/lib/components/magic-ui/`
+    - Route created in `src/routes/magic/docs/components/`
+    - `+page.svelte` with proper SEO metadata
+    - `llms.txt/+server.ts` serving `docs.md`
+    - `docs.md` with AI-readable documentation
+    - `examples/` folder with `preview.svelte` and variants
+    - `data.ts` with proper types, code, SEO, and examples
+    - Component added to `registry.json`
+    - Registry built successfully (`pnpm registry:build`)
+    - Component tested via CLI installation
+    - Code follows project style guidelines
+    - All files use TypeScript
+    
+    <Note>
+      A complete PR checklist helps ensure your contribution can be reviewed and merged quickly.
+    </Note>
+  </Step>
+</Steps>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Naming Conventions">
+    - Use **kebab-case** for folder and file names
+    - Use **PascalCase** for component names in code
+    - Use **kebab-case** for component IDs in registry.json
+    
+    **Examples:**
+    - Folder: `text-shimmer/`
+    - File: `text-shimmer.svelte`
+    - Component: `<TextShimmer>`
+    - Registry ID: `"text-shimmer"`
+  </Accordion>
+
+  <Accordion title="Props and Types">
+    - Document all props with TypeScript types
+    - Provide sensible default values
+    - Make props optional where appropriate
+    - Export types for consumer use
+    
+    ```typescript
+    export interface YourComponentProps {
+      duration?: number;        // Animation duration in seconds
+      easing?: string;          // CSS easing function
+      className?: string;       // Additional CSS classes
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Examples and Variants">
+    - Create at least one `preview.svelte` showing basic usage
+    - Add variant examples for different configurations
+    - Show real-world use cases
+    - Keep examples simple and focused
+    
+    ```
+    examples/
+    ├── preview.svelte           # Default example
+    ├── with-custom-timing.svelte
+    └── with-colors.svelte
+    ```
+  </Accordion>
+
+  <Accordion title="Dependencies">
+    - Only include necessary npm packages
+    - Use `motion-sv` for animations when possible
+    - Document any peer dependencies
+    - Keep the dependency list minimal
+    
+    ```json
+    {
+      "dependencies": ["motion-sv"],
+      "registryDependencies": []
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="CSS and Styling">
+    - Use Tailwind classes when possible
+    - Use `cssVars` for animation timing values
+    - Use `css` object for @keyframes definitions
+    - Avoid inline styles unless necessary
+    
+    ```json
+    {
+      "cssVars": {
+        "theme": {
+          "animate-shimmer": "shimmer 2s infinite"
+        }
+      },
+      "css": {
+        "@keyframes shimmer": {
+          "0%, 100%": { "opacity": "1" },
+          "50%": { "opacity": "0.5" }
+        }
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Testing Before PR">
+    Always test installation in a fresh project:
+    
+    1. Create a new SvelteKit project
+    2. Install shadcn-svelte
+    3. Add your component via CLI
+    4. Verify all files are copied
+    5. Test the component works
+    6. Check for errors in console
+    
+    This catches issues early and speeds up the review process.
+  </Accordion>
+</AccordionGroup>
+
+## Common Issues
+
+### Registry Build Fails
+
+If `pnpm registry:build` fails:
+
+- Check `registry.json` syntax is valid JSON
+- Verify all file paths in `registry.json` exist
+- Ensure component files have no syntax errors
+- Check that all dependencies are installed
+
+### Installation Doesn't Copy Files
+
+If CLI installation doesn't work:
+
+- Verify the registry JSON was generated in `static/r/`
+- Check the dev server is running on the correct port
+- Ensure file paths in `registry.json` match actual locations
+- Rebuild the registry and restart the dev server
+
+### Component Not Rendering
+
+If the component doesn't work after installation:
+
+- Check browser console for errors
+- Verify all imports are correct
+- Ensure dependencies are installed
+- Check that CSS variables were added to the config
+
+<Note>
+  Most issues can be resolved by carefully following the folder structure and registry configuration steps.
+</Note>
+
+## Additional Resources
+
+- [Contributing Overview](/contributing/overview)
+- [GitHub Repository](https://github.com/SikandarJODD/animations)
+- [Issue Tracker](https://github.com/SikandarJODD/animations/issues)
+- [Example Components](https://github.com/SikandarJODD/animations/tree/main/src/lib/components/magic-ui)
+
+Thank you for contributing to Svelte 5 Animations!

@@ -1,0 +1,150 @@
+---
+title: Grid Pattern
+description: An SVG-based grid pattern background component with support for highlighted squares and customizable grid dimensions.
+---
+
+# Grid Pattern
+
+A simple, static SVG-based grid pattern component. Perfect for backgrounds with optional highlighted squares to draw attention to specific areas.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/grid-pattern.json
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/grid-pattern.json
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/grid-pattern.json
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { GridPattern } from "$lib/components/magic-ui/grid-pattern";
+  import { cn } from "$lib/utils";
+</script>
+
+<div class="relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg border">
+  <GridPattern
+    width={30}
+    height={30}
+    x={-1}
+    y={-1}
+    class={cn(
+      "mask-[linear-gradient(to_bottom_right,white,transparent,transparent)]"
+    )}
+  />
+  <p class="z-10 whitespace-pre-wrap text-center text-5xl font-medium tracking-tighter text-black dark:text-white">
+    Grid Pattern
+  </p>
+</div>
+```
+
+## Props
+
+<ParamField path="width" type="number" default="40">
+  The width of each grid cell in pixels.
+</ParamField>
+
+<ParamField path="height" type="number" default="40">
+  The height of each grid cell in pixels.
+</ParamField>
+
+<ParamField path="x" type="number" default="-1">
+  The x-offset of the grid pattern.
+</ParamField>
+
+<ParamField path="y" type="number" default="-1">
+  The y-offset of the grid pattern.
+</ParamField>
+
+<ParamField path="squares" type="Array<[x: number, y: number]>">
+  Array of [x, y] coordinates for highlighted squares. Each coordinate represents a grid cell position to be filled.
+</ParamField>
+
+<ParamField path="strokeDashArray" type="string" default="0">
+  Stroke dash array for creating dashed grid lines. Use values like "4" for dashed lines.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the SVG element.
+</ParamField>
+
+## Examples
+
+### Basic Grid Pattern
+
+```svelte
+<GridPattern />
+```
+
+### With Linear Gradient Mask
+
+```svelte
+<GridPattern
+  class="mask-[linear-gradient(to_bottom_right,white,transparent,transparent)]"
+/>
+```
+
+### With Dashed Lines
+
+```svelte
+<GridPattern
+  strokeDashArray="4"
+  class="text-blue-500"
+/>
+```
+
+### With Highlighted Squares
+
+```svelte
+<GridPattern
+  width={40}
+  height={40}
+  squares={[
+    [0, 0],
+    [1, 1],
+    [2, 2],
+    [3, 3],
+    [4, 4]
+  ]}
+  class="text-gray-500 fill-gray-800"
+/>
+```
+
+### Smaller Grid with Radial Mask
+
+```svelte
+<GridPattern
+  width={20}
+  height={20}
+  class="mask-[radial-gradient(400px_circle_at_center,white,transparent)]"
+/>
+```
+
+### Custom Colored Grid
+
+```svelte
+<GridPattern
+  width={30}
+  height={30}
+  strokeDashArray="0"
+  class="text-purple-500/50"
+/>
+```
+
+## Notes
+
+- Purely SVG-based with no animations
+- Lightweight and performant
+- Use the `squares` prop to highlight specific grid cells
+- Combine with CSS masks for gradient reveal effects
+- The `strokeDashArray` prop creates dashed grid lines
+- Grid automatically fills the container element

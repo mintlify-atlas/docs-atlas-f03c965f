@@ -1,0 +1,185 @@
+---
+title: Dock
+description: A macOS-style dock component with smooth magnification animation on hover, inspired by the macOS dock.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add https://acme.com/r/dock
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Dock, DockIcon } from "magic/dock";
+  import { HomeIcon, MailIcon, SettingsIcon } from "@lucide/svelte";
+</script>
+
+<Dock>
+  <DockIcon>
+    <HomeIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <MailIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <SettingsIcon class="h-full w-full" />
+  </DockIcon>
+</Dock>
+```
+
+## Examples
+
+### Full Dock with Icons
+
+```svelte
+<script lang="ts">
+  import { Dock, DockIcon } from "magic/dock";
+  import {
+    HomeIcon,
+    SearchIcon,
+    MailIcon,
+    CalendarIcon,
+    SettingsIcon,
+    UserIcon
+  } from "@lucide/svelte";
+</script>
+
+<Dock iconSize={48} iconMagnification={72}>
+  <DockIcon>
+    <HomeIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <SearchIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <MailIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <CalendarIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <SettingsIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <UserIcon class="h-full w-full" />
+  </DockIcon>
+</Dock>
+```
+
+### Without Magnification
+
+```svelte
+<Dock disableMagnification>
+  <DockIcon>
+    <HomeIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <MailIcon class="h-full w-full" />
+  </DockIcon>
+</Dock>
+```
+
+### Custom Size and Distance
+
+```svelte
+<Dock 
+  iconSize={56} 
+  iconMagnification={84} 
+  iconDistance={200}
+  direction="bottom"
+>
+  <DockIcon>
+    <HomeIcon class="h-full w-full" />
+  </DockIcon>
+  <DockIcon>
+    <MailIcon class="h-full w-full" />
+  </DockIcon>
+</Dock>
+```
+
+## Component API
+
+### Dock
+
+<ParamField path="children" type="Snippet" required>
+  Child DockIcon components.
+</ParamField>
+
+<ParamField path="iconSize" type="number" default="40">
+  Base size of icons in pixels.
+</ParamField>
+
+<ParamField path="iconMagnification" type="number" default="60">
+  Size of icons when magnified (on hover) in pixels.
+</ParamField>
+
+<ParamField path="disableMagnification" type="boolean" default="false">
+  Whether to disable the magnification effect. When true, icons maintain their base size and show a background color change on hover instead.
+</ParamField>
+
+<ParamField path="iconDistance" type="number" default="140">
+  Distance from the icon center where magnification starts to take effect, in pixels.
+</ParamField>
+
+<ParamField path="direction" type="'top' | 'middle' | 'bottom'" default="'middle'">
+  Vertical alignment of icons within the dock.
+  - `top`: Items aligned to the top
+  - `middle`: Items centered (default)
+  - `bottom`: Items aligned to the bottom
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the dock container.
+</ParamField>
+
+### DockIcon
+
+<ParamField path="children" type="Snippet" required>
+  Icon content to display.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the icon container.
+</ParamField>
+
+## Features
+
+- macOS-style magnification effect with smooth spring physics
+- Mouse-distance-based scaling with linear interpolation
+- Configurable icon sizes and magnification strength
+- Adjustable activation distance
+- Backdrop blur effect for modern appearance
+- RTL support
+- Disabled magnification mode with hover background
+- Spring animations with configurable mass, stiffness, and damping
+- Uses MotionValue for high-performance reactive transforms
+
+## Animation Details
+
+The magnification effect uses:
+
+- **Spring physics**: `mass: 0.1, stiffness: 150, damping: 12`
+- **Distance calculation**: Transforms mouse X position to distance from icon center
+- **Size interpolation**: Linear interpolation based on distance, clamped to `iconDistance` range
+- **Smooth transitions**: useSpring applies spring physics to the size transform
+
+## Context Architecture
+
+The Dock component provides context to child DockIcon components:
+
+```typescript
+interface DockContext {
+  mouseX: MotionValue<number>;
+  iconSize: number;
+  iconMagnification: number;
+  disableMagnification: boolean;
+  iconDistance: number;
+}
+```
+
+## Dependencies
+
+- motion-sv

@@ -1,0 +1,220 @@
+---
+title: Text Animate
+description: Animate text with various effects like blur, slide, scale, and fade with granular control over words, characters, or lines.
+---
+
+<Note>
+This component requires the `runed` and `motion-sv` dependencies.
+</Note>
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/text-animate
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/text-animate
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/text-animate
+```
+
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { TextAnimate } from "$lib/components/magic/text-animate";
+</script>
+
+<TextAnimate 
+  content="Hello, Svelte Developers!" 
+  animation="blurInUp" 
+  by="character" 
+  once 
+/>
+```
+
+## Examples
+
+### Blur In Animation
+
+Animate text with a blur and fade effect.
+
+```svelte
+<TextAnimate 
+  content="Text with blur effect" 
+  animation="blurIn" 
+  by="word" 
+/>
+```
+
+### Slide Up by Word
+
+Animate each word sliding up from below.
+
+```svelte
+<TextAnimate 
+  content="Each word slides up" 
+  animation="slideUp" 
+  by="word" 
+  duration={1}
+/>
+```
+
+### Scale Up by Character
+
+Animate each character with a scale-up effect.
+
+```svelte
+<TextAnimate 
+  content="Character by character" 
+  animation="scaleUp" 
+  by="character" 
+  delay={0.5}
+/>
+```
+
+### Slide Left by Character
+
+Animate characters sliding in from the right.
+
+```svelte
+<TextAnimate 
+  content="Sliding from right" 
+  animation="slideLeft" 
+  by="character" 
+/>
+```
+
+### Fade In by Line
+
+Animate text line by line with fade in effect.
+
+```svelte
+<TextAnimate 
+  content="First line\nSecond line\nThird line" 
+  animation="fadeIn" 
+  by="line" 
+/>
+```
+
+### Custom Variants
+
+Use custom motion variants for complete control.
+
+```svelte
+<script lang="ts">
+  import { TextAnimate } from "$lib/components/magic/text-animate";
+  import type { Variants } from "motion-sv";
+  
+  const customVariants: Variants = {
+    hidden: { opacity: 0, rotateY: 90 },
+    show: { 
+      opacity: 1, 
+      rotateY: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+</script>
+
+<TextAnimate 
+  content="Custom animation" 
+  variants={customVariants}
+  by="word" 
+/>
+```
+
+## Props
+
+<ParamField path="content" type="string" required>
+  The text content to animate.
+</ParamField>
+
+<ParamField path="animation" type="AnimationVariant" default="fadeIn">
+  The animation preset to use. Options: `fadeIn`, `blurIn`, `blurInUp`, `blurInDown`, `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `scaleUp`, `scaleDown`.
+</ParamField>
+
+<ParamField path="by" type="AnimationType" default="word">
+  How to split the text for animation. Options: `text` (entire text), `word`, `character`, `line`.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component container.
+</ParamField>
+
+<ParamField path="segmentClass" type="string">
+  CSS classes to apply to each animated segment (word/character/line).
+</ParamField>
+
+<ParamField path="delay" type="number" default={0}>
+  The delay in seconds before the animation starts.
+</ParamField>
+
+<ParamField path="duration" type="number" default={0.3}>
+  The total duration in seconds for the entire animation sequence.
+</ParamField>
+
+<ParamField path="variants" type="Variants">
+  Custom motion variants for the animation. When provided, overrides the `animation` preset.
+</ParamField>
+
+<ParamField path="startOnView" type="boolean" default={true}>
+  Whether to start animation when the component enters the viewport.
+</ParamField>
+
+<ParamField path="once" type="boolean" default={false}>
+  Whether to animate only once (when used with `startOnView`).
+</ParamField>
+
+<ParamField path="accessible" type="boolean" default={true}>
+  Whether to enable accessibility features (screen reader support).
+</ParamField>
+
+## Animation Variants
+
+The component includes several built-in animation presets:
+
+- **fadeIn**: Simple fade in with slight upward movement
+- **blurIn**: Blur to clear transition
+- **blurInUp**: Blur with upward slide
+- **blurInDown**: Blur with downward slide
+- **slideUp**: Slide up from below
+- **slideDown**: Slide down from above
+- **slideLeft**: Slide in from the right
+- **slideRight**: Slide in from the left
+- **scaleUp**: Scale up from small
+- **scaleDown**: Scale down from large
+
+## Customization
+
+### Stagger Timing
+
+The component automatically adjusts stagger timing based on the split type:
+- Text: 0.06s
+- Word: 0.05s
+- Character: 0.03s
+- Line: 0.06s
+
+### Styling
+
+The component uses Tailwind CSS classes and can be styled using the `class` and `segmentClass` props:
+
+```svelte
+<TextAnimate 
+  content="Styled text" 
+  animation="slideUp" 
+  by="word"
+  class="text-4xl font-bold text-primary"
+  segmentClass="mx-1"
+/>
+```
+
+<Info>
+For line-based animations, use `\n` or `\\n` to separate lines in the content string.
+</Info>

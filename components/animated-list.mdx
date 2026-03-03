@@ -1,0 +1,111 @@
+---
+title: Animated List
+description: A component that animates list items with smooth layout transitions, revealing items one by one from top to bottom.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add https://acme.com/r/animated-list
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { AnimatedList } from "magic/animated-list";
+
+  const items = [
+    { id: 1, name: "Item 1" },
+    { id: 2, name: "Item 2" },
+    { id: 3, name: "Item 3" }
+  ];
+</script>
+
+<AnimatedList {items}>
+  {#snippet children(item, index)}
+    <div class="p-4 bg-white rounded-lg shadow">
+      {item.name}
+    </div>
+  {/snippet}
+</AnimatedList>
+```
+
+## Examples
+
+### Basic List
+
+```svelte
+<script lang="ts">
+  import { AnimatedList } from "magic/animated-list";
+
+  const notifications = [
+    { id: 1, name: "New message", time: "2m ago" },
+    { id: 2, name: "Update available", time: "5m ago" },
+    { id: 3, name: "Task completed", time: "10m ago" }
+  ];
+</script>
+
+<AnimatedList items={notifications} delay={1000}>
+  {#snippet children(item)}
+    <div class="flex items-center gap-3 p-4 bg-white rounded-lg">
+      <div class="flex-1">
+        <p class="font-medium">{item.name}</p>
+        <p class="text-sm text-gray-500">{item.time}</p>
+      </div>
+    </div>
+  {/snippet}
+</AnimatedList>
+```
+
+### Custom Delay
+
+```svelte
+<AnimatedList items={items} delay={500}>
+  {#snippet children(item)}
+    <div>{item.name}</div>
+  {/snippet}
+</AnimatedList>
+```
+
+## Component API
+
+### AnimatedList
+
+<ParamField path="items" type="T[]" required>
+  Array of items to display. Each item should have a unique `id` property.
+</ParamField>
+
+<ParamField path="delay" type="number" default="1000">
+  Delay in milliseconds between revealing each item.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the container.
+</ParamField>
+
+<ParamField path="children" type="Snippet<[T, number]>" required>
+  Snippet function that receives the item and its index to render each list item.
+</ParamField>
+
+## Features
+
+- Smooth spring-based animations with configurable stiffness and damping
+- Items reveal from top to bottom with scale and opacity transitions
+- Layout transitions when items are added
+- Generic type support for any item structure
+- Customizable delay between item reveals
+- Powered by motion-sv for high-performance animations
+
+## Animation Details
+
+The component uses the following animation properties:
+
+- **Initial state**: `scale: 0, opacity: 0, y: -8`
+- **Animate to**: `scale: 1, opacity: 1, y: 0`
+- **Spring physics**: `stiffness: 500, damping: 30`
+- **Exit animation**: `scale: 0, opacity: 0, y: 8` with 0.18s duration
+
+## Dependencies
+
+- motion-sv

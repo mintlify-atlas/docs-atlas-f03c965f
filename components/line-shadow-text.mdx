@@ -1,0 +1,261 @@
+---
+title: Line Shadow Text
+description: A text component with an animated diagonal line shadow effect that moves across the text.
+---
+
+<Note>
+This component requires the `motion-sv` dependency.
+</Note>
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/line-shadow-text
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/line-shadow-text
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/line-shadow-text
+```
+
+</CodeGroup>
+
+<Note>
+This component requires CSS keyframes to be added to your global styles. The installation command will handle this automatically.
+</Note>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { LineShadowText } from "$lib/components/magic/line-shadow-text";
+</script>
+
+<LineShadowText content="Line Shadow Effect" />
+```
+
+## Examples
+
+### Basic Example
+
+Simple line shadow text with default settings.
+
+```svelte
+<LineShadowText content="Amazing Text Effect" />
+```
+
+### Custom Shadow Color
+
+Change the color of the diagonal line shadow.
+
+```svelte
+<LineShadowText 
+  content="Blue Shadow" 
+  shadowColor="#3b82f6"
+/>
+
+<LineShadowText 
+  content="Red Shadow" 
+  shadowColor="#ef4444"
+/>
+```
+
+### Different Element Types
+
+Render as different HTML elements.
+
+```svelte
+<LineShadowText content="Heading" as="h1" />
+<LineShadowText content="Subheading" as="h2" />
+<LineShadowText content="Paragraph" as="p" />
+```
+
+### Large Display Text
+
+Use with large typography.
+
+```svelte
+<LineShadowText 
+  content="BIG TEXT" 
+  as="h1"
+  class="text-6xl font-bold"
+/>
+```
+
+### Colored Text with Shadow
+
+Combine text color with shadow color.
+
+```svelte
+<LineShadowText 
+  content="Colorful" 
+  class="text-blue-600 text-4xl font-bold"
+  shadowColor="#93c5fd"
+/>
+```
+
+### Multiple Lines
+
+Use with multi-word content.
+
+```svelte
+<LineShadowText 
+  content="This is a longer text with the line shadow effect"
+  class="text-3xl font-semibold"
+/>
+```
+
+## Props
+
+<ParamField path="content" type="string" required>
+  The text content to display with the line shadow effect.
+</ParamField>
+
+<ParamField path="shadowColor" type="string" default="black">
+  The color of the diagonal line shadow. Accepts any valid CSS color value.
+</ParamField>
+
+<ParamField path="as" type="ElementType" default="span">
+  The HTML element type to render. Options: `span`, `div`, `p`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## CSS Animation
+
+The component uses a CSS keyframe animation that is automatically added during installation:
+
+```css
+@keyframes line-shadow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% -100%;
+  }
+}
+```
+
+The animation class:
+```css
+.animate-line-shadow {
+  animation: line-shadow 15s linear infinite;
+}
+```
+
+## How It Works
+
+The line shadow effect is created using:
+
+1. **Pseudo-element**: An `::after` pseudo-element positioned behind the text
+2. **Linear gradient**: A 45-degree striped pattern using CSS gradients
+3. **Background clipping**: The gradient is clipped to text shape using `bg-clip-text`
+4. **Animated position**: The background position animates to create movement
+5. **Data attribute**: The text content is duplicated via the `data-text` attribute
+
+## Technical Details
+
+The shadow is created by:
+- Positioning a pseudo-element slightly offset (0.04em) from the main text
+- Using a diagonal linear gradient (45deg) to create parallel lines
+- Animating the background position to create the moving effect
+- Making the gradient transparent so it acts as a shadow/outline
+
+## Customization
+
+### Faster Animation
+
+Speed up the line movement.
+
+```svelte
+<LineShadowText 
+  content="Fast Lines" 
+  class="[animation-duration:5s]"
+/>
+```
+
+### Slower Animation
+
+Slow down for a more subtle effect.
+
+```svelte
+<LineShadowText 
+  content="Slow Lines" 
+  class="[animation-duration:30s]"
+/>
+```
+
+### Reverse Direction
+
+Make the lines move in the opposite direction.
+
+```svelte
+<LineShadowText 
+  content="Reverse" 
+  class="[animation-direction:reverse]"
+/>
+```
+
+### Pause on Hover
+
+Freeze the animation when hovering.
+
+```svelte
+<LineShadowText 
+  content="Hover to Pause" 
+  class="hover:[animation-play-state:paused]"
+/>
+```
+
+### Transparent Shadow
+
+Use semi-transparent colors for a subtle effect.
+
+```svelte
+<LineShadowText 
+  content="Subtle Shadow" 
+  shadowColor="rgba(0, 0, 0, 0.3)"
+/>
+```
+
+### Dark Mode Compatibility
+
+Use CSS variables for theme-aware shadows.
+
+```svelte
+<LineShadowText 
+  content="Theme Aware" 
+  shadowColor="hsl(var(--foreground) / 0.5)"
+/>
+```
+
+## Use Cases
+
+- **Hero headings**: Add dynamic interest to landing page titles
+- **Brand names**: Make logos and brand text more distinctive
+- **Section headers**: Enhance content section titles
+- **Feature callouts**: Draw attention to key features
+- **Artistic displays**: Create visually interesting text treatments
+- **Loading states**: Indicate activity with animated text
+
+## Performance
+
+The animation is CSS-based and GPU-accelerated, making it very performant. The effect uses:
+- Transform and opacity (GPU-accelerated properties)
+- Background position animation
+- No JavaScript-based animation loops
+
+<Info>
+The component uses `whitespace-pre` to preserve spacing in the content string. This is important for maintaining the exact text layout you provide.
+</Info>
+
+<Warning>
+Very small text may make the line pattern less visible. This effect works best with medium to large text sizes (18px and above).
+</Warning>

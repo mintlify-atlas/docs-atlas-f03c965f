@@ -1,0 +1,174 @@
+---
+title: Bento Grid
+description: A flexible grid layout with interchangeable BentoCard items for showcasing content in a responsive masonry style.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add https://acme.com/r/bento-grid
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { BentoGrid, BentoCard } from "magic/bento-grid";
+  import { CalendarIcon } from "@lucide/svelte";
+</script>
+
+<BentoGrid>
+  <BentoCard
+    name="Calendar"
+    description="Use the calendar to filter your files by date."
+    Icon={CalendarIcon}
+    href="#"
+    cta="Learn more"
+  >
+    {#snippet background()}
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500" />
+    {/snippet}
+  </BentoCard>
+</BentoGrid>
+```
+
+## Examples
+
+### Multi-Card Grid
+
+```svelte
+<script lang="ts">
+  import { BentoGrid, BentoCard } from "magic/bento-grid";
+  import { CalendarIcon, FileTextIcon, BellIcon } from "@lucide/svelte";
+</script>
+
+<BentoGrid class="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  <BentoCard
+    name="Calendar"
+    description="Schedule and manage your events"
+    Icon={CalendarIcon}
+    href="/calendar"
+    cta="View calendar"
+    class="md:col-span-2"
+  >
+    {#snippet background()}
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600" />
+    {/snippet}
+  </BentoCard>
+
+  <BentoCard
+    name="Documents"
+    description="Access all your files"
+    Icon={FileTextIcon}
+    href="/docs"
+    cta="Browse files"
+  >
+    {#snippet background()}
+      <div class="absolute inset-0 bg-gradient-to-br from-green-400 to-green-600" />
+    {/snippet}
+  </BentoCard>
+
+  <BentoCard
+    name="Notifications"
+    description="Stay updated with alerts"
+    Icon={BellIcon}
+    href="/notifications"
+    cta="See all"
+  >
+    {#snippet background()}
+      <div class="absolute inset-0 bg-gradient-to-br from-purple-400 to-purple-600" />
+    {/snippet}
+  </BentoCard>
+</BentoGrid>
+```
+
+### Custom Grid Layout
+
+```svelte
+<BentoGrid class="grid-cols-1 md:grid-cols-4 gap-6">
+  <BentoCard class="md:col-span-2 md:row-span-2" {name} {Icon} {description} {href} {cta}>
+    {#snippet background()}
+      <!-- Large feature card -->
+    {/snippet}
+  </BentoCard>
+  
+  <BentoCard class="md:col-span-2" {name} {Icon} {description} {href} {cta}>
+    {#snippet background()}
+      <!-- Normal card -->
+    {/snippet}
+  </BentoCard>
+</BentoGrid>
+```
+
+## Component API
+
+### BentoGrid
+
+<ParamField path="children" type="Snippet" required>
+  Child components (typically BentoCard instances).
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes. Default: `grid w-full auto-rows-[22rem] grid-cols-3 gap-4`
+</ParamField>
+
+### BentoCard
+
+<ParamField path="name" type="string" required>
+  The card title/heading.
+</ParamField>
+
+<ParamField path="description" type="string" required>
+  The card description text.
+</ParamField>
+
+<ParamField path="Icon" type="Component<any>" required>
+  Lucide icon component to display.
+</ParamField>
+
+<ParamField path="href" type="string" required>
+  URL to navigate to when the CTA is clicked.
+</ParamField>
+
+<ParamField path="cta" type="string" required>
+  Call-to-action button text.
+</ParamField>
+
+<ParamField path="background" type="Snippet" required>
+  Snippet for rendering the card's background content.
+</ParamField>
+
+<ParamField path="iconClass" type="string" default="">
+  Additional CSS classes for the icon.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes for the card. Default: `col-span-3`
+</ParamField>
+
+## Features
+
+- Responsive grid layout with auto-sizing rows
+- Hover effects with smooth transitions
+- Light and dark mode support
+- Elegant shadow and border treatments
+- Icon animations on hover (scale down to 75%)
+- Slide-up CTA button reveal on desktop
+- Always-visible CTA on mobile
+- Customizable background via snippet
+- Group hover effects for nested elements
+
+## Styling
+
+The BentoCard includes:
+
+- **Default span**: 3 columns (col-span-3)
+- **Row height**: 22rem auto-rows
+- **Shadow (light)**: Multi-layered subtle shadows
+- **Shadow (dark)**: Inset glow with subtle border
+- **Hover overlay**: Black/neutral overlay on hover
+- **Transitions**: 300ms duration on all interactive elements
+
+## Dependencies
+
+- @lucide/svelte

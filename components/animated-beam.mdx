@@ -1,0 +1,169 @@
+---
+title: Animated Beam
+description: A component for creating animated beam effects between two elements with customizable gradients and paths.
+---
+
+<ComponentPreview name="animated-beam-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@latest add animated-beam
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Install dependencies</Step>
+      ```bash
+      npm install motion-sv
+      ```
+      <Step>Copy component source</Step>
+      Copy the component source code from the [repository](https://github.com/example/magic-ui).
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import AnimatedBeam from "$lib/components/magic/animated-beam/animated-beam.svelte";
+  
+  let containerRef: HTMLElement | null = $state(null);
+  let fromRef: HTMLElement | null = $state(null);
+  let toRef: HTMLElement | null = $state(null);
+</script>
+
+<div bind:this={containerRef} class="relative h-96">
+  <div bind:this={fromRef} class="absolute left-10 top-10">
+    Source Element
+  </div>
+  <div bind:this={toRef} class="absolute right-10 bottom-10">
+    Target Element
+  </div>
+  <AnimatedBeam 
+    {containerRef} 
+    {fromRef} 
+    {toRef} 
+  />
+</div>
+```
+
+## Props
+
+<ParamField path="containerRef" type="HTMLElement | null" required>
+  Reference to the container element that wraps both from and to elements.
+</ParamField>
+
+<ParamField path="fromRef" type="HTMLElement | null" required>
+  Reference to the source element where the beam starts.
+</ParamField>
+
+<ParamField path="toRef" type="HTMLElement | null" required>
+  Reference to the target element where the beam ends.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the SVG element.
+</ParamField>
+
+<ParamField path="curvature" type="number" default="0">
+  Controls the curvature of the beam path. Higher values create more curved paths.
+</ParamField>
+
+<ParamField path="reverse" type="boolean" default="false">
+  Reverses the animation direction of the gradient.
+</ParamField>
+
+<ParamField path="duration" type="number" default="Math.random() * 3 + 4">
+  Duration of the beam animation in seconds.
+</ParamField>
+
+<ParamField path="delay" type="number" default="0">
+  Delay before the animation starts in seconds.
+</ParamField>
+
+<ParamField path="pathColor" type="string" default="'gray'">
+  Color of the static path line.
+</ParamField>
+
+<ParamField path="pathWidth" type="number" default="2">
+  Width of the path stroke in pixels.
+</ParamField>
+
+<ParamField path="pathOpacity" type="number" default="0.2">
+  Opacity of the static path line (0-1).
+</ParamField>
+
+<ParamField path="gradientStartColor" type="string" default="'#ffaa40'">
+  Starting color of the animated gradient.
+</ParamField>
+
+<ParamField path="gradientStopColor" type="string" default="'#9c40ff'">
+  Ending color of the animated gradient.
+</ParamField>
+
+<ParamField path="startXOffset" type="number" default="0">
+  Horizontal offset from the source element's position in pixels.
+</ParamField>
+
+<ParamField path="startYOffset" type="number" default="0">
+  Vertical offset from the source element's position in pixels.
+</ParamField>
+
+<ParamField path="endXOffset" type="number" default="0">
+  Horizontal offset from the target element's position in pixels.
+</ParamField>
+
+<ParamField path="endYOffset" type="number" default="0">
+  Vertical offset from the target element's position in pixels.
+</ParamField>
+
+## Examples
+
+### Custom Gradient Colors
+
+```svelte
+<AnimatedBeam 
+  {containerRef} 
+  {fromRef} 
+  {toRef}
+  gradientStartColor="#3b82f6"
+  gradientStopColor="#8b5cf6"
+/>
+```
+
+### Curved Path
+
+```svelte
+<AnimatedBeam 
+  {containerRef} 
+  {fromRef} 
+  {toRef}
+  curvature={50}
+/>
+```
+
+### With Offsets
+
+```svelte
+<AnimatedBeam 
+  {containerRef} 
+  {fromRef} 
+  {toRef}
+  startXOffset={10}
+  startYOffset={10}
+  endXOffset={-10}
+  endYOffset={-10}
+/>
+```
+
+## Features
+
+- Automatically calculates the path between two elements
+- Smooth animated gradient effect
+- Responsive to element position changes
+- Customizable colors, curvature, and animation timing
+- Built-in resize observer for dynamic layouts

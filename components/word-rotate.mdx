@@ -1,0 +1,318 @@
+---
+title: Word Rotate
+description: A component that cycles through an array of words with smooth fade and slide animations between transitions.
+---
+
+<Note>
+This component requires the `motion-sv` dependency.
+</Note>
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/word-rotate
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/word-rotate
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/word-rotate
+```
+
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { WordRotate } from "$lib/components/magic/word-rotate";
+</script>
+
+<WordRotate words={["Fast", "Reliable", "Secure"]} />
+```
+
+## Examples
+
+### Basic Example
+
+Simple word rotation with default settings.
+
+```svelte
+<WordRotate words={["Build", "Ship", "Scale"]} />
+```
+
+### Custom Duration
+
+Control how long each word is displayed.
+
+```svelte
+<WordRotate 
+  words={["Slow", "Rotation"]}
+  duration={5000}
+/>
+
+<WordRotate 
+  words={["Fast", "Rotation"]}
+  duration={1000}
+/>
+```
+
+### Different Element Types
+
+Render as different HTML elements.
+
+```svelte
+<WordRotate words={["Heading 1"]} as="h1" />
+<WordRotate words={["Heading 2"]} as="h2" />
+<WordRotate words={["Paragraph"]} as="p" />
+```
+
+### Custom Motion Props
+
+Define custom animation behavior.
+
+```svelte
+<script lang="ts">
+  import { WordRotate } from "$lib/components/magic/word-rotate";
+  
+  const customMotion = {
+    initial: { opacity: 0, x: -100 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: 100 },
+    transition: { duration: 0.5, ease: "easeInOut" }
+  };
+</script>
+
+<WordRotate 
+  words={["Slide", "From", "Left"]}
+  motionProps={customMotion}
+/>
+```
+
+### In a Sentence
+
+Combine with other text for dynamic headlines.
+
+```svelte
+<h1 class="text-4xl font-bold">
+  We build 
+  <WordRotate 
+    words={["websites", "apps", "experiences"]}
+    class="text-blue-600"
+  />
+</h1>
+```
+
+### Feature Highlights
+
+Rotate through product features.
+
+```svelte
+<div class="text-center">
+  <p class="text-xl mb-4">Our platform is</p>
+  <WordRotate 
+    words={["Fast", "Secure", "Scalable", "Reliable"]}
+    class="text-5xl font-bold text-primary"
+    as="h2"
+  />
+</div>
+```
+
+### Multiple Rotations
+
+Use multiple word rotates in a single sentence.
+
+```svelte
+<h1 class="text-3xl">
+  <WordRotate words={["Build", "Create", "Design"]} class="inline" />
+  <span> amazing </span>
+  <WordRotate words={["websites", "apps", "products"]} class="inline" />
+</h1>
+```
+
+## Props
+
+<ParamField path="words" type="string[]" required>
+  Array of words to rotate through. The component will cycle through these words infinitely.
+</ParamField>
+
+<ParamField path="duration" type="number" default={2500}>
+  Duration in milliseconds that each word is displayed before transitioning to the next.
+</ParamField>
+
+<ParamField path="motionProps" type="MotionProps">
+  Custom motion properties for the animation. Default:
+  ```typescript
+  {
+    initial: { opacity: 0, y: -50 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 50 },
+    transition: { duration: 0.25, ease: "easeOut" }
+  }
+  ```
+</ParamField>
+
+<ParamField path="as" type="ElementType" default="h1">
+  The HTML element type to render. Options: `div`, `span`, `p`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## Animation Modes
+
+The component uses AnimatePresence with `mode="wait"` which means:
+- Current word exits completely before next word enters
+- Only one word is rendered at a time
+- Smooth, clean transitions without overlap
+
+## Default Animation
+
+The default motion properties create:
+- Words slide in from above (y: -50)
+- Fade in as they enter
+- Slide out downward (y: 50)
+- Fade out as they exit
+- Quick 0.25s transitions
+
+## How It Works
+
+1. **Interval-based cycling**: Uses `setInterval` to change words at the specified duration
+2. **Reactive index**: Index updates trigger Svelte's reactivity
+3. **AnimatePresence**: Handles enter/exit animations smoothly
+4. **Key-based rendering**: Uses `{#key}` block to trigger animations on word change
+5. **Cleanup**: Interval is properly cleared on component unmount
+
+## Customization
+
+### Slide From Right
+
+```svelte
+<WordRotate 
+  words={["Right", "Side"]}
+  motionProps={{
+    initial: { opacity: 0, x: 100 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -100 },
+    transition: { duration: 0.3 }
+  }}
+/>
+```
+
+### Scale Animation
+
+```svelte
+<WordRotate 
+  words={["Grow", "Shrink"]}
+  motionProps={{
+    initial: { opacity: 0, scale: 0.5 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.5 },
+    transition: { duration: 0.4 }
+  }}
+/>
+```
+
+### Rotate Animation
+
+```svelte
+<WordRotate 
+  words={["Spin", "Around"]}
+  motionProps={{
+    initial: { opacity: 0, rotate: -90 },
+    animate: { opacity: 1, rotate: 0 },
+    exit: { opacity: 0, rotate: 90 },
+    transition: { duration: 0.5 }
+  }}
+/>
+```
+
+### Blur Transition
+
+```svelte
+<WordRotate 
+  words={["Blur", "Effect"]}
+  motionProps={{
+    initial: { opacity: 0, filter: "blur(10px)" },
+    animate: { opacity: 1, filter: "blur(0px)" },
+    exit: { opacity: 0, filter: "blur(10px)" },
+    transition: { duration: 0.3 }
+  }}
+/>
+```
+
+### No Animation (Just Fade)
+
+```svelte
+<WordRotate 
+  words={["Simple", "Fade"]}
+  motionProps={{
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+    transition: { duration: 0.2 }
+  }}
+/>
+```
+
+### Spring Physics
+
+```svelte
+<WordRotate 
+  words={["Bouncy", "Spring"]}
+  motionProps={{
+    initial: { opacity: 0, y: -50 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 50 },
+    transition: { type: "spring", stiffness: 300, damping: 20 }
+  }}
+/>
+```
+
+## Use Cases
+
+- **Hero headlines**: Create dynamic, attention-grabbing titles
+- **Feature showcases**: Rotate through product benefits
+- **Job titles**: "I'm a Developer | Designer | Creator"
+- **Brand values**: Cycle through company values or mission statements
+- **Multi-purpose products**: Show different use cases
+- **Testimonial highlights**: Rotate key quotes or feedback
+- **Status indicators**: Show different states or modes
+
+## Best Practices
+
+1. **Similar length**: Words of similar length look better when rotating
+2. **Meaningful order**: Consider the order of words for flow
+3. **Appropriate duration**: 2-3 seconds per word is usually optimal
+4. **Context**: Ensure rotating words make sense in the sentence context
+5. **Limit words**: 3-6 words work best; too many can be overwhelming
+6. **Color contrast**: Use contrasting colors to make rotating words stand out
+
+## Performance
+
+The component is optimized:
+- Uses motion-sv for GPU-accelerated animations
+- Properly cleans up intervals on unmount
+- Only one word is rendered at a time (wait mode)
+- Efficient Svelte reactivity for updates
+
+## Accessibility
+
+Considerations:
+- Rapidly changing text may be difficult for some users to read
+- Ensure critical information isn't only in rotating text
+- Consider adding a pause button for accessibility
+- The text changes may not be announced to screen readers
+
+<Info>
+The component includes a note in the source code mentioning that the animation behavior differs slightly from the React implementation due to Svelte/motion-sv specifics.
+</Info>
+
+<Warning>
+Avoid using very short durations (< 1000ms) as users may not have time to read the words.
+</Warning>

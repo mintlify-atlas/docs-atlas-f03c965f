@@ -1,0 +1,284 @@
+---
+title: Ripple Button
+description: A button component with a ripple effect that appears on click, expanding from the click position.
+---
+
+# Ripple Button
+
+A button component with an interactive ripple effect that appears on click, expanding outward from the exact click position. This creates a Material Design-inspired touch feedback effect that provides clear visual confirmation of user interaction.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://magicui.design/r/ripple-button
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://magicui.design/r/ripple-button
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://magicui.design/r/ripple-button
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { RippleButton } from "$lib/components/magic/ripple-button";
+</script>
+
+<RippleButton>
+  Click me
+</RippleButton>
+```
+
+## Examples
+
+### Basic Usage
+
+```svelte
+<script lang="ts">
+  import { RippleButton } from "$lib/components/magic/ripple-button";
+</script>
+
+<RippleButton>
+  Click Me
+</RippleButton>
+```
+
+### Custom Ripple Color
+
+```svelte
+<script lang="ts">
+  import { RippleButton } from "$lib/components/magic/ripple-button";
+</script>
+
+<RippleButton rippleColor="#3b82f6">
+  Blue Ripple
+</RippleButton>
+```
+
+### Custom Duration
+
+```svelte
+<script lang="ts">
+  import { RippleButton } from "$lib/components/magic/ripple-button";
+</script>
+
+<RippleButton duration="1000ms">
+  Slow Ripple
+</RippleButton>
+```
+
+### With Click Handler
+
+```svelte
+<script lang="ts">
+  import { RippleButton } from "$lib/components/magic/ripple-button";
+
+  function handleClick(event: MouseEvent) {
+    console.log("Button clicked at:", event.clientX, event.clientY);
+  }
+</script>
+
+<RippleButton onclick={handleClick}>
+  Track Clicks
+</RippleButton>
+```
+
+### Fully Customized
+
+```svelte
+<script lang="ts">
+  import { RippleButton } from "$lib/components/magic/ripple-button";
+</script>
+
+<RippleButton 
+  rippleColor="rgba(255, 255, 255, 0.6)"
+  duration="800ms"
+  class="bg-blue-500 text-white border-blue-600"
+>
+  Custom Style
+</RippleButton>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to display inside the button.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="rippleColor" type="string" default="#ffffff">
+  The color of the ripple effect. Accepts any valid CSS color value (hex, rgb, rgba, hsl, etc.). Use semi-transparent colors for best effect.
+</ParamField>
+
+<ParamField path="duration" type="string" default="600ms">
+  The duration of the ripple animation from start to fade out. Accepts any valid CSS duration value (e.g., "600ms", "1s").
+</ParamField>
+
+<ParamField path="onclick" type="(event: MouseEvent) => void">
+  Click event handler. The ripple effect is created automatically, and your handler is called after.
+</ParamField>
+
+<ParamField path="...props" type="HTMLButtonAttributes">
+  All standard HTML button attributes are supported (disabled, type, aria-*, etc.).
+</ParamField>
+
+## Component Details
+
+### Animation Behavior
+
+The Ripple Button creates an interactive click effect through:
+
+1. **Click Detection**: Captures the exact mouse click coordinates
+2. **Ripple Creation**: Creates a circular ripple at the click position
+3. **Expansion Animation**: The ripple scales from 0 to 2x while fading out
+4. **Auto Cleanup**: Removes completed ripples from the DOM automatically
+
+### Implementation Details
+
+The component uses Svelte 5 runes for state management:
+
+```typescript
+let buttonRipples = $state<Array<{ x: number; y: number; size: number; key: number }>>([]);
+```
+
+Each ripple is tracked with:
+- `x`, `y`: Position coordinates relative to the button
+- `size`: Diameter of the ripple (based on button size)
+- `key`: Unique identifier for cleanup
+
+### Keyframe Animation
+
+The component requires this CSS keyframe (automatically included via registry):
+
+```css
+@keyframes rippling {
+  0% {
+    opacity: 1;
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+```
+
+### Position Calculation
+
+The ripple is intelligently positioned:
+
+```typescript
+const button = event.currentTarget;
+const rect = button.getBoundingClientRect();
+const size = Math.max(rect.width, rect.height); // Ensures full coverage
+const x = event.clientX - rect.left - size / 2;
+const y = event.clientY - rect.top - size / 2;
+```
+
+This ensures the ripple expands from the exact click point and fully covers the button.
+
+### Multiple Ripples
+
+The component supports multiple simultaneous ripples, allowing users to click rapidly without interference. Each ripple is independently tracked and removed after its animation completes.
+
+### Dependencies
+
+- `runed` - For the `watch` utility to manage ripple lifecycle
+- Tailwind CSS - For base styling
+
+## Accessibility
+
+The ripple effect is purely decorative and doesn't affect button functionality:
+
+- Semantic `<button>` element
+- Full keyboard support (Enter, Space)
+- Screen reader compatible
+- Focus states maintained
+- Click handlers work normally
+- All ARIA attributes supported
+
+<Note>
+  The ripple container uses `pointer-events-none` to ensure it doesn't interfere with button interactions.
+</Note>
+
+## Use Cases
+
+The Ripple Button is ideal for:
+
+- **Touch interfaces**: Provides tactile feedback on mobile and tablets
+- **Form submissions**: Confirms button activation
+- **Interactive dashboards**: Enhances user interaction feedback
+- **Material Design**: Follows Material Design principles
+- **Any clickable element**: Works great for any interactive button
+
+## Performance Notes
+
+The component is optimized for performance:
+
+- **Efficient cleanup**: Ripples are removed immediately after animation
+- **CSS animations**: Uses hardware-accelerated transforms
+- **Minimal DOM**: Only active ripples exist in the DOM
+- **No layout thrashing**: Absolute positioning prevents reflows
+
+### Memory Management
+
+The `watch` rune automatically cleans up timeouts when ripples complete:
+
+```typescript
+watch([() => buttonRipples, () => duration], () => {
+  if (buttonRipples.length > 0) {
+    const timeout = setTimeout(() => {
+      // Remove ripple
+    }, parseInt(duration));
+    return () => clearTimeout(timeout); // Cleanup
+  }
+});
+```
+
+## Browser Compatibility
+
+The component works in all modern browsers with CSS animation support. The ripple effect will gracefully degrade in older browsers, maintaining full button functionality.
+
+## Customization Tips
+
+### Semi-Transparent Ripples
+
+For the best visual effect, use semi-transparent colors:
+
+```svelte
+<RippleButton rippleColor="rgba(255, 255, 255, 0.4)">
+  Subtle Ripple
+</RippleButton>
+```
+
+### Matching Theme Colors
+
+Use CSS variables to match your theme:
+
+```svelte
+<RippleButton rippleColor="hsl(var(--primary) / 0.3)">
+  Themed Ripple
+</RippleButton>
+```
+
+### Dark Backgrounds
+
+For dark backgrounds, use lighter ripple colors:
+
+```svelte
+<RippleButton 
+  class="bg-gray-900 text-white"
+  rippleColor="rgba(255, 255, 255, 0.2)"
+>
+  Dark Mode
+</RippleButton>
+```

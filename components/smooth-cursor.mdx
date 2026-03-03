@@ -1,0 +1,221 @@
+---
+title: Smooth Cursor
+description: A smooth animated cursor component with spring physics that follows mouse movement with rotation and scale effects.
+---
+
+<ComponentPreview name="smooth-cursor-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@latest add smooth-cursor
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Install dependencies</Step>
+      ```bash
+      npm install motion-sv
+      ```
+      <Step>Copy component source</Step>
+      Copy the component source code from the [repository](https://github.com/example/magic-ui).
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import SmoothCursor from "$lib/components/magic/smooth-cursor/smooth-cursor.svelte";
+</script>
+
+<SmoothCursor />
+```
+
+## Props
+
+<ParamField path="cursor" type="Snippet">
+  Custom cursor content. If not provided, a default arrow cursor is rendered.
+</ParamField>
+
+<ParamField path="springConfig" type="object">
+  Spring physics configuration for the cursor animation.
+  
+  ```ts
+  {
+    damping: number;      // Default: 45
+    stiffness: number;    // Default: 400
+    mass: number;         // Default: 1
+    restDelta: number;    // Default: 0.001
+  }
+  ```
+</ParamField>
+
+### Spring Configuration Details
+
+<ParamField path="springConfig.damping" type="number" default="45">
+  Controls how quickly the cursor settles. Higher values create more damping (slower settling).
+</ParamField>
+
+<ParamField path="springConfig.stiffness" type="number" default="400">
+  Controls the spring's strength. Higher values make the cursor respond faster.
+</ParamField>
+
+<ParamField path="springConfig.mass" type="number" default="1">
+  Controls the cursor's inertia. Higher values make it feel heavier.
+</ParamField>
+
+<ParamField path="springConfig.restDelta" type="number" default="0.001">
+  Threshold for considering the animation complete.
+</ParamField>
+
+## Examples
+
+### Default Cursor
+
+```svelte
+<SmoothCursor />
+```
+
+### Custom Cursor Icon
+
+```svelte
+<SmoothCursor>
+  {#snippet cursor()}
+    <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500">
+      <span class="text-xl">✨</span>
+    </div>
+  {/snippet}
+</SmoothCursor>
+```
+
+### Custom Spring Physics
+
+```svelte
+<SmoothCursor 
+  springConfig={{
+    damping: 30,
+    stiffness: 500,
+    mass: 0.8,
+    restDelta: 0.001
+  }}
+/>
+```
+
+### Snappy Cursor
+
+```svelte
+<SmoothCursor 
+  springConfig={{
+    damping: 20,
+    stiffness: 600,
+    mass: 0.5,
+    restDelta: 0.001
+  }}
+>
+  {#snippet cursor()}
+    <div class="h-8 w-8 rounded-full bg-blue-500 shadow-lg" />
+  {/snippet}
+</SmoothCursor>
+```
+
+### Floaty Cursor
+
+```svelte
+<SmoothCursor 
+  springConfig={{
+    damping: 60,
+    stiffness: 200,
+    mass: 2,
+    restDelta: 0.001
+  }}
+>
+  {#snippet cursor()}
+    <div class="h-10 w-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600" />
+  {/snippet}
+</SmoothCursor>
+```
+
+### Image Cursor
+
+```svelte
+<SmoothCursor>
+  {#snippet cursor()}
+    <img 
+      src="/cursor-icon.png" 
+      alt="Cursor" 
+      class="h-12 w-12"
+    />
+  {/snippet}
+</SmoothCursor>
+```
+
+## How It Works
+
+1. **Native Cursor Hidden**: The component sets `body { cursor: none }` to hide the default cursor
+2. **Mouse Tracking**: Global `mousemove` event listener tracks cursor position
+3. **Velocity Calculation**: Calculates movement speed and direction
+4. **Spring Physics**: Uses `motion-sv` springs for smooth, natural motion
+5. **Rotation**: Cursor rotates based on movement direction
+6. **Scale Effect**: Slightly scales down when moving fast
+7. **RAF Throttling**: Uses `requestAnimationFrame` for optimized updates
+
+## Animation Behavior
+
+### Position
+The cursor smoothly follows the mouse with spring physics applied to both X and Y coordinates.
+
+### Rotation
+The cursor rotates to align with the direction of movement. Rotation is accumulated to prevent sudden jumps when crossing the 0°/360° boundary.
+
+### Scale
+When moving quickly (velocity > 0.1), the cursor scales down to 0.95 and returns to 1.0 after 150ms of no fast movement.
+
+## Features
+
+- Smooth spring-based cursor tracking
+- Automatic rotation based on movement direction
+- Scale effects on fast movement
+- Customizable cursor design
+- Configurable spring physics
+- Performance-optimized with RAF throttling
+- Automatic cleanup on unmount
+- Restores default cursor on unmount
+- GPU-accelerated transforms
+- Entrance animation on load
+
+## Performance
+
+- Uses `requestAnimationFrame` for throttled updates
+- GPU-accelerated with `will-change: transform`
+- Fixed positioning for optimal rendering
+- Pointer events disabled to prevent interference
+- Efficient velocity calculations
+
+## Considerations
+
+- The native cursor is hidden globally (`body { cursor: none }`)
+- May not be suitable for all use cases (forms, text selection, etc.)
+- Best used for landing pages, portfolios, or creative sites
+- Consider accessibility implications
+- Test on different devices (works best with mouse/trackpad)
+
+## Accessibility
+
+This component hides the native cursor, which may impact accessibility:
+
+- Consider providing a toggle to disable the custom cursor
+- Ensure sufficient contrast for visibility
+- Test with keyboard navigation
+- May not work well on touch devices
+
+## Browser Support
+
+Works in all modern browsers that support:
+- CSS transforms
+- RequestAnimationFrame
+- ES6+ JavaScript features
+- Motion-sv library requirements

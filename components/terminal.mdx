@@ -1,0 +1,225 @@
+---
+title: Terminal
+description: A terminal-like UI component with typing animations, sequence control, and intersection observer support.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add https://acme.com/r/terminal
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Terminal, TypingAnimation } from "magic/terminal";
+</script>
+
+<Terminal>
+  {#snippet children()}
+    <TypingAnimation text="$ npm install magic-ui" />
+    <TypingAnimation text="$ npm run dev" />
+  {/snippet}
+</Terminal>
+```
+
+## Examples
+
+### Basic Terminal
+
+```svelte
+<script lang="ts">
+  import { Terminal, TypingAnimation } from "magic/terminal";
+</script>
+
+<Terminal>
+  {#snippet children()}
+    <TypingAnimation text="$ git clone repo.git" />
+    <span class="text-green-500">Cloning into 'repo'...</span>
+    <TypingAnimation text="$ cd repo" delay={500} />
+    <TypingAnimation text="$ npm install" delay={1000} />
+  {/snippet}
+</Terminal>
+```
+
+### Sequential Typing
+
+```svelte
+<Terminal sequence>
+  {#snippet children()}
+    <TypingAnimation text="$ npm create svelte@latest" itemIndex={0} />
+    <TypingAnimation text="create-svelte version 6.0.0" itemIndex={1} />
+    <TypingAnimation text="$ npm install" itemIndex={2} />
+    <span class="text-green-500">✓ Installation complete!</span>
+  {/snippet}
+</Terminal>
+```
+
+### Without IntersectionObserver
+
+```svelte
+<Terminal startOnView={false}>
+  {#snippet children()}
+    <TypingAnimation text="$ npm run build" />
+    <span>Building application...</span>
+  {/snippet}
+</Terminal>
+```
+
+### Custom Styling
+
+```svelte
+<Terminal class="max-w-2xl bg-slate-950">
+  {#snippet children()}
+    <TypingAnimation 
+      text="$ echo 'Hello World'" 
+      class="text-cyan-400"
+      duration={40}
+    />
+    <span class="text-white">Hello World</span>
+  {/snippet}
+</Terminal>
+```
+
+### Mixed Content
+
+```svelte
+<Terminal>
+  {#snippet children()}
+    <TypingAnimation text="$ cat package.json" />
+    <span class="text-gray-400">&#123;</span>
+    <span class="text-gray-400">  "name": "my-app",</span>
+    <span class="text-gray-400">  "version": "1.0.0"</span>
+    <span class="text-gray-400">&#125;</span>
+    <TypingAnimation text="$ npm start" delay={1000} />
+  {/snippet}
+</Terminal>
+```
+
+## Component API
+
+### Terminal
+
+<ParamField path="children" type="Snippet" required>
+  Terminal content, typically including TypingAnimation components and static text.
+</ParamField>
+
+<ParamField path="sequence" type="boolean" default="true">
+  Whether to sequence typing animations. When true, animations wait for the previous one to complete before starting.
+</ParamField>
+
+<ParamField path="startOnView" type="boolean" default="true">
+  Whether to start animations only when the terminal is in view. Uses IntersectionObserver with 30% threshold.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the terminal container.
+</ParamField>
+
+### TypingAnimation
+
+<ParamField path="text" type="string" required>
+  The text to type out character by character.
+</ParamField>
+
+<ParamField path="duration" type="number" default="60">
+  Duration in milliseconds between each character.
+</ParamField>
+
+<ParamField path="delay" type="number" default="0">
+  Delay in milliseconds before starting the typing animation.
+</ParamField>
+
+<ParamField path="as" type="ElementType" default="'span'">
+  HTML element type to render.
+  
+  Options: `'div' | 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'`
+</ParamField>
+
+<ParamField path="startOnView" type="boolean" default="true">
+  Whether to wait for the element to be in view before starting. Only applies when not in a sequence.
+</ParamField>
+
+<ParamField path="itemIndex" type="number">
+  Index of this item in the sequence. Required when using `sequence={true}` in the parent Terminal.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the text element.
+</ParamField>
+
+## Features
+
+- Realistic typing animation with character-by-character reveal
+- Sequential animation support with context-based coordination
+- IntersectionObserver integration for viewport-triggered animations
+- Blinking cursor animation (via CSS keyframes)
+- Terminal-style UI with macOS-inspired window controls
+- Customizable typing speed and delays
+- Flexible content mixing (animated and static)
+- Dark mode compatible
+- Overflow scrolling support
+
+## Terminal UI Elements
+
+The Terminal component includes:
+
+- **Window controls**: Red, yellow, and green dots (macOS style)
+- **Border**: Subtle border with rounded corners
+- **Max dimensions**: 400px height, large width (max-w-lg)
+- **Scrolling**: Overflow auto on the code block
+- **Grid layout**: Gap between lines for readability
+
+## Cursor Animation
+
+The blinking cursor uses CSS keyframes:
+
+```css
+@keyframes blink-cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+```
+
+Animation: `blink-cursor 1.2s step-end infinite`
+
+## Context Architecture
+
+When `sequence={true}`, Terminal provides context:
+
+```typescript
+interface TerminalSequenceContext {
+  activeIndex: number;
+  sequenceStarted: boolean;
+  completeItem: (index: number) => void;
+}
+```
+
+Child TypingAnimation components:
+1. Wait for their `itemIndex` to match `activeIndex`
+2. Start typing animation
+3. Call `completeItem()` when done
+4. Next item in sequence begins
+
+## IntersectionObserver
+
+When `startOnView={true}`:
+
+- Observes terminal container
+- Triggers animation at 30% visibility threshold
+- Disconnects after first trigger
+- Works with both sequence and non-sequence modes
+
+## Dependencies
+
+- runed
+- motion-sv (for animated text elements)
+
+## Styling Tips
+
+- Use monospace font for authentic terminal appearance
+- Combine with color classes for syntax highlighting
+- Adjust `max-h-[400px]` for different terminal heights
+- Use `text-sm` or smaller for compact display
+- Add custom backgrounds for themed terminals

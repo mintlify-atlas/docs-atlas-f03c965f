@@ -1,0 +1,258 @@
+---
+title: Stagger Text
+description: An interactive text component where characters animate vertically on hover with a staggered delay effect.
+---
+
+<Note>
+This component requires the `motion-sv` dependency.
+</Note>
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/stagger-text
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/stagger-text
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/stagger-text
+```
+
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { StaggerText } from "$lib/components/magic/stagger-text";
+</script>
+
+<StaggerText text="Hover over me!" />
+```
+
+## Examples
+
+### Basic Example
+
+Simple stagger text with default settings.
+
+```svelte
+<StaggerText text="STAGGER EFFECT" />
+```
+
+### As Different Elements
+
+Render as different HTML heading elements.
+
+```svelte
+<StaggerText text="Heading 1" as="h1" />
+<StaggerText text="Heading 2" as="h2" />
+<StaggerText text="Heading 3" as="h3" />
+```
+
+### Large Display Text
+
+Use with large typography for hero sections.
+
+```svelte
+<StaggerText 
+  text="CREATIVE STUDIO"
+  as="h1"
+  class="text-7xl font-bold"
+/>
+```
+
+### Colored Text
+
+Apply custom colors and styles.
+
+```svelte
+<StaggerText 
+  text="COLORFUL"
+  class="text-5xl font-extrabold text-blue-600"
+/>
+```
+
+### Multiple Lines
+
+Create stagger effects on multiple text elements.
+
+```svelte
+<div class="space-y-4">
+  <StaggerText text="FIRST LINE" as="h2" />
+  <StaggerText text="SECOND LINE" as="h2" />
+  <StaggerText text="THIRD LINE" as="h2" />
+</div>
+```
+
+### Navigation Links
+
+Use in navigation for interactive links.
+
+```svelte
+<nav class="flex gap-8">
+  <a href="/about">
+    <StaggerText text="ABOUT" as="span" class="text-lg" />
+  </a>
+  <a href="/work">
+    <StaggerText text="WORK" as="span" class="text-lg" />
+  </a>
+  <a href="/contact">
+    <StaggerText text="CONTACT" as="span" class="text-lg" />
+  </a>
+</nav>
+```
+
+## Props
+
+<ParamField path="text" type="string" required>
+  The text content to display with the stagger animation.
+</ParamField>
+
+<ParamField path="as" type="StaggerTextElement" default="h3">
+  The HTML element type to render. Options: `span`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## Animation Details
+
+The stagger animation uses motion-sv with custom variants:
+
+```typescript
+const variants = {
+  initial: { y: 0 },
+  animate: (i: number) => ({
+    y: "-100%",
+    transition: {
+      delay: i * 0.04,
+      duration: 0.4,
+      ease: "easeInOut",
+      type: "tween"
+    }
+  }),
+  exit: (i: number) => ({
+    y: 0,
+    transition: { delay: i * 0.02, duration: 0.3 }
+  })
+};
+```
+
+## How It Works
+
+The stagger effect is created through:
+
+1. **Character splitting**: Text is split into individual characters
+2. **Dual layers**: Each character has two versions (original and copy)
+3. **Hover state**: Mouse enter/leave triggers the animation
+4. **Ripple effect**: Characters animate based on distance from hovered character
+5. **Vertical translation**: Characters slide up 100% to reveal the copy underneath
+6. **Staggered timing**: Delay increases based on distance from active character
+
+## Key Features
+
+- **Interactive**: Responds to mouse hover
+- **Ripple effect**: Characters animate outward from hovered position
+- **Smooth transitions**: Uses easeInOut easing for natural motion
+- **Copy support**: Handles text copying correctly
+- **Accessibility**: Includes screen reader text and proper ARIA attributes
+
+## Customization
+
+### Faster Animation
+
+Speed up the stagger effect by modifying the component or wrapping with custom styles.
+
+```svelte
+<StaggerText text="QUICK" class="[--duration:0.2s]" />
+```
+
+### Different Colors on Hover
+
+Use CSS to change colors during interaction.
+
+```svelte
+<StaggerText 
+  text="HOVER COLOR"
+  class="text-gray-800 hover:text-blue-600 transition-colors"
+/>
+```
+
+### Gradient Text
+
+Apply gradients to the text.
+
+```svelte
+<StaggerText 
+  text="GRADIENT"
+  class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+/>
+```
+
+### Uppercase Styling
+
+The component displays text as-is, but you can force case with CSS.
+
+```svelte
+<StaggerText 
+  text="lowercase text"
+  class="uppercase"
+/>
+```
+
+### Letter Spacing
+
+Adjust spacing between characters.
+
+```svelte
+<StaggerText 
+  text="SPACED OUT"
+  class="tracking-wider"
+/>
+```
+
+## Use Cases
+
+- **Hero headings**: Create interactive hero section titles
+- **Navigation menus**: Add playful hover effects to nav items
+- **Call-to-action**: Make CTAs more engaging
+- **Portfolio headers**: Great for creative portfolios
+- **Brand names**: Make brand text memorable
+- **Section titles**: Add interest to content sections
+- **Interactive logos**: Animate logo text on hover
+
+## Best Practices
+
+1. **Font choice**: Works best with bold, sans-serif fonts
+2. **Text length**: Most effective with short text (1-3 words)
+3. **Sizing**: Larger text sizes show the effect more clearly
+4. **Contrast**: Ensure sufficient contrast with background
+5. **Spacing**: Use appropriate letter spacing for readability
+
+## Accessibility
+
+The component includes several accessibility features:
+
+- Screen reader text in an `h1` tag with `sr-only` class
+- Proper `aria-label` on the main element
+- `aria-hidden="true"` on decorative animated spans
+- Copy event handling to preserve correct text content
+
+## Performance
+
+The animation is GPU-accelerated using CSS transforms (`translateY`), ensuring smooth 60fps performance. The component uses motion-sv for optimized animations.
+
+<Info>
+The stagger delay is calculated based on distance from the hovered character, creating a ripple effect that feels natural and responsive.
+</Info>
+
+<Warning>
+Very long text may create too many animated elements. This effect works best with short phrases or single words.
+</Warning>

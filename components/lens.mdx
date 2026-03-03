@@ -1,0 +1,196 @@
+---
+title: Lens
+description: An interactive component that enables zooming into images, videos and other elements.
+---
+
+<ComponentPreview name="lens-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@latest add lens
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Install dependencies</Step>
+      ```bash
+      npm install motion-sv
+      ```
+      <Step>Copy component source</Step>
+      Copy the component source code from the [repository](https://github.com/example/magic-ui).
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import Lens from "$lib/components/magic/lens/lens.svelte";
+</script>
+
+<Lens>
+  <img src="/image.jpg" alt="Zoomable image" />
+</Lens>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to be zoomed. Typically an image, video, or any HTML element.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the container.
+</ParamField>
+
+<ParamField path="zoomFactor" type="number" default="1.3">
+  The magnification factor for the zoomed area. Must be greater than 1.
+</ParamField>
+
+<ParamField path="lensSize" type="number" default="170">
+  Diameter of the lens in pixels. Must be greater than 0.
+</ParamField>
+
+<ParamField path="position" type="Position">
+  Controlled position of the lens. Used for external position control.
+  
+  ```ts
+  interface Position {
+    x: number;
+    y: number;
+  }
+  ```
+</ParamField>
+
+<ParamField path="defaultPosition" type="Position">
+  Default position where the lens appears when not hovering. When set, the lens is always visible.
+</ParamField>
+
+<ParamField path="isStatic" type="boolean" default="false">
+  When true, the lens remains at a fixed position and doesn't follow the mouse.
+</ParamField>
+
+<ParamField path="duration" type="number" default="0.1">
+  Duration of the lens entrance/exit animation in seconds.
+</ParamField>
+
+<ParamField path="lensColor" type="string" default="'black'">
+  Color of the lens mask. Can be any valid CSS color.
+</ParamField>
+
+<ParamField path="ariaLabel" type="string" default="'Zoom Area'">
+  Accessible label for the lens region.
+</ParamField>
+
+## Examples
+
+### Basic Image Zoom
+
+```svelte
+<Lens>
+  <img 
+    src="/product.jpg" 
+    alt="Product" 
+    class="w-full h-auto"
+  />
+</Lens>
+```
+
+### Higher Zoom Factor
+
+```svelte
+<Lens zoomFactor={2.5} lensSize={200}>
+  <img src="/detailed-artwork.jpg" alt="Artwork" />
+</Lens>
+```
+
+### Static Lens Position
+
+```svelte
+<Lens 
+  isStatic 
+  position={{ x: 200, y: 150 }}
+  zoomFactor={2}
+>
+  <img src="/map.jpg" alt="Map" />
+</Lens>
+```
+
+### Default Position (Always Visible)
+
+```svelte
+<Lens 
+  defaultPosition={{ x: 150, y: 150 }}
+  lensSize={120}
+>
+  <img src="/diagram.jpg" alt="Diagram" />
+</Lens>
+```
+
+### Custom Lens Color
+
+```svelte
+<Lens lensColor="white" zoomFactor={1.8}>
+  <img src="/dark-image.jpg" alt="Dark image" />
+</Lens>
+```
+
+### With Video Content
+
+```svelte
+<Lens zoomFactor={1.5}>
+  <video controls autoplay muted loop>
+    <source src="/video.mp4" type="video/mp4" />
+  </video>
+</Lens>
+```
+
+### Custom Animation Duration
+
+```svelte
+<Lens duration={0.3} zoomFactor={2}>
+  <img src="/photo.jpg" alt="Photo" />
+</Lens>
+```
+
+## Keyboard Support
+
+- **Escape**: Hides the lens when hovering
+
+## How It Works
+
+1. The component creates a masked overlay layer
+2. The overlay contains a scaled copy of the children
+3. The mask follows the mouse cursor (or stays at a fixed position)
+4. CSS transforms handle the zoom effect
+5. AnimatePresence provides smooth entrance/exit animations
+
+## Features
+
+- Smooth mouse-following lens effect
+- Customizable zoom level and lens size
+- Static and dynamic positioning modes
+- Default position for always-visible lens
+- Keyboard accessibility (Escape to dismiss)
+- Works with images, videos, and any HTML content
+- Smooth animations with configurable duration
+- Proper focus management
+- Validates props to prevent invalid configurations
+
+## Accessibility
+
+- The container has `role="region"` for semantic structure
+- Custom `aria-label` support for better screen reader experience
+- Keyboard navigation with Escape key
+- Focusable with `tabindex="0"`
+
+## Performance Tips
+
+- For large images, consider using optimized image formats (WebP, AVIF)
+- Use appropriate `zoomFactor` values (1.3-2.5 is typically sufficient)
+- Keep `lensSize` reasonable (100-300px) for best performance
+- The component uses CSS transforms for GPU-accelerated rendering

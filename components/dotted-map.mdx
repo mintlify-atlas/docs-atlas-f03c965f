@@ -1,0 +1,175 @@
+---
+title: Dotted Map
+description: A world map component rendered with dots, supporting custom markers with staggered entrance animations.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add dotted-map
+```
+
+## Usage
+
+```svelte
+<script>
+  import DottedMap from '$lib/components/magic/dotted-map/dotted-map.svelte';
+</script>
+
+<DottedMap />
+```
+
+## Examples
+
+### Basic World Map
+
+```svelte
+<script>
+  import DottedMap from '$lib/components/magic/dotted-map/dotted-map.svelte';
+</script>
+
+<DottedMap />
+```
+
+### With Location Markers
+
+```svelte
+<script>
+  import DottedMap from '$lib/components/magic/dotted-map/dotted-map.svelte';
+
+  const markers = [
+    { lat: 40.7128, lng: -74.0060 }, // New York
+    { lat: 51.5074, lng: -0.1278 },  // London
+    { lat: 35.6762, lng: 139.6503 }, // Tokyo
+  ];
+</script>
+
+<DottedMap {markers} />
+```
+
+### Custom Marker Sizes
+
+```svelte
+<script>
+  const markers = [
+    { lat: 40.7128, lng: -74.0060, size: 0.5 },
+    { lat: 51.5074, lng: -0.1278, size: 0.8 },
+    { lat: 35.6762, lng: 139.6503, size: 1.0 },
+  ];
+</script>
+
+<DottedMap {markers} markerColor="#3B82F6" />
+```
+
+### High-Resolution Map
+
+```svelte
+<DottedMap
+  width={200}
+  height={100}
+  mapSamples={10000}
+  dotRadius={0.15}
+/>
+```
+
+### Custom Colors
+
+```svelte
+<DottedMap
+  dotColor="#6366F1"
+  markerColor="#F59E0B"
+  class="text-indigo-500"
+/>
+```
+
+### Without Staggering
+
+```svelte
+<DottedMap stagger={false} />
+```
+
+## Props
+
+<ParamField path="width" type="number" default={150}>
+  The width of the SVG viewBox.
+</ParamField>
+
+<ParamField path="height" type="number" default={75}>
+  The height of the SVG viewBox.
+</ParamField>
+
+<ParamField path="mapSamples" type="number" default={5000}>
+  The number of dots to render on the map. Higher values create a more detailed map but may impact performance.
+</ParamField>
+
+<ParamField path="markers" type="Marker[]" default={[]}>
+  Array of marker objects to display on the map. Each marker should have:
+  - `lat` (number, required) - Latitude coordinate
+  - `lng` (number, required) - Longitude coordinate
+  - `size` (number, optional) - Radius of the marker dot
+</ParamField>
+
+<ParamField path="dotColor" type="string" default="currentColor">
+  The color of the map dots. Supports CSS color values.
+</ParamField>
+
+<ParamField path="markerColor" type="string" default="#FF6900">
+  The color of the location markers.
+</ParamField>
+
+<ParamField path="dotRadius" type="number" default={0.2}>
+  The radius of each dot on the map.
+</ParamField>
+
+<ParamField path="stagger" type="boolean" default={true}>
+  Whether to apply staggered positioning to alternating rows. Creates a more organic, hexagonal-like pattern.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the SVG element.
+</ParamField>
+
+<ParamField path="style" type="string">
+  Inline CSS styles to apply to the SVG element.
+</ParamField>
+
+## Features
+
+- SVG-based world map rendered with dots
+- Customizable dot density and size
+- Support for location markers with coordinates
+- Marker size customization
+- Staggered row positioning for organic appearance
+- Fully customizable colors
+- Responsive design (scales to container)
+- Lightweight and performant
+
+## Marker Object Type
+
+```typescript
+interface Marker {
+  lat: number;    // Latitude (-90 to 90)
+  lng: number;    // Longitude (-180 to 180)
+  size?: number;  // Optional custom marker size
+}
+```
+
+## Performance Considerations
+
+- The `mapSamples` prop directly affects the number of DOM elements rendered
+- For better performance on lower-end devices, reduce `mapSamples` to 3000-4000
+- For high-quality displays, increase to 8000-10000
+- Default value of 5000 provides a good balance
+
+## Dependencies
+
+- svg-dotted-map (for map generation and marker positioning)
+
+## Use Cases
+
+- Display global office locations
+- Show service coverage areas
+- Visualize user distribution
+- Highlight travel destinations
+- Display data center locations
+- Show shipping routes or delivery zones

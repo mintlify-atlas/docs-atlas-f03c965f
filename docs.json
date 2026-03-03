@@ -1,122 +1,154 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Svelte 5 Animations",
+  "theme": "palm",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#9c40ff",
+    "light": "#ffaa40",
+    "dark": "#7c2fd9"
   },
-  "favicon": "/favicon.svg",
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/SikandarJODD/animations"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/SikandarJODD/animations",
+      "x": "https://x.com/Sikandar_Bhide"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "introduction",
+              "installation",
+              "quickstart"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "concepts/component-structure",
+              "concepts/installation-methods",
+              "concepts/customization"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Contributing",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "contributing/overview",
+              "contributing/creating-components"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Components",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Text Animations",
             "pages": [
-              "api-reference/introduction"
+              "components/text-animate",
+              "components/animated-gradient-text",
+              "components/animated-shiny-text",
+              "components/aurora-text",
+              "components/hyper-text",
+              "components/line-shadow-text",
+              "components/morphing-text",
+              "components/stagger-text",
+              "components/typing-animation",
+              "components/word-rotate",
+              "components/video-text"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Background Patterns",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "components/animated-grid-pattern",
+              "components/dot-pattern",
+              "components/flickering-grid",
+              "components/grid-pattern",
+              "components/retro-grid",
+              "components/striped-pattern",
+              "components/warp-background",
+              "components/light-rays",
+              "components/meteors"
+            ]
+          },
+          {
+            "group": "Interactive Elements",
+            "pages": [
+              "components/animated-beam",
+              "components/blur-fade",
+              "components/cool-mode",
+              "components/icon-cloud",
+              "components/lens",
+              "components/magic-card",
+              "components/orbiting-circles",
+              "components/smooth-cursor"
+            ]
+          },
+          {
+            "group": "Buttons & CTAs",
+            "pages": [
+              "components/interactive-hover-button",
+              "components/pulsating-button",
+              "components/rainbow-button",
+              "components/ripple-button",
+              "components/shimmer-button",
+              "components/shiny-button"
+            ]
+          },
+          {
+            "group": "Layout Components",
+            "pages": [
+              "components/animated-list",
+              "components/avatar-circles",
+              "components/bento-grid",
+              "components/dock",
+              "components/file-tree",
+              "components/marquee",
+              "components/progressive-blur",
+              "components/terminal"
+            ]
+          },
+          {
+            "group": "Cards & Borders",
+            "pages": [
+              "components/border-beam",
+              "components/neon-gradient-card",
+              "components/shine-border",
+              "components/ripple"
+            ]
+          },
+          {
+            "group": "Progress & Media",
+            "pages": [
+              "components/animated-circular-progress-bar",
+              "components/number-ticker",
+              "components/scroll-progress",
+              "components/hero-video-dialog",
+              "components/pixel-image",
+              "components/dotted-map"
+            ]
+          },
+          {
+            "group": "Utilities & Effects",
+            "pages": [
+              "components/animated-theme-toggler",
+              "components/dither-shader",
+              "components/confetti"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }

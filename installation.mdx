@@ -1,0 +1,281 @@
+---
+title: Installation
+description: How to install dependencies and structure your Svelte 5 Animations project.
+---
+
+# Installation
+
+This guide will walk you through setting up a new Svelte 5 project with all the dependencies required for Svelte 5 Animations.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- **Node.js** 18.x or later
+- **npm**, **pnpm**, or **yarn** package manager
+- Basic familiarity with SvelteKit and Tailwind CSS
+
+<Note>
+  This guide uses `pnpm` in examples, but you can use `npm` or `yarn` if you prefer. The CLI commands will automatically detect your package manager.
+</Note>
+
+## Quick Start Installation
+
+<Steps>
+  <Step title="Create SvelteKit Project">
+    Start by creating a new SvelteKit project with Tailwind CSS:
+
+    <CodeGroup>
+      ```bash npm
+      npx sv create my-app
+      ```
+
+      ```bash pnpm
+      pnpm dlx sv create my-app
+      ```
+
+      ```bash yarn
+      yarn dlx sv create my-app
+      ```
+    </CodeGroup>
+
+    <Warning>
+      When prompted during setup, make sure to select **Tailwind CSS** as a styling option. Svelte 5 Animations requires Tailwind CSS to work properly.
+    </Warning>
+
+    Navigate to your project directory:
+
+    ```bash
+    cd my-app
+    ```
+  </Step>
+
+  <Step title="Initialize shadcn-svelte">
+    Initialize shadcn-svelte, which provides the CLI tool for installing components:
+
+    <CodeGroup>
+      ```bash npm
+      npx shadcn-svelte@latest init
+      ```
+
+      ```bash pnpm
+      pnpm dlx shadcn-svelte@latest init
+      ```
+
+      ```bash yarn
+      yarn dlx shadcn-svelte@latest init
+      ```
+    </CodeGroup>
+
+    <Info>
+      You can use the default configuration or customize it to fit your project's needs. The CLI will guide you through the setup process.
+    </Info>
+  </Step>
+
+  <Step title="Install motion-sv">
+    Install the motion-sv animation library, which powers the animations:
+
+    <CodeGroup>
+      ```bash npm
+      npm install motion-sv
+      ```
+
+      ```bash pnpm
+      pnpm add motion-sv
+      ```
+
+      ```bash yarn
+      yarn add motion-sv
+      ```
+    </CodeGroup>
+
+    <Note>
+      **motion-sv** is a required dependency for all animation components. It provides the core animation primitives and utilities.
+    </Note>
+  </Step>
+
+  <Step title="Install Your First Component">
+    You're now ready to install animation components! Use the CLI to add any component. For example, to install the Morphing Text component:
+
+    <CodeGroup>
+      ```bash npm
+      npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/morphing-text.json
+      ```
+
+      ```bash pnpm
+      pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/morphing-text.json
+      ```
+
+      ```bash yarn
+      yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/morphing-text.json
+      ```
+    </CodeGroup>
+
+    The component will be installed to `src/lib/components/magic-ui/morphing-text/`.
+  </Step>
+</Steps>
+
+## Manual Installation
+
+If you prefer not to use the CLI, you can manually copy components into your project:
+
+<Steps>
+  <Step title="Create Directory Structure">
+    Create the directory for magic-ui components:
+
+    ```bash
+    mkdir -p src/lib/components/magic-ui
+    ```
+  </Step>
+
+  <Step title="Copy Component Files">
+    Visit any component page in the documentation, copy the component code, and paste it into the appropriate directory.
+
+    For example, for Shimmer Button:
+
+    ```
+    src/lib/components/magic-ui/shimmer-button/
+    ├── shimmer-button.svelte
+    └── index.ts
+    ```
+  </Step>
+
+  <Step title="Add Required Styles (if needed)">
+    Some components require additional Tailwind CSS configuration or keyframe animations. Check the component documentation for any required CSS additions.
+
+    For example, Shimmer Button requires these keyframes in your global CSS:
+
+    ```css src/routes/+layout.css
+    @theme inline {
+      --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+      --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+
+      @keyframes shimmer-slide {
+        to {
+          transform: translate(calc(100cqw - 100%), 0);
+        }
+      }
+
+      @keyframes spin-around {
+        0% {
+          transform: translateZ(0) rotate(0);
+        }
+        15%, 35% {
+          transform: translateZ(0) rotate(90deg);
+        }
+        65%, 85% {
+          transform: translateZ(0) rotate(270deg);
+        }
+        100% {
+          transform: translateZ(0) rotate(360deg);
+        }
+      }
+    }
+    ```
+  </Step>
+
+  <Step title="Install Component Dependencies">
+    Some components may require additional npm packages beyond motion-sv. Check the component documentation for specific dependencies.
+
+    Common additional dependencies include:
+    - `runed` - For advanced reactivity utilities
+    - `@neoconfetti/svelte` - For confetti effects
+    - `bits-ui` - For accessible UI primitives
+
+    Install as needed:
+
+    ```bash
+    pnpm add runed @neoconfetti/svelte
+    ```
+  </Step>
+</Steps>
+
+## Project Structure
+
+After installation, your project structure should look like this:
+
+```
+my-app/
+├── src/
+│   ├── lib/
+│   │   ├── components/
+│   │   │   ├── magic-ui/          # Animation components
+│   │   │   │   ├── morphing-text/
+│   │   │   │   ├── shimmer-button/
+│   │   │   │   └── ...
+│   │   │   └── ui/                # Base UI components (shadcn-svelte)
+│   │   └── utils.ts               # Utility functions
+│   ├── routes/
+│   │   ├── +layout.svelte
+│   │   └── +page.svelte
+│   └── app.css                    # Global styles
+├── package.json
+├── svelte.config.js
+├── tailwind.config.js
+└── vite.config.js
+```
+
+## Dependencies Overview
+
+Here's a breakdown of the key dependencies:
+
+### Core Dependencies
+
+- **@sveltejs/kit** (^2.49.1) - SvelteKit framework
+- **svelte** (^5.45.6) - Svelte 5 with runes
+- **tailwindcss** (^4.1.17) - Utility-first CSS framework
+- **motion-sv** (^0.1.10) - Animation library for Svelte
+
+### Supporting Libraries
+
+- **shadcn-svelte** (^1.1.0) - Component CLI and architecture
+- **bits-ui** (^2.15.4) - Headless UI components
+- **clsx** (^2.1.1) - Conditional class name utility
+- **tailwind-merge** (^3.4.0) - Merge Tailwind classes
+- **tailwind-variants** (^3.2.2) - Component variants utility
+
+### Optional Dependencies (Component-Specific)
+
+- **runed** - Advanced reactivity utilities
+- **@neoconfetti/svelte** - Confetti effects
+- **mode-watcher** - Dark mode utilities
+
+<Info>
+  Optional dependencies are only needed for specific components. Check individual component documentation to see what's required.
+</Info>
+
+## Verify Installation
+
+To verify everything is set up correctly:
+
+1. Start the development server:
+
+   ```bash
+   pnpm dev
+   ```
+
+2. Open your browser to `http://localhost:5173`
+
+3. You should see the SvelteKit welcome page with no errors
+
+## Troubleshooting
+
+<Warning>
+  **Common Issues:**
+
+  - **Module not found errors**: Make sure you've installed motion-sv and any component-specific dependencies
+  - **Styles not applying**: Verify Tailwind CSS is properly configured in your project
+  - **Type errors**: Ensure you're using Svelte 5.x (not Svelte 4.x)
+  - **Animation not working**: Check that the component's required CSS keyframes are added to your global styles
+</Warning>
+
+If you encounter issues:
+
+1. Check that all dependencies are installed: `pnpm install`
+2. Verify your `package.json` includes the required dependencies
+3. Make sure you're using Node.js 18.x or later
+4. Clear your `.svelte-kit` build cache and restart the dev server
+
+## Next Steps
+
+Now that you have everything installed, head over to the [Quick Start Guide](/quickstart) to learn how to use your first animation component!

@@ -1,0 +1,331 @@
+---
+title: Shimmer Button
+description: A button component with an animated shimmer effect that slides across the button surface.
+---
+
+# Shimmer Button
+
+A button component with an animated shimmer effect that continuously slides across the button surface, creating a shimmering spotlight that rotates around the button. This sophisticated effect adds a premium, polished look to your interactive elements.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://magicui.design/r/shimmer-button
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://magicui.design/r/shimmer-button
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://magicui.design/r/shimmer-button
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { ShimmerButton } from "$lib/components/magic/shimmer-button";
+</script>
+
+<ShimmerButton>
+  Click me
+</ShimmerButton>
+```
+
+## Examples
+
+### Basic Usage
+
+```svelte
+<script lang="ts">
+  import { ShimmerButton } from "$lib/components/magic/shimmer-button";
+</script>
+
+<ShimmerButton>
+  Get Started
+</ShimmerButton>
+```
+
+### Custom Shimmer Color
+
+```svelte
+<script lang="ts">
+  import { ShimmerButton } from "$lib/components/magic/shimmer-button";
+</script>
+
+<ShimmerButton shimmerColor="#60a5fa">
+  Blue Shimmer
+</ShimmerButton>
+```
+
+### Custom Background
+
+```svelte
+<script lang="ts">
+  import { ShimmerButton } from "$lib/components/magic/shimmer-button";
+</script>
+
+<ShimmerButton background="linear-gradient(to right, #667eea, #764ba2)">
+  Gradient Background
+</ShimmerButton>
+```
+
+### Fast Animation
+
+```svelte
+<script lang="ts">
+  import { ShimmerButton } from "$lib/components/magic/shimmer-button";
+</script>
+
+<ShimmerButton shimmerDuration="1.5s">
+  Fast Shimmer
+</ShimmerButton>
+```
+
+### Fully Customized
+
+```svelte
+<script lang="ts">
+  import { ShimmerButton } from "$lib/components/magic/shimmer-button";
+</script>
+
+<ShimmerButton
+  shimmerColor="#fbbf24"
+  shimmerSize="0.08em"
+  shimmerDuration="2s"
+  borderRadius="8px"
+  background="rgba(15, 23, 42, 1)"
+  class="px-8 py-4 text-lg font-bold"
+>
+  Premium Action
+</ShimmerButton>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to display inside the button.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="shimmerColor" type="string" default="#ffffff">
+  The color of the shimmer effect. Accepts any valid CSS color value (hex, rgb, hsl, etc.).
+</ParamField>
+
+<ParamField path="shimmerSize" type="string" default="0.05em">
+  The size/width of the shimmer spark. Smaller values create a tighter spotlight effect.
+</ParamField>
+
+<ParamField path="borderRadius" type="string" default="100px">
+  The border radius of the button. Accepts any valid CSS border-radius value.
+</ParamField>
+
+<ParamField path="shimmerDuration" type="string" default="3s">
+  The duration of one complete shimmer cycle. Accepts any valid CSS duration value.
+</ParamField>
+
+<ParamField path="background" type="string" default="rgba(0, 0, 0, 1)">
+  The background color or gradient of the button. Accepts any valid CSS background value.
+</ParamField>
+
+<ParamField path="...props" type="HTMLButtonAttributes">
+  All standard HTML button attributes are supported (onclick, disabled, type, etc.).
+</ParamField>
+
+## Component Details
+
+### Animation Architecture
+
+The Shimmer Button creates its effect through a sophisticated multi-layer animation:
+
+1. **Rotating Spark**: A conic gradient rotates continuously
+2. **Sliding Motion**: The spark container slides across the button
+3. **Blur Effect**: A 2px blur softens the shimmer edges
+4. **Highlight Layer**: An inset shadow creates depth and dimension
+5. **Press Feedback**: Scale animation on active state
+
+### Keyframe Animations
+
+The component requires two CSS keyframes (automatically included via registry):
+
+```css
+@keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+  }
+}
+
+@keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+  }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+  }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+  }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+  }
+}
+```
+
+### CSS Variables
+
+The component uses these CSS custom properties for easy customization:
+
+- `--spread`: Angle of the conic gradient (default: 90deg)
+- `--shimmer-color`: Color of the shimmer effect
+- `--radius`: Border radius
+- `--speed`: Animation duration
+- `--cut`: Size of the shimmer spark
+- `--bg`: Background color/gradient
+
+### Layer Structure
+
+The button consists of multiple stacked layers:
+
+```
+┌─────────────────────────────┐
+│ Children (Content)          │
+├─────────────────────────────┤
+│ Highlight Layer (Shadow)    │
+├─────────────────────────────┤
+│ Shimmer Container (Visible) │
+│  └─ Rotating Spark          │
+├─────────────────────────────┤
+│ Backdrop Layer              │
+└─────────────────────────────┘
+```
+
+### Container Query
+
+The component uses container queries (`@container`) for responsive shimmer sizing:
+
+```css
+@container-[size] absolute inset-0 overflow-visible
+```
+
+### Dependencies
+
+- Tailwind CSS - For styling and base animations
+- Modern CSS features - Container queries, CSS variables
+
+## Accessibility
+
+The shimmer effect is purely decorative and doesn't affect button functionality:
+
+- Semantic `<button>` element
+- Full keyboard support
+- Screen reader compatible
+- Clear focus states
+- Active state with scale feedback
+- All ARIA attributes supported
+
+<Warning>
+  The shimmer animation may be distracting for users with motion sensitivity. Consider using `prefers-reduced-motion` media query to disable animations:
+  
+  ```css
+  @media (prefers-reduced-motion: reduce) {
+    .animate-shimmer-slide,
+    .animate-spin-around {
+      animation: none;
+    }
+  }
+  ```
+</Warning>
+
+## Use Cases
+
+The Shimmer Button is ideal for:
+
+- **Premium features**: Highlight pro or paid functionality
+- **Call-to-action**: Draw attention to primary actions
+- **Hero sections**: Create visual interest in landing pages
+- **Success states**: Celebrate completed actions
+- **Luxury brands**: Add sophistication to high-end interfaces
+
+## Performance Notes
+
+The component is optimized for performance:
+
+- **Hardware acceleration**: Uses `transform` and `translateZ(0)`
+- **Layered composition**: Separate layers prevent repaints
+- **Blur optimization**: Limited to a small area
+- **Container queries**: Efficient responsive behavior
+
+### Multiple Instances
+
+Multiple shimmer buttons on the same page perform well due to CSS animation efficiency. Each button's animation is independent and hardware-accelerated.
+
+## Browser Compatibility
+
+<Note>
+  The component requires container queries support for optimal rendering. All modern browsers support this feature.
+</Note>
+
+**Full support:**
+- Chrome/Edge 105+
+- Safari 16+
+- Firefox 110+
+
+**Graceful degradation:**
+In browsers without container query support, the shimmer will still animate but may have sizing issues.
+
+## Customization Tips
+
+### Matching Your Brand
+
+Use your brand colors for the shimmer:
+
+```svelte
+<ShimmerButton 
+  shimmerColor="hsl(var(--primary))"
+  background="hsl(var(--primary-dark))"
+>
+  Brand Shimmer
+</ShimmerButton>
+```
+
+### Subtle Effect
+
+For a more subtle shimmer, use smaller size and slower speed:
+
+```svelte
+<ShimmerButton 
+  shimmerSize="0.02em"
+  shimmerDuration="5s"
+>
+  Subtle Shimmer
+</ShimmerButton>
+```
+
+### Sharp Corners
+
+For a more modern look, use smaller border radius:
+
+```svelte
+<ShimmerButton borderRadius="8px">
+  Modern Style
+</ShimmerButton>
+```
+
+### Gradient Backgrounds
+
+Combine with CSS gradients for extra flair:
+
+```svelte
+<ShimmerButton 
+  background="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+  shimmerColor="#ffffff"
+>
+  Gradient Magic
+</ShimmerButton>
+```

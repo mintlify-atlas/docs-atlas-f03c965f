@@ -1,80 +1,420 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quick Start
+description: Get started with Svelte 5 Animations by adding your first animated component in minutes.
 ---
 
-## Get started in three steps
+# Quick Start
 
-Get your documentation site running locally and make your first customization.
+This guide will walk you through adding your first animation component to your Svelte 5 project. We'll use the **Shimmer Button** component as an example, which creates a beautiful traveling light effect around a button.
 
-### Step 1: Set up your local environment
+<Info>
+  This guide assumes you've already completed the [Installation](/installation) steps. If you haven't, please set up your project first.
+</Info>
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+## Your First Animation Component
 
-### Step 2: Deploy your changes
+<Steps>
+  <Step title="Install the Component">
+    Let's install the Shimmer Button component using the CLI:
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    <CodeGroup>
+      ```bash npm
+      npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/shimmer-button.json
+      ```
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+      ```bash pnpm
+      pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/shimmer-button.json
+      ```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+      ```bash yarn
+      yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/shimmer-button.json
+      ```
+    </CodeGroup>
 
-### Step 3: Go live
+    This will create the following files in your project:
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+    ```
+    src/lib/components/magic-ui/shimmer-button/
+    ├── shimmer-button.svelte
+    └── index.ts
+    ```
 
-## Next steps
+    <Note>
+      Each component follows a consistent structure with a main `.svelte` file and an `index.ts` for clean exports.
+    </Note>
+  </Step>
 
-Now that you have your docs running, explore these key features:
+  <Step title="Add Required CSS">
+    The Shimmer Button requires custom CSS animations. Add these to your global CSS file:
 
-<CardGroup cols={2}>
+    ```css src/routes/+layout.css
+    @theme inline {
+      --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+      --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+      @keyframes shimmer-slide {
+        to {
+          transform: translate(calc(100cqw - 100%), 0);
+        }
+      }
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+      @keyframes spin-around {
+        0% {
+          transform: translateZ(0) rotate(0);
+        }
+        15%, 35% {
+          transform: translateZ(0) rotate(90deg);
+        }
+        65%, 85% {
+          transform: translateZ(0) rotate(270deg);
+        }
+        100% {
+          transform: translateZ(0) rotate(360deg);
+        }
+      }
+    }
+    ```
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+    <Warning>
+      Not all components require additional CSS. Always check the component documentation for specific requirements.
+    </Warning>
+  </Step>
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+  <Step title="Use the Component">
+    Now you can use the Shimmer Button in your pages. Open `src/routes/+page.svelte` and add:
 
-</CardGroup>
+    ```svelte src/routes/+page.svelte
+    <script lang="ts">
+      import { ShimmerButton } from "$lib/components/magic-ui/shimmer-button";
+    </script>
+
+    <div class="flex min-h-screen items-center justify-center">
+      <ShimmerButton>
+        Click me!
+      </ShimmerButton>
+    </div>
+    ```
+
+    That's it! You now have a beautiful animated button with a shimmer effect.
+  </Step>
+
+  <Step title="Customize the Component">
+    All components accept props for customization. Let's customize the shimmer effect:
+
+    ```svelte src/routes/+page.svelte
+    <script lang="ts">
+      import { ShimmerButton } from "$lib/components/magic-ui/shimmer-button";
+    </script>
+
+    <div class="flex min-h-screen flex-col items-center justify-center gap-4">
+      <ShimmerButton 
+        shimmerColor="#ff6b6b"
+        shimmerDuration="2s"
+        background="rgba(139, 0, 0, 1)"
+      >
+        Fast Red Shimmer
+      </ShimmerButton>
+
+      <ShimmerButton 
+        shimmerColor="#4ecdc4"
+        shimmerDuration="4s"
+        borderRadius="12px"
+        class="px-8 py-4 text-lg"
+      >
+        Slow Cyan Shimmer
+      </ShimmerButton>
+
+      <ShimmerButton 
+        shimmerColor="#ffd700"
+        shimmerSize="0.1em"
+      >
+        Thick Gold Shimmer
+      </ShimmerButton>
+    </div>
+    ```
+
+    <Info>
+      **Available Props:**
+      - `shimmerColor` - Color of the shimmer effect (default: `"#ffffff"`)
+      - `shimmerSize` - Thickness of the shimmer (default: `"0.05em"`)
+      - `shimmerDuration` - Animation speed (default: `"3s"`)
+      - `borderRadius` - Border radius (default: `"100px"`)
+      - `background` - Button background (default: `"rgba(0, 0, 0, 1)"`)
+      - `class` - Additional Tailwind classes
+    </Info>
+  </Step>
+</Steps>
+
+## Try Another Component
+
+Let's add a text animation to complement our button:
+
+<Steps>
+  <Step title="Install Animated Gradient Text">
+    Install the Animated Gradient Text component:
+
+    <CodeGroup>
+      ```bash npm
+      npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/animated-gradient-text.json
+      ```
+
+      ```bash pnpm
+      pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/animated-gradient-text.json
+      ```
+
+      ```bash yarn
+      yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/animated-gradient-text.json
+      ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Create a Hero Section">
+    Combine both components to create an eye-catching hero section:
+
+    ```svelte src/routes/+page.svelte
+    <script lang="ts">
+      import { ShimmerButton } from "$lib/components/magic-ui/shimmer-button";
+      import { AnimatedGradientText } from "$lib/components/magic-ui/animated-gradient-text";
+    </script>
+
+    <div class="flex min-h-screen flex-col items-center justify-center gap-8 px-4">
+      <h1 class="text-center text-5xl font-bold md:text-7xl">
+        Welcome to
+        <br />
+        <AnimatedGradientText 
+          colorFrom="#ff6b6b" 
+          colorTo="#4ecdc4"
+          speed={1.5}
+        >
+          Svelte 5 Animations
+        </AnimatedGradientText>
+      </h1>
+      
+      <p class="max-w-2xl text-center text-lg text-gray-600 dark:text-gray-400">
+        Beautiful, copy-paste animation components built with motion-sv and Tailwind CSS.
+      </p>
+
+      <ShimmerButton 
+        shimmerColor="#4ecdc4"
+        class="text-lg"
+        onclick={() => alert('Getting started!')}
+      >
+        Get Started
+      </ShimmerButton>
+    </div>
+    ```
+  </Step>
+</Steps>
+
+## Complete Example: Morphing Text Hero
+
+Here's a more complete example using the Morphing Text component:
+
+<Steps>
+  <Step title="Install Morphing Text">
+    ```bash
+    pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/morphing-text.json
+    ```
+  </Step>
+
+  <Step title="Build the Hero">
+    ```svelte src/routes/+page.svelte
+    <script lang="ts">
+      import { MorphingText } from "$lib/components/magic-ui/morphing-text";
+      import { ShimmerButton } from "$lib/components/magic-ui/shimmer-button";
+      import { AnimatedGradientText } from "$lib/components/magic-ui/animated-gradient-text";
+
+      const words = ["Beautiful", "Smooth", "Modern", "Stunning"];
+    </script>
+
+    <div class="flex min-h-screen flex-col items-center justify-center gap-12 px-4">
+      <!-- Morphing Hero Text -->
+      <div class="flex flex-col items-center gap-4">
+        <div class="text-center">
+          <MorphingText texts={words} class="text-6xl font-bold md:text-8xl" />
+        </div>
+        
+        <AnimatedGradientText>
+          Animations for Svelte 5
+        </AnimatedGradientText>
+      </div>
+
+      <!-- Description -->
+      <p class="max-w-2xl text-center text-xl text-gray-600 dark:text-gray-400">
+        Copy-paste animation components powered by motion-sv. No npm bloat, 
+        full control over your code.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <ShimmerButton onclick={() => window.location.href = '/installation'}>
+          Get Started
+        </ShimmerButton>
+        
+        <button 
+          class="rounded-lg border border-gray-300 px-6 py-3 font-medium transition-colors hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
+          onclick={() => window.open('https://github.com/SikandarJODD/animations', '_blank')}
+        >
+          View on GitHub
+        </button>
+      </div>
+    </div>
+    ```
+  </Step>
+</Steps>
+
+## Understanding Component Structure
+
+All Svelte 5 Animations components follow this pattern:
+
+```svelte
+<script lang="ts">
+  import { cn } from "$lib/utils";
+  import type { Snippet } from "svelte";
+  
+  // Props interface with types
+  interface ComponentProps {
+    children: Snippet;        // Svelte 5 snippet for content
+    class?: string;           // Additional CSS classes
+    // ... component-specific props
+  }
+
+  // Using Svelte 5 runes
+  let { 
+    children, 
+    class: className,
+    ...props 
+  }: ComponentProps = $props();
+</script>
+
+<!-- Template with Tailwind classes -->
+<div class={cn("base-classes", className)} {...props}>
+  {@render children?.()}
+</div>
+```
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+  **Key Svelte 5 Features:**
+  - `$props()` rune for reactive props
+  - `Snippet` type for renderable content
+  - `{@render children?.()}` for rendering child content
+  - TypeScript interfaces for type safety
 </Note>
+
+## Common Patterns
+
+### Combining Multiple Animations
+
+You can layer multiple animation components:
+
+```svelte
+<script lang="ts">
+  import { BlurFade } from "$lib/components/magic-ui/blur-fade";
+  import { ShimmerButton } from "$lib/components/magic-ui/shimmer-button";
+</script>
+
+<BlurFade delay={0.2}>
+  <ShimmerButton>
+    Fades in then shimmers!
+  </ShimmerButton>
+</BlurFade>
+```
+
+### Conditional Rendering
+
+Use Svelte's reactivity with animations:
+
+```svelte
+<script lang="ts">
+  import { NumberTicker } from "$lib/components/magic-ui/number-ticker";
+  
+  let count = $state(0);
+  let showAnimation = $state(false);
+</script>
+
+<button onclick={() => { count += 100; showAnimation = true; }}>
+  Increment
+</button>
+
+{#if showAnimation}
+  <NumberTicker value={count} />
+{/if}
+```
+
+### Responsive Animations
+
+Use Tailwind's responsive utilities:
+
+```svelte
+<MorphingText 
+  texts={words} 
+  class="text-4xl md:text-6xl lg:text-8xl"
+/>
+```
+
+## Component Discovery
+
+To find the component URL for CLI installation:
+
+1. Visit any component page in the documentation
+2. Look for the installation command
+3. The URL follows this pattern:
+   ```
+   https://sv-animations.vercel.app/r/{component-name}.json
+   ```
+
+For example:
+- Morphing Text: `https://sv-animations.vercel.app/r/morphing-text.json`
+- Shimmer Button: `https://sv-animations.vercel.app/r/shimmer-button.json`
+- Animated Beam: `https://sv-animations.vercel.app/r/animated-beam.json`
+
+## Next Steps
+
+Now that you understand the basics:
+
+<CardGroup cols={2}>
+  <Card title="Browse Components" icon="grid" href="/components">
+    Explore all 56+ available animation components
+  </Card>
+  
+  <Card title="Learn Patterns" icon="book" href="/guides">
+    Discover advanced patterns and techniques
+  </Card>
+  
+  <Card title="View Examples" icon="code" href="/examples">
+    See complete examples and use cases
+  </Card>
+  
+  <Card title="Customization" icon="palette" href="/customization">
+    Learn how to customize and extend components
+  </Card>
+</CardGroup>
+
+## Tips & Best Practices
+
+<Warning>
+  **Performance Considerations:**
+  - Avoid using too many heavy animations on a single page
+  - Use `IntersectionObserver` (via motion-sv) to trigger animations when elements are visible
+  - Test performance on lower-end devices
+  - Consider prefers-reduced-motion for accessibility
+</Warning>
+
+<Info>
+  **Customization Tips:**
+  - All components support the `class` prop for additional Tailwind classes
+  - Use CSS variables for theme-based customization
+  - Modify the component source directly for deeper changes
+  - Combine components creatively for unique effects
+</Info>
+
+## Getting Help
+
+If you run into issues:
+
+- Check the component's documentation page for specific requirements
+- Visit the [GitHub repository](https://github.com/SikandarJODD/animations) to report issues
+- Follow [@Sikandar_Bhide](https://twitter.com/Sikandar_Bhide) on Twitter for updates
+- Review the source code - it's in your project!
+
+Happy animating!

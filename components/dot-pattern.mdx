@@ -1,0 +1,140 @@
+---
+title: Dot Pattern
+description: A customizable dot pattern background component with optional glow animations and mask effects.
+---
+
+# Dot Pattern
+
+A customizable dot pattern background component that creates a repeating grid of dots. Supports optional glow animations and mask effects for beautiful background designs.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/dot-pattern.json
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/dot-pattern.json
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/dot-pattern.json
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { DotPattern } from "$lib/components/magic-ui/dot-pattern";
+  import { cn } from "$lib/utils";
+</script>
+
+<div class="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border">
+  <DotPattern
+    class={cn(
+      "mask-[radial-gradient(300px_circle_at_center,white,transparent)]"
+    )}
+  />
+  <p class="z-10 whitespace-pre-wrap text-center text-5xl font-medium tracking-tighter text-black dark:text-white">
+    Dot Pattern
+  </p>
+</div>
+```
+
+## Props
+
+<ParamField path="width" type="number" default="16">
+  The width of the pattern tile in pixels.
+</ParamField>
+
+<ParamField path="height" type="number" default="16">
+  The height of the pattern tile in pixels.
+</ParamField>
+
+<ParamField path="x" type="number" default="0">
+  The x-offset of the entire pattern.
+</ParamField>
+
+<ParamField path="y" type="number" default="0">
+  The y-offset of the entire pattern.
+</ParamField>
+
+<ParamField path="cx" type="number" default="1">
+  The x-offset of individual dots within the pattern tile.
+</ParamField>
+
+<ParamField path="cy" type="number" default="1">
+  The y-offset of individual dots within the pattern tile.
+</ParamField>
+
+<ParamField path="cr" type="number" default="1">
+  The radius of each dot in pixels.
+</ParamField>
+
+<ParamField path="glow" type="boolean" default="false">
+  Whether dots should have a glowing animation effect with pulsing opacity and scale.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the SVG element.
+</ParamField>
+
+## Examples
+
+### Basic Dot Pattern
+
+```svelte
+<DotPattern />
+```
+
+### With Glow Effect
+
+```svelte
+<DotPattern
+  glow={true}
+  class={cn(
+    "mask-[radial-gradient(300px_circle_at_center,white,transparent)]"
+  )}
+/>
+```
+
+### With Linear Gradient Mask
+
+```svelte
+<DotPattern
+  class="mask-[linear-gradient(to_bottom_right,white,transparent,transparent)]"
+/>
+```
+
+### Custom Dot Size and Spacing
+
+```svelte
+<DotPattern
+  width={24}
+  height={24}
+  cr={2}
+  class="text-blue-500"
+/>
+```
+
+### Larger Dots with Glow
+
+```svelte
+<DotPattern
+  width={32}
+  height={32}
+  cr={3}
+  glow={true}
+  class="text-purple-500 mask-[radial-gradient(500px_circle_at_center,white,transparent)]"
+/>
+```
+
+## Notes
+
+- The component uses motion-sv for glow animations
+- Glow effect creates random pulsing animations for each dot
+- Use CSS masks to create focused or gradient reveal effects
+- The pattern automatically adapts to container size
+- Each dot can have different animation timing when glow is enabled

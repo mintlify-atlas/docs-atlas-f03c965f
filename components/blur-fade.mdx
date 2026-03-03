@@ -1,0 +1,153 @@
+---
+title: Blur Fade
+description: A component that animates content with blur and fade effects, supporting directional movement and intersection observer triggering.
+---
+
+<ComponentPreview name="blur-fade-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@latest add blur-fade
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Install dependencies</Step>
+      ```bash
+      npm install motion-sv runed
+      ```
+      <Step>Copy component source</Step>
+      Copy the component source code from the [repository](https://github.com/example/magic-ui).
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import BlurFade from "$lib/components/magic/blur-fade/blur-fade.svelte";
+</script>
+
+<BlurFade>
+  <h1>This content will fade in with a blur effect</h1>
+</BlurFade>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to animate.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the wrapper div.
+</ParamField>
+
+<ParamField path="variant" type="object">
+  Custom animation variant with `hidden` and `visible` states. Each state should define a `y` position value.
+  
+  ```ts
+  {
+    hidden: { y: number };
+    visible: { y: number };
+  }
+  ```
+</ParamField>
+
+<ParamField path="duration" type="number" default="0.4">
+  Duration of the animation in seconds.
+</ParamField>
+
+<ParamField path="delay" type="number" default="0">
+  Delay before the animation starts in seconds. An additional 0.04s is automatically added.
+</ParamField>
+
+<ParamField path="offset" type="number" default="6">
+  Distance in pixels the content moves during animation.
+</ParamField>
+
+<ParamField path="direction" type="'up' | 'down' | 'left' | 'right'" default="'down'">
+  Direction from which the content animates in.
+</ParamField>
+
+<ParamField path="inView" type="boolean" default="false">
+  When true, the animation only triggers when the element enters the viewport.
+</ParamField>
+
+<ParamField path="inViewMargin" type="string" default="'-50px'">
+  Root margin for the intersection observer. Accepts CSS margin values.
+</ParamField>
+
+<ParamField path="blur" type="string" default="'6px'">
+  Initial blur amount applied during the hidden state.
+</ParamField>
+
+## Examples
+
+### Different Directions
+
+```svelte
+<BlurFade direction="up">
+  <p>Fades in from below</p>
+</BlurFade>
+
+<BlurFade direction="left">
+  <p>Fades in from the right</p>
+</BlurFade>
+
+<BlurFade direction="right">
+  <p>Fades in from the left</p>
+</BlurFade>
+```
+
+### With Intersection Observer
+
+```svelte
+<BlurFade inView inViewMargin="-100px">
+  <p>Only animates when scrolled into view</p>
+</BlurFade>
+```
+
+### Staggered Animation
+
+```svelte
+{#each items as item, i}
+  <BlurFade delay={i * 0.1}>
+    <div>{item}</div>
+  </BlurFade>
+{/each}
+```
+
+### Custom Blur Amount
+
+```svelte
+<BlurFade blur="12px" duration={0.8}>
+  <h1>Heavy blur effect</h1>
+</BlurFade>
+```
+
+### Custom Variant
+
+```svelte
+<BlurFade 
+  variant={{
+    hidden: { y: 20 },
+    visible: { y: 0 }
+  }}
+>
+  <p>Custom animation variant</p>
+</BlurFade>
+```
+
+## Features
+
+- Smooth blur and fade animations
+- Four directional options (up, down, left, right)
+- Intersection observer support for scroll-triggered animations
+- Customizable blur amount and duration
+- Perfect for staggered list animations
+- Accessible with proper semantic HTML

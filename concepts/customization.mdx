@@ -1,0 +1,497 @@
+---
+title: Customization
+description: Learn how to customize Svelte 5 animation components to match your design system
+---
+
+## Overview
+
+Svelte 5 animation components are built with customization in mind. You can modify animations, colors, timing, and behavior through props, CSS variables, and Tailwind classes.
+
+## Customization via Props
+
+Every component accepts props that control its appearance and behavior.
+
+### Timing and Duration
+
+Control animation speed and delays:
+
+<CodeGroup>
+```svelte Border Beam
+<script>
+  import { BorderBeam } from "$lib/components/magic/border-beam";
+</script>
+
+<div class="relative">
+  <BorderBeam
+    duration={8}
+    delay={0.5}
+    size={100}
+  />
+</div>
+```
+
+```svelte Marquee
+<script>
+  import { Marquee } from "$lib/components/magic/marquee";
+</script>
+
+<Marquee
+  repeat={6}
+  pauseOnHover={true}
+  reverse={false}
+>
+  {#snippet children()}
+    <!-- Your content -->
+  {/snippet}
+</Marquee>
+```
+</CodeGroup>
+
+### Colors and Gradients
+
+Customize colors using props:
+
+<CodeGroup>
+```svelte Animated Beam
+<script>
+  import { AnimatedBeam } from "$lib/components/magic/animated-beam";
+</script>
+
+<AnimatedBeam
+  containerRef={container}
+  fromRef={from}
+  toRef={to}
+  gradientStartColor="#ffaa40"
+  gradientStopColor="#9c40ff"
+  pathColor="gray"
+  pathOpacity={0.2}
+/>
+```
+
+```svelte Shine Border
+<script>
+  import { ShineBorder } from "$lib/components/magic/shine-border";
+</script>
+
+<ShineBorder
+  borderWidth={2}
+  duration={14}
+  shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+/>
+```
+</CodeGroup>
+
+### Size and Dimensions
+
+Adjust component dimensions:
+
+```svelte
+<script>
+  import { OrbitingCircles } from "$lib/components/magic/orbiting-circles";
+</script>
+
+<OrbitingCircles
+  radius={80}
+  duration={20}
+  delay={10}
+  reverse={true}
+/>
+```
+
+## Tailwind CSS Customization
+
+All components accept a `class` prop for Tailwind utilities.
+
+### Layout and Spacing
+
+```svelte
+<BorderBeam
+  class="rounded-xl"
+  size={200}
+/>
+
+<Meteors
+  class="absolute inset-0 z-0"
+  number={30}
+/>
+
+<DotPattern
+  class="h-screen w-full"
+  width={20}
+  height={20}
+/>
+```
+
+### Color Overrides
+
+Use Tailwind color utilities:
+
+```svelte
+<AnimatedGradientText
+  class="bg-gradient-to-r from-purple-500 to-pink-500"
+>
+  Gradient Text
+</AnimatedGradientText>
+
+<PulsatingButton
+  class="bg-blue-500 hover:bg-blue-600"
+  pulseColor="rgb(59, 130, 246)"
+>
+  Click Me
+</PulsatingButton>
+```
+
+### Responsive Design
+
+Make components responsive:
+
+```svelte
+<RetroGrid
+  class="h-[400px] md:h-[600px] lg:h-[800px]"
+  cellSize={60}
+/>
+
+<Marquee
+  class="[--duration:20s] md:[--duration:40s]"
+>
+  {#snippet children()}
+    <!-- Content -->
+  {/snippet}
+</Marquee>
+```
+
+## CSS Variables
+
+Components use CSS variables for fine-grained control.
+
+### Animation Duration
+
+Override default durations:
+
+```svelte
+<Marquee
+  class="[--duration:30s] [--gap:2rem]"
+>
+  {#snippet children()}
+    <!-- Content -->
+  {/snippet}
+</Marquee>
+
+<OrbitingCircles
+  class="[--duration:15s] [--radius:100px]"
+/>
+```
+
+### Border and Size Variables
+
+```svelte
+<ShineBorder
+  class="[--border-width:3px]"
+  style="--duration: 10s;"
+/>
+
+<Ripple
+  class="[--duration:3s]"
+  mainCircleSize={200}
+  mainCircleOpacity={0.3}
+  numCircles={5}
+/>
+```
+
+### Custom Keyframes
+
+Modify animation behavior in your global CSS:
+
+```css app.css
+@keyframes custom-shine {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.custom-shine-animation {
+  animation: custom-shine 8s ease infinite;
+}
+```
+
+## Component-Specific Customization
+
+### Text Animations
+
+Customize text animation effects:
+
+<CodeGroup>
+```svelte Hyper Text
+<script>
+  import { HyperText } from "$lib/components/magic/hyper-text";
+</script>
+
+<HyperText
+  text="Custom Animation"
+  duration={800}
+  animateOnLoad={true}
+  class="text-4xl font-bold"
+/>
+```
+
+```svelte Typing Animation
+<script>
+  import { TypingAnimation } from "$lib/components/magic/typing-animation";
+</script>
+
+<TypingAnimation
+  text="Type this out..."
+  duration={50}
+  class="text-2xl"
+/>
+```
+</CodeGroup>
+
+### Background Patterns
+
+Customize pattern backgrounds:
+
+<CodeGroup>
+```svelte Grid Pattern
+<script>
+  import { GridPattern } from "$lib/components/magic/grid-pattern";
+</script>
+
+<GridPattern
+  width={40}
+  height={40}
+  strokeDasharray="4 2"
+  class="opacity-50"
+  squares={[
+    [4, 4],
+    [8, 8],
+    [12, 12]
+  ]}
+/>
+```
+
+```svelte Dot Pattern
+<script>
+  import { DotPattern } from "$lib/components/magic/dot-pattern";
+</script>
+
+<DotPattern
+  width={16}
+  height={16}
+  cx={2}
+  cy={2}
+  cr={1.5}
+  class="fill-gray-400/20"
+/>
+```
+</CodeGroup>
+
+### Interactive Components
+
+Customize interactive behaviors:
+
+```svelte
+<script>
+  import { MagicCard } from "$lib/components/magic/magic-card";
+</script>
+
+<MagicCard
+  gradientSize={300}
+  gradientColor="#D9D9D955"
+  gradientOpacity={0.8}
+  class="cursor-pointer border border-gray-200"
+>
+  <div class="p-6">
+    <!-- Card content -->
+  </div>
+</MagicCard>
+```
+
+## Theme Integration
+
+Integrate with your design system colors.
+
+### Using Tailwind Theme Colors
+
+```svelte
+<script>
+  import { AuroraText } from "$lib/components/magic/aurora-text";
+</script>
+
+<AuroraText
+  colors={[
+    "rgb(var(--color-primary))",
+    "rgb(var(--color-secondary))",
+    "rgb(var(--color-accent))"
+  ]}
+  class="text-6xl font-bold"
+>
+  Aurora Effect
+</AuroraText>
+```
+
+### Dark Mode Support
+
+Components work with mode-watcher or native dark mode:
+
+```svelte
+<script>
+  import { RetroGrid } from "$lib/components/magic/retro-grid";
+</script>
+
+<RetroGrid
+  class="dark:opacity-30"
+  angle={65}
+/>
+
+<DotPattern
+  class="fill-black/10 dark:fill-white/10"
+/>
+```
+
+## Motion and Animation Control
+
+### Reduce Motion Support
+
+All components respect `prefers-reduced-motion`:
+
+```svelte
+<BorderBeam
+  class="motion-safe:animate-border-beam motion-reduce:opacity-50"
+/>
+
+<Marquee
+  class="motion-reduce:animate-none"
+>
+  {#snippet children()}
+    <!-- Content -->
+  {/snippet}
+</Marquee>
+```
+
+### Custom Easing
+
+For motion-sv based components:
+
+```svelte
+<script>
+  import { BorderBeam } from "$lib/components/magic/border-beam";
+</script>
+
+<BorderBeam
+  transition={{
+    ease: "easeInOut",
+    duration: 5,
+    repeat: Infinity
+  }}
+/>
+```
+
+## Advanced Customization
+
+### Extending Components
+
+Create your own wrapper components:
+
+```svelte MyCustomBorder.svelte
+<script lang="ts">
+  import { ShineBorder } from "$lib/components/magic/shine-border";
+  
+  interface Props {
+    variant?: "primary" | "secondary" | "accent";
+  }
+  
+  let { variant = "primary" }: Props = $props();
+  
+  const colorMap = {
+    primary: ["#3B82F6", "#8B5CF6"],
+    secondary: ["#EC4899", "#F43F5E"],
+    accent: ["#F59E0B", "#EF4444"]
+  };
+</script>
+
+<ShineBorder
+  shineColor={colorMap[variant]}
+  borderWidth={2}
+  duration={12}
+>
+  <slot />
+</ShineBorder>
+```
+
+### Composing Multiple Animations
+
+Combine multiple animation components:
+
+```svelte
+<script>
+  import { BorderBeam } from "$lib/components/magic/border-beam";
+  import { ShineBorder } from "$lib/components/magic/shine-border";
+  import { Meteors } from "$lib/components/magic/meteors";
+</script>
+
+<div class="relative rounded-xl overflow-hidden">
+  <Meteors number={20} />
+  <BorderBeam duration={12} size={200} />
+  <ShineBorder borderWidth={1} />
+  
+  <div class="relative z-10 p-8">
+    <!-- Your content -->
+  </div>
+</div>
+```
+
+## Performance Optimization
+
+### Lazy Loading
+
+Load components only when needed:
+
+```svelte
+<script>
+  import { onMount } from "svelte";
+  
+  let AnimatedBeam;
+  
+  onMount(async () => {
+    const module = await import("$lib/components/magic/animated-beam");
+    AnimatedBeam = module.AnimatedBeam;
+  });
+</script>
+
+{#if AnimatedBeam}
+  <AnimatedBeam {...props} />
+{/if}
+```
+
+### Conditional Animations
+
+Render animations based on viewport:
+
+```svelte
+<script>
+  import { browser } from "$app/environment";
+  
+  const shouldAnimate = browser && window.matchMedia("(min-width: 768px)").matches;
+</script>
+
+{#if shouldAnimate}
+  <AnimatedGridPattern />
+{:else}
+  <div class="static-background" />
+{/if}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Component Structure" icon="cube" href="/concepts/component-structure">
+    Learn about component architecture
+  </Card>
+  <Card title="Installation Methods" icon="download" href="/concepts/installation-methods">
+    Explore installation options
+  </Card>
+</CardGroup>

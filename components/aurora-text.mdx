@@ -1,0 +1,228 @@
+---
+title: Aurora Text
+description: A text component with animated aurora gradient effect that smoothly transitions between customizable colors.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/aurora-text
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/aurora-text
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/aurora-text
+```
+
+</CodeGroup>
+
+<Note>
+This component requires CSS keyframes to be added to your global styles. The installation command will handle this automatically.
+</Note>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { AuroraText } from "$lib/components/magic/aurora-text";
+</script>
+
+<AuroraText>
+  Beautiful Aurora Effect
+</AuroraText>
+```
+
+## Examples
+
+### Basic Example
+
+Simple aurora text with default gradient colors.
+
+```svelte
+<AuroraText>
+  Aurora Borealis
+</AuroraText>
+```
+
+### Custom Colors
+
+Define your own color palette for the aurora gradient.
+
+```svelte
+<AuroraText colors={["#60a5fa", "#a78bfa", "#f472b6", "#fb923c"]}>
+  Custom Aurora Colors
+</AuroraText>
+```
+
+### Custom Speed
+
+Control the animation speed with the `speed` prop.
+
+```svelte
+<AuroraText speed={2}>
+  Fast Aurora
+</AuroraText>
+
+<AuroraText speed={0.5}>
+  Slow Aurora
+</AuroraText>
+```
+
+### Large Heading
+
+Use in hero sections with large typography.
+
+```svelte
+<AuroraText class="text-6xl font-bold">
+  Amazing Product
+</AuroraText>
+```
+
+### Centered Display
+
+Center the text and add spacing.
+
+```svelte
+<div class="flex items-center justify-center py-12">
+  <AuroraText class="text-5xl font-extrabold">
+    Welcome
+  </AuroraText>
+</div>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The text content to display with the aurora effect.
+</ParamField>
+
+<ParamField path="colors" type="string[]" default='["#FF0080", "#7928CA", "#0070F3", "#38bdf8"]'>
+  Array of color values for the gradient. The gradient will cycle through these colors and loop back to the first.
+</ParamField>
+
+<ParamField path="speed" type="number" default={1}>
+  The speed multiplier for the animation. Higher values make the animation faster. The base duration is 10 seconds.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the outer container.
+</ParamField>
+
+## CSS Animation
+
+The component uses a complex CSS keyframe animation that combines background position changes with rotation and scaling:
+
+```css
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+  }
+  25% {
+    background-position: 50% 100%;
+    transform: rotate(5deg) scale(1.1);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: rotate(-3deg) scale(0.95);
+  }
+  75% {
+    background-position: 50% 0%;
+    transform: rotate(3deg) scale(1.05);
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+  }
+}
+```
+
+The animation class:
+```css
+.animate-aurora {
+  animation: aurora 8s ease-in-out infinite alternate;
+}
+```
+
+## How It Works
+
+The aurora effect is created through:
+
+1. **Diagonal gradient**: A 135-degree linear gradient cycling through the provided colors
+2. **Large background size**: 200% to allow for smooth transitions
+3. **Background clipping**: The gradient is clipped to text using `bg-clip-text`
+4. **Combined animations**: Background position shifts combined with subtle rotation and scale transforms
+5. **Accessibility**: Screen reader text ensures the content is accessible
+
+## Customization
+
+### Monochrome Aurora
+
+Use shades of a single color for a more subtle effect.
+
+```svelte
+<AuroraText colors={["#3b82f6", "#60a5fa", "#93c5fd", "#dbeafe"]}>
+  Blue Aurora
+</AuroraText>
+```
+
+### Vibrant Neon Effect
+
+Use bright, saturated colors for a neon look.
+
+```svelte
+<AuroraText colors={["#ff00ff", "#00ffff", "#ffff00", "#ff00ff"]}>
+  Neon Vibes
+</AuroraText>
+```
+
+### Pause on Hover
+
+Freeze the animation when hovering.
+
+```svelte
+<AuroraText class="hover:[animation-play-state:paused]">
+  Hover to pause
+</AuroraText>
+```
+
+### Warm Color Palette
+
+Create a warm, sunset-like effect.
+
+```svelte
+<AuroraText colors={["#ff6b6b", "#feca57", "#ff9ff3", "#ff6348"]}>
+  Sunset Aurora
+</AuroraText>
+```
+
+### Cool Color Palette
+
+Create a cool, ice-like effect.
+
+```svelte
+<AuroraText colors={["#667eea", "#764ba2", "#4facfe", "#00f2fe"]}>
+  Ice Aurora
+</AuroraText>
+```
+
+## Use Cases
+
+- **Hero headings**: Make landing page headlines stand out
+- **Brand names**: Emphasize company or product names
+- **Call-to-action text**: Draw attention to important CTAs
+- **Feature titles**: Highlight key features or benefits
+- **Event announcements**: Make announcements more eye-catching
+
+<Info>
+The aurora effect includes subtle rotation and scaling transforms that create a more dynamic, organic animation compared to simple gradient shifts.
+</Info>
+
+<Warning>
+Use this effect sparingly on a page. Too many animated gradients can be visually overwhelming and impact performance.
+</Warning>

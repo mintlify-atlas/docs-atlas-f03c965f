@@ -1,0 +1,150 @@
+---
+title: Pixel Image
+description: An image component that reveals itself through a pixelated grid animation with optional grayscale to color transition.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add pixel-image
+```
+
+## Usage
+
+```svelte
+<script>
+  import PixelImage from '$lib/components/magic/pixel-image/pixel-image.svelte';
+</script>
+
+<PixelImage src="/images/example.jpg" />
+```
+
+## Examples
+
+### Basic Usage
+
+```svelte
+<script>
+  import PixelImage from '$lib/components/magic/pixel-image/pixel-image.svelte';
+</script>
+
+<PixelImage src="/images/photo.jpg" />
+```
+
+### Custom Grid Size
+
+```svelte
+<PixelImage src="/images/photo.jpg" grid="8x8" />
+```
+
+### Without Grayscale Animation
+
+```svelte
+<PixelImage
+  src="/images/photo.jpg"
+  grayscaleAnimation={false}
+/>
+```
+
+### Custom Animation Timing
+
+```svelte
+<PixelImage
+  src="/images/photo.jpg"
+  pixelFadeInDuration={1500}
+  maxAnimationDelay={2000}
+  colorRevealDelay={2500}
+/>
+```
+
+### Custom Grid Dimensions
+
+```svelte
+<PixelImage
+  src="/images/photo.jpg"
+  customGrid={{ rows: 10, cols: 5 }}
+/>
+```
+
+### Animate Every Time (Not Once)
+
+```svelte
+<PixelImage
+  src="/images/photo.jpg"
+  once={false}
+/>
+```
+
+## Props
+
+<ParamField path="src" type="string" required>
+  The URL of the image to display.
+</ParamField>
+
+<ParamField path="grid" type="'6x4' | '8x8' | '8x3' | '4x6' | '3x8'" default="6x4">
+  Predefined grid size for the pixelated effect. Options:
+  - `"6x4"` - 6 columns, 4 rows (default)
+  - `"8x8"` - 8 columns, 8 rows
+  - `"8x3"` - 8 columns, 3 rows
+  - `"4x6"` - 4 columns, 6 rows
+  - `"3x8"` - 3 columns, 8 rows
+</ParamField>
+
+<ParamField path="customGrid" type="{ rows: number; cols: number }">
+  Custom grid dimensions. Must have rows and cols between 1 and 16. Overrides the `grid` prop if provided.
+</ParamField>
+
+<ParamField path="grayscaleAnimation" type="boolean" default={true}>
+  Whether to animate from grayscale to color. When true, the image starts in grayscale and transitions to full color.
+</ParamField>
+
+<ParamField path="pixelFadeInDuration" type="number" default={1000}>
+  Duration in milliseconds for each pixel piece to fade in.
+</ParamField>
+
+<ParamField path="maxAnimationDelay" type="number" default={1200}>
+  Maximum random delay in milliseconds before a pixel piece starts fading in.
+</ParamField>
+
+<ParamField path="colorRevealDelay" type="number" default={1300}>
+  Delay in milliseconds before the grayscale-to-color transition starts (only applies if `grayscaleAnimation` is true).
+</ParamField>
+
+<ParamField path="once" type="boolean" default={false}>
+  If true, the animation only plays once when the element enters the viewport. If false, the animation resets and replays each time the element enters/exits the viewport.
+</ParamField>
+
+## Features
+
+- Pixelated reveal animation with randomized delays
+- Optional grayscale to color transition
+- Multiple predefined grid sizes
+- Custom grid dimensions support
+- Intersection observer triggers animation when visible
+- Configurable animation timing
+- Rounded corners on the image
+- Responsive sizing
+
+## How It Works
+
+1. The image is divided into a grid of pieces using CSS clip-path
+2. Each piece has a random delay before fading in
+3. When the component enters the viewport, pieces fade in progressively
+4. If grayscale animation is enabled, the image transitions from grayscale to color after all pieces are visible
+5. If `once` is false, the animation resets when leaving and re-entering the viewport
+
+## Grid Constraints
+
+- Minimum grid size: 1x1
+- Maximum grid size: 16x16
+- Custom grids must have integer values for rows and cols
+
+## Dependencies
+
+- motion-sv (for `useInView`)
+- runed (for `watch` reactive utility)
+
+## Accessibility
+
+- Each pixel piece includes an alt attribute with a descriptive label
+- Images are marked as non-draggable for better UX

@@ -1,0 +1,133 @@
+---
+title: Neon Gradient Card
+description: A card component with animated neon gradient borders and customizable colors, border size, and radius.
+---
+
+<ComponentPreview name="neon-gradient-card-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@next add neon-gradient-card
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Copy component source</Step>
+      <ComponentSource name="neon-gradient-card" />
+      <Step>Update Tailwind config</Step>
+      Add the following animations to your `tailwind.config.js`:
+      ```js
+      {
+        theme: {
+          extend: {
+            animation: {
+              'background-position-spin': 'background-position-spin 3000ms infinite alternate'
+            },
+            keyframes: {
+              'background-position-spin': {
+                '0%': { backgroundPosition: 'top center' },
+                '100%': { backgroundPosition: 'bottom center' }
+              }
+            }
+          }
+        }
+      }
+      ```
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { NeonGradientCard } from "$lib/components/magic/neon-gradient-card";
+</script>
+
+<NeonGradientCard>
+  <div class="text-lg font-semibold">Your content here</div>
+  <p class="text-sm">With a beautiful neon gradient border</p>
+</NeonGradientCard>
+```
+
+## Examples
+
+### Custom Colors
+
+<ComponentPreview name="neon-gradient-card-custom-colors" />
+
+```svelte
+<NeonGradientCard
+  neonColors={{
+    firstColor: '#ff6b6b',
+    secondColor: '#4ecdc4'
+  }}
+>
+  <h3>Custom Neon Colors</h3>
+  <p>Red to cyan gradient</p>
+</NeonGradientCard>
+```
+
+### Custom Border Size and Radius
+
+<ComponentPreview name="neon-gradient-card-custom-border" />
+
+```svelte
+<NeonGradientCard borderSize={4} borderRadius={32}>
+  <h3>Larger Border</h3>
+  <p>More rounded corners</p>
+</NeonGradientCard>
+```
+
+### Smaller Card
+
+<ComponentPreview name="neon-gradient-card-small" />
+
+```svelte
+<NeonGradientCard class="w-64" borderSize={1} borderRadius={12}>
+  <div class="text-center">
+    <h4>Compact Card</h4>
+    <p class="text-xs">Subtle neon effect</p>
+  </div>
+</NeonGradientCard>
+```
+
+## Props
+
+<ParamField path="borderSize" type="number" default="2">
+  The width of the neon border in pixels.
+</ParamField>
+
+<ParamField path="borderRadius" type="number" default="20">
+  The border radius of the card in pixels.
+</ParamField>
+
+<ParamField path="neonColors" type="NeonColorsProps" default="{ firstColor: '#ff00aa', secondColor: '#00FFF1' }">
+  An object containing `firstColor` and `secondColor` properties that define the gradient colors.
+  
+  ```typescript
+  interface NeonColorsProps {
+    firstColor: string;
+    secondColor: string;
+  }
+  ```
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the card container.
+</ParamField>
+
+<ParamField path="children" type="Snippet">
+  The content to render inside the card.
+</ParamField>
+
+## Features
+
+- **Animated Gradient**: The neon border continuously animates between the two specified colors
+- **Glow Effect**: Includes a blur effect that creates a glowing appearance
+- **Responsive**: Automatically adjusts to container size changes
+- **Dark Mode Support**: Works seamlessly with light and dark themes
+- **Customizable**: Full control over colors, border size, and border radius

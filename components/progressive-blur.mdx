@@ -1,0 +1,182 @@
+---
+title: Progressive Blur
+description: A component that creates a progressive blur effect at the top, bottom, or both edges of a container with customizable blur levels and positioning.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add https://acme.com/r/progressive-blur
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { ProgressiveBlur } from "magic/progressive-blur";
+</script>
+
+<div class="relative h-96 overflow-auto">
+  <div class="p-8">
+    <!-- Your scrollable content -->
+  </div>
+  <ProgressiveBlur />
+</div>
+```
+
+## Examples
+
+### Bottom Blur (Default)
+
+```svelte
+<script lang="ts">
+  import { ProgressiveBlur } from "magic/progressive-blur";
+</script>
+
+<div class="relative h-96 overflow-auto">
+  <div class="p-8">
+    <p>Long scrollable content...</p>
+    <!-- More content -->
+  </div>
+  <ProgressiveBlur position="bottom" height="30%" />
+</div>
+```
+
+### Top Blur
+
+```svelte
+<div class="relative h-96 overflow-auto">
+  <ProgressiveBlur position="top" height="20%" />
+  <div class="p-8">
+    <p>Content with top blur...</p>
+  </div>
+</div>
+```
+
+### Both Top and Bottom
+
+```svelte
+<div class="relative h-96 overflow-auto">
+  <div class="p-8">
+    <p>Content with blur on both edges...</p>
+  </div>
+  <ProgressiveBlur position="both" />
+</div>
+```
+
+### Custom Blur Levels
+
+```svelte
+<div class="relative h-96 overflow-auto">
+  <div class="p-8">
+    <p>Content with custom blur progression...</p>
+  </div>
+  <ProgressiveBlur 
+    blurLevels={[1, 2, 4, 8, 16, 32]} 
+    height="40%"
+  />
+</div>
+```
+
+### Over Scrollable List
+
+```svelte
+<div class="relative h-[500px] overflow-auto">
+  <ul class="p-4 space-y-2">
+    {#each items as item}
+      <li class="p-4 bg-white rounded-lg">{item.name}</li>
+    {/each}
+  </ul>
+  <ProgressiveBlur position="both" height="25%" />
+</div>
+```
+
+## Component API
+
+### ProgressiveBlur
+
+<ParamField path="position" type="'top' | 'bottom' | 'both'" default="'bottom'">
+  Position of the blur effect.
+  - `top`: Blur at the top edge
+  - `bottom`: Blur at the bottom edge (default)
+  - `both`: Blur on both top and bottom edges
+</ParamField>
+
+<ParamField path="height" type="string" default="'30%'">
+  Height of the blur area. Can be any CSS unit (%, px, rem, etc.).
+  
+  When `position="both"`, this is automatically set to `100%`.
+</ParamField>
+
+<ParamField path="blurLevels" type="number[]" default="[0.5, 1, 2, 4, 8, 16, 32, 64]">
+  Array of blur values in pixels. Each value represents a layer of blur, creating a progressive effect.
+  
+  - More values = smoother gradient
+  - Higher values = stronger blur
+  - Default provides 8 levels from 0.5px to 64px
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the blur container.
+</ParamField>
+
+## Features
+
+- Multi-layer backdrop blur for smooth progressive effect
+- Position at top, bottom, or both edges
+- Customizable blur intensity levels
+- Adjustable blur area height
+- Webkit compatibility
+- Pointer-events disabled (doesn't interfere with content)
+- Works with any scrollable container
+- Automatic gradient mask generation
+
+## How It Works
+
+The component creates multiple layered `div` elements, each with:
+
+1. **backdrop-filter**: Applies blur at different intensities
+2. **mask-image**: Controls which parts of the blur layer are visible
+3. **z-index**: Stacks layers for smooth blending
+
+Each layer is masked to be visible only in specific portions of the gradient, creating a smooth progressive blur effect.
+
+## Technical Details
+
+### Blur Layer Structure
+
+- **First layer**: Lightest blur (blurLevels[0])
+- **Middle layers**: Progressive blur levels (blurLevels[1] to blurLevels[n-2])
+- **Last layer**: Strongest blur (blurLevels[n-1])
+
+### Gradient Masks
+
+Each layer uses linear gradients to control visibility:
+
+- **Bottom position**: `linear-gradient(to bottom, ...)`
+- **Top position**: `linear-gradient(to top, ...)`
+- **Both position**: Simplified gradient for full coverage
+
+### Performance
+
+The component uses CSS backdrop-filter, which:
+
+- Is GPU-accelerated in modern browsers
+- Doesn't impact content rendering
+- Provides real-time blur of underlying content
+
+## Browser Support
+
+Includes both standard and webkit-prefixed properties:
+
+- `backdrop-filter` (modern browsers)
+- `-webkit-backdrop-filter` (Safari, older Chrome)
+- `mask-image` and `-webkit-mask-image`
+
+## Styling Tips
+
+- Parent container must have `position: relative`
+- Parent container should have `overflow: auto` or `overflow: scroll`
+- Adjust `height` to control how far the blur extends
+- Use fewer `blurLevels` for better performance
+- Use more `blurLevels` for smoother gradients

@@ -1,0 +1,207 @@
+---
+title: Animated Shiny Text
+description: A shimmering text effect component that creates a moving shine animation across text.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/animated-shiny-text
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/animated-shiny-text
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/animated-shiny-text
+```
+
+</CodeGroup>
+
+<Note>
+This component requires CSS keyframes to be added to your global styles. The installation command will handle this automatically.
+</Note>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { AnimatedShinyText } from "$lib/components/magic/animated-shiny-text";
+</script>
+
+<AnimatedShinyText>
+  Shimmering Text Effect
+</AnimatedShinyText>
+```
+
+## Examples
+
+### Basic Example
+
+Simple shiny text with default settings.
+
+```svelte
+<AnimatedShinyText>
+  Magic UI is amazing!
+</AnimatedShinyText>
+```
+
+### Custom Shimmer Width
+
+Adjust the width of the shimmer effect.
+
+```svelte
+<AnimatedShinyText shimmerWidth={200}>
+  Wide Shimmer Effect
+</AnimatedShinyText>
+
+<AnimatedShinyText shimmerWidth={50}>
+  Narrow Shimmer Effect
+</AnimatedShinyText>
+```
+
+### With Custom Styling
+
+Combine with typography classes for different effects.
+
+```svelte
+<AnimatedShinyText class="text-4xl font-bold">
+  Large Shiny Heading
+</AnimatedShinyText>
+
+<AnimatedShinyText class="text-sm italic">
+  Small shiny text
+</AnimatedShinyText>
+```
+
+### In a Call-to-Action
+
+Use in buttons or badges to draw attention.
+
+```svelte
+<button class="rounded-lg bg-primary px-6 py-3">
+  <AnimatedShinyText class="text-white">
+    Get Started
+  </AnimatedShinyText>
+</button>
+```
+
+### With Dark Mode
+
+The component automatically adjusts colors for dark mode.
+
+```svelte
+<AnimatedShinyText>
+  Looks great in light and dark mode
+</AnimatedShinyText>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The text content to display with the shiny animation.
+</ParamField>
+
+<ParamField path="shimmerWidth" type="number" default={100}>
+  The width of the shimmer effect in pixels. This controls how wide the shining highlight appears.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## CSS Animation
+
+The component uses a CSS keyframe animation that is automatically added during installation:
+
+```css
+@keyframes shiny-text {
+  0%, 90%, 100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
+  }
+  30%, 60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
+  }
+}
+```
+
+The animation class:
+```css
+.animate-shiny-text {
+  animation: shiny-text 8s infinite;
+}
+```
+
+## How It Works
+
+The shimmer effect is created using:
+
+1. A linear gradient with transparent edges and a bright center
+2. `background-clip: text` to clip the gradient to the text shape
+3. `text-transparent` to make the text color transparent
+4. Animated background position to create the moving shimmer
+
+## Customization
+
+### Custom Animation Speed
+
+Override the animation duration for faster or slower shimmer:
+
+```svelte
+<AnimatedShinyText class="[animation-duration:4s]">
+  Faster shimmer
+</AnimatedShinyText>
+
+<AnimatedShinyText class="[animation-duration:12s]">
+  Slower shimmer
+</AnimatedShinyText>
+```
+
+### Custom Colors
+
+Modify the gradient colors using Tailwind utilities:
+
+```svelte
+<AnimatedShinyText class="text-neutral-400 dark:text-neutral-600">
+  More subtle shimmer
+</AnimatedShinyText>
+```
+
+### Pause Animation on Hover
+
+Freeze the animation when hovering:
+
+```svelte
+<AnimatedShinyText class="hover:[animation-play-state:paused]">
+  Hover to pause
+</AnimatedShinyText>
+```
+
+### Single Pass Animation
+
+Make the shimmer run only once:
+
+```svelte
+<AnimatedShinyText class="[animation-iteration-count:1]">
+  One-time shimmer
+</AnimatedShinyText>
+```
+
+## Use Cases
+
+- **Hero sections**: Draw attention to key headlines
+- **Call-to-action buttons**: Make CTAs more engaging
+- **Feature highlights**: Emphasize important features
+- **Loading states**: Indicate content that's being processed
+- **Notifications**: Draw attention to new or important messages
+
+<Info>
+The default text color is muted to allow the shimmer effect to be more visible. Adjust the base color using the `class` prop for different visual effects.
+</Info>
+
+<Warning>
+Avoid using this effect on large blocks of text as it can be distracting. It works best for short, impactful phrases.
+</Warning>

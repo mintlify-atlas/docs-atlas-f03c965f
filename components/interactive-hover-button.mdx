@@ -1,0 +1,129 @@
+---
+title: Interactive Hover Button
+description: A button with an interactive hover effect featuring an expanding dot and sliding text animation with an arrow.
+---
+
+# Interactive Hover Button
+
+A button component with an interactive hover effect that features an expanding dot and sliding text animation with an arrow icon. The button creates a smooth transition effect when hovered, revealing an arrow while the text slides in from the right.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://magicui.design/r/interactive-hover-button
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://magicui.design/r/interactive-hover-button
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://magicui.design/r/interactive-hover-button
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { InteractiveHoverButton } from "$lib/components/magic/interactive-hover-button";
+</script>
+
+<InteractiveHoverButton>
+  Hover me
+</InteractiveHoverButton>
+```
+
+## Examples
+
+### Basic Usage
+
+```svelte
+<script lang="ts">
+  import { InteractiveHoverButton } from "$lib/components/magic/interactive-hover-button";
+</script>
+
+<InteractiveHoverButton>
+  Get Started
+</InteractiveHoverButton>
+```
+
+### With Custom Styling
+
+```svelte
+<script lang="ts">
+  import { InteractiveHoverButton } from "$lib/components/magic/interactive-hover-button";
+</script>
+
+<InteractiveHoverButton class="border-blue-500 hover:border-blue-600">
+  Learn More
+</InteractiveHoverButton>
+```
+
+### With Click Handler
+
+```svelte
+<script lang="ts">
+  import { InteractiveHoverButton } from "$lib/components/magic/interactive-hover-button";
+
+  function handleClick() {
+    console.log("Button clicked!");
+  }
+</script>
+
+<InteractiveHoverButton onclick={handleClick}>
+  Click Me
+</InteractiveHoverButton>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The content to display inside the button.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="...props" type="HTMLButtonAttributes">
+  All standard HTML button attributes are supported (onclick, disabled, type, etc.).
+</ParamField>
+
+## Component Details
+
+### Animation Behavior
+
+The Interactive Hover Button creates a sophisticated hover effect through multiple animated elements:
+
+1. **Expanding Dot**: A small circular dot that scales up dramatically on hover (scale factor of 100.8x)
+2. **Sliding Text**: The original button text slides to the right and fades out
+3. **Revealing Content**: A hidden duplicate of the text slides in from the right with an arrow icon
+
+### CSS Classes
+
+The component uses these default classes:
+
+- Base: `group bg-background relative w-auto cursor-pointer overflow-hidden rounded-full border p-2 px-6 text-center font-semibold`
+- Dot: `bg-primary h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-[100.8]`
+- Text (visible): `inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0`
+- Text (hidden): `text-primary-foreground absolute top-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 opacity-0 transition-all duration-300 group-hover:-translate-x-5 group-hover:opacity-100`
+
+### Dependencies
+
+- `@lucide/svelte` - For the arrow icon
+- Tailwind CSS - For styling and transitions
+
+## Accessibility
+
+The component maintains full button functionality and supports:
+
+- Keyboard navigation (Tab, Enter, Space)
+- Screen readers (semantic button element)
+- Focus states
+- All standard button attributes (disabled, aria-*, etc.)
+
+## Browser Compatibility
+
+The component uses standard CSS transitions and transforms, providing excellent browser support across modern browsers. The animation will gracefully degrade in browsers that don't support CSS animations.

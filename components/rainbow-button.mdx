@@ -1,0 +1,260 @@
+---
+title: Rainbow Button
+description: A button component with animated rainbow gradient borders and background that cycles through multiple colors.
+---
+
+# Rainbow Button
+
+A button component with animated rainbow gradient borders and background that continuously cycles through multiple vibrant colors. This eye-catching component is perfect for highlighting premium features or important calls-to-action.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://magicui.design/r/rainbow-button
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://magicui.design/r/rainbow-button
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://magicui.design/r/rainbow-button
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { RainbowButton } from "$lib/components/magic/rainbow-button";
+</script>
+
+<RainbowButton>
+  Click me
+</RainbowButton>
+```
+
+## Examples
+
+### Basic Usage
+
+```svelte
+<script lang="ts">
+  import { RainbowButton } from "$lib/components/magic/rainbow-button";
+</script>
+
+<RainbowButton>
+  Get Started
+</RainbowButton>
+```
+
+### Outline Variant
+
+```svelte
+<script lang="ts">
+  import { RainbowButton } from "$lib/components/magic/rainbow-button";
+</script>
+
+<RainbowButton variant="outline">
+  Learn More
+</RainbowButton>
+```
+
+### Different Sizes
+
+```svelte
+<script lang="ts">
+  import { RainbowButton } from "$lib/components/magic/rainbow-button";
+</script>
+
+<div class="flex gap-4 items-center">
+  <RainbowButton size="sm">
+    Small
+  </RainbowButton>
+  
+  <RainbowButton size="default">
+    Default
+  </RainbowButton>
+  
+  <RainbowButton size="lg">
+    Large
+  </RainbowButton>
+</div>
+```
+
+### Icon Button
+
+```svelte
+<script lang="ts">
+  import { RainbowButton } from "$lib/components/magic/rainbow-button";
+  import { Sparkles } from "@lucide/svelte";
+</script>
+
+<RainbowButton size="icon">
+  <Sparkles />
+</RainbowButton>
+```
+
+### As Link
+
+```svelte
+<script lang="ts">
+  import { RainbowButton } from "$lib/components/magic/rainbow-button";
+</script>
+
+<RainbowButton href="/premium">
+  Upgrade Now
+</RainbowButton>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet">
+  The content to display inside the button.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'outline'" default="default">
+  The visual style variant of the button:
+  - `default`: Filled background with rainbow gradient
+  - `outline`: Transparent background with rainbow border
+</ParamField>
+
+<ParamField path="size" type="'default' | 'sm' | 'lg' | 'icon'" default="default">
+  The size of the button:
+  - `default`: h-9 px-4 py-2
+  - `sm`: h-8 rounded-xl px-3 text-xs
+  - `lg`: h-11 rounded-xl px-8
+  - `icon`: size-9 (square)
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the button.
+</ParamField>
+
+<ParamField path="...props" type="HTMLButtonAttributes | HTMLAnchorAttributes">
+  All standard HTML button or anchor attributes are supported. If `href` is provided, the component renders as a link.
+</ParamField>
+
+## Component Details
+
+### Animation Behavior
+
+The Rainbow Button creates a mesmerizing color-cycling effect through:
+
+1. **Gradient Animation**: A linear gradient moves through 5 color stops
+2. **Border Integration**: The gradient is applied to both the border and a blur effect below
+3. **Smooth Transitions**: Colors transition seamlessly with a 200% background size
+4. **Infinite Loop**: The animation repeats continuously
+
+### Color Customization
+
+The rainbow colors are controlled via CSS variables:
+
+```css
+--color-1: hsl(var(--color-1));
+--color-2: hsl(var(--color-2));
+--color-3: hsl(var(--color-3));
+--color-4: hsl(var(--color-4));
+--color-5: hsl(var(--color-5));
+```
+
+To customize colors, you can override these CSS variables:
+
+```svelte
+<RainbowButton style="--color-1: 350 100% 50%; --color-2: 200 100% 50%;">
+  Custom Colors
+</RainbowButton>
+```
+
+### Animation Speed
+
+Control the animation speed with the `--speed` CSS variable:
+
+```svelte
+<RainbowButton style="--speed: 4s;">
+  Slower Animation
+</RainbowButton>
+```
+
+### Keyframe Animation
+
+The component requires this CSS keyframe (automatically included via registry):
+
+```css
+@keyframes rainbow {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+```
+
+### Tailwind Variants
+
+The component uses `tailwind-variants` for type-safe variant management:
+
+```typescript
+export const buttonVariants = tv({
+  base: "group animate-rainbow relative cursor-pointer transition-all...",
+  variants: {
+    variant: {
+      default: "...",
+      outline: "..."
+    },
+    size: {
+      default: "h-9 px-4 py-2",
+      sm: "h-8 rounded-xl px-3 text-xs",
+      lg: "h-11 rounded-xl px-8",
+      icon: "size-9"
+    }
+  }
+});
+```
+
+### Dependencies
+
+- `bits-ui` - For button/link component logic
+- `tailwind-variants` - For variant management
+- Tailwind CSS - For styling and animations
+
+## Accessibility
+
+The component maintains full accessibility:
+
+- Semantic HTML (button or link depending on props)
+- Keyboard navigation support
+- Focus states with ring indicators
+- Screen reader compatible
+- Supports `disabled` state
+- ARIA attributes supported
+
+## Use Cases
+
+The Rainbow Button is ideal for:
+
+- **Premium features**: Highlight paid or special features
+- **Call-to-action**: Draw maximum attention to key actions
+- **Promotional content**: Stand out in marketing materials
+- **Creative interfaces**: Add personality to modern designs
+- **Special events**: Celebrations, launches, or limited-time offers
+
+## Performance Notes
+
+<Note>
+  The animation uses CSS background-position which is hardware-accelerated. The component performs well even with multiple instances on the page.
+</Note>
+
+### Blur Effect
+
+The component includes a subtle blur effect below the button using a `::before` pseudo-element. This is filtered out in the element to avoid affecting content.
+
+## Browser Compatibility
+
+The component works in all modern browsers with CSS animation support. The gradient animation will gracefully degrade in older browsers, displaying a static gradient.
+
+## Dark Mode Support
+
+The Rainbow Button automatically adapts to dark mode, adjusting the base background colors while maintaining the rainbow animation effect.

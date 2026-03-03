@@ -1,0 +1,147 @@
+---
+title: Cool Mode
+description: Add a fun particle effect that follows mouse interactions, with support for emojis, images, and custom shapes.
+---
+
+<ComponentPreview name="cool-mode-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@latest add cool-mode
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Copy component source</Step>
+      Copy the component source code from the [repository](https://github.com/example/magic-ui).
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import CoolMode from "$lib/components/magic/cool-mode/cool-mode.svelte";
+</script>
+
+<CoolMode>
+  <button>Click and drag me!</button>
+</CoolMode>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The interactive element(s) that will trigger particle effects.
+</ParamField>
+
+<ParamField path="options" type="CoolParticleOptions">
+  Configuration object for customizing particle behavior.
+</ParamField>
+
+### CoolParticleOptions
+
+<ParamField path="options.particle" type="string" default="'circle'">
+  The particle type to display. Can be:
+  - `'circle'` - Colored circles
+  - Emoji string (e.g., `'🎉'`, `'⭐'`, `'❤️'`)
+  - Image URL (starts with `http` or `/`)
+</ParamField>
+
+<ParamField path="options.particleCount" type="number" default="45">
+  Maximum number of particles that can exist at once.
+</ParamField>
+
+<ParamField path="options.size" type="number" default="random(15-45)">
+  Size of each particle in pixels. If not specified, randomly chosen from [15, 20, 25, 35, 45].
+</ParamField>
+
+<ParamField path="options.speedHorz" type="number" default="random(0-10)">
+  Horizontal speed multiplier for particle movement.
+</ParamField>
+
+<ParamField path="options.speedUp" type="number" default="random(0-25)">
+  Vertical speed for particles moving upward.
+</ParamField>
+
+## Examples
+
+### With Emoji Particles
+
+```svelte
+<CoolMode options={{ particle: '🎉' }}>
+  <button>Celebrate!</button>
+</CoolMode>
+```
+
+### With Custom Image
+
+```svelte
+<CoolMode options={{ particle: '/star.png' }}>
+  <button>Star Effect</button>
+</CoolMode>
+```
+
+### Custom Particle Settings
+
+```svelte
+<CoolMode 
+  options={{
+    particle: '❤️',
+    size: 30,
+    speedHorz: 5,
+    speedUp: 15,
+    particleCount: 30
+  }}
+>
+  <button>Love it!</button>
+</CoolMode>
+```
+
+### Multiple Elements
+
+```svelte
+<CoolMode options={{ particle: '⭐' }}>
+  <div class="flex gap-4">
+    <button>Button 1</button>
+    <button>Button 2</button>
+    <button>Button 3</button>
+  </div>
+</CoolMode>
+```
+
+### Circle Particles (Default)
+
+```svelte
+<CoolMode options={{ particle: 'circle' }}>
+  <button>Random Colors!</button>
+</CoolMode>
+```
+
+## How It Works
+
+The component creates a fixed overlay container where particles are rendered. When you click and drag (or touch and drag on mobile) over the wrapped element:
+
+1. Particles are generated at the cursor position
+2. Each particle has random horizontal direction, rotation, and speed
+3. Particles animate upward with decreasing speed (gravity simulation)
+4. Particles are automatically removed when they fall off-screen
+5. The overlay container is removed when no instances remain
+
+## Features
+
+- Works with both mouse and touch events
+- Supports multiple particle types (circles, emojis, images)
+- Automatic cleanup when particles leave viewport
+- Performance-optimized with RAF (requestAnimationFrame)
+- Global particle container shared across instances
+- Throttled particle generation to prevent performance issues
+- Customizable particle physics (speed, direction, rotation)
+
+## Touch Support
+
+The component automatically detects touch-capable devices and uses the appropriate event listeners (`touchstart`, `touchmove`, `touchend` instead of `mousedown`, `mousemove`, `mouseup`).

@@ -1,0 +1,374 @@
+---
+title: Typing Animation
+description: A typewriter effect component that types out text with customizable speed, cursor styles, and support for cycling through multiple words.
+---
+
+<Note>
+This component requires the `runed` and `motion-sv` dependencies.
+</Note>
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/typing-animation
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/typing-animation
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/typing-animation
+```
+
+</CodeGroup>
+
+<Note>
+This component requires a CSS keyframe for cursor blinking. The installation command will handle this automatically.
+</Note>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { TypingAnimation } from "$lib/components/magic/typing-animation";
+</script>
+
+<TypingAnimation content="Hello World! 👋" />
+```
+
+## Examples
+
+### Basic Example
+
+Simple typing animation with a single text string.
+
+```svelte
+<TypingAnimation content="Welcome to our website" />
+```
+
+### Multiple Words Cycling
+
+Cycle through multiple words with typing and deleting effects.
+
+```svelte
+<TypingAnimation 
+  words={["Developer", "Designer", "Creator"]} 
+/>
+```
+
+### Custom Typing Speed
+
+Control how fast characters appear.
+
+```svelte
+<TypingAnimation 
+  content="Fast typing"
+  typeSpeed={50}
+/>
+
+<TypingAnimation 
+  content="Slow typing"
+  typeSpeed={200}
+/>
+```
+
+### Custom Delete Speed
+
+Control the deletion speed independently.
+
+```svelte
+<TypingAnimation 
+  words={["Quick", "Delete"]}
+  typeSpeed={100}
+  deleteSpeed={30}
+/>
+```
+
+### Different Cursor Styles
+
+Choose from different cursor appearances.
+
+```svelte
+<TypingAnimation 
+  content="Line cursor"
+  cursorStyle="line"
+/>
+
+<TypingAnimation 
+  content="Block cursor"
+  cursorStyle="block"
+/>
+
+<TypingAnimation 
+  content="Underscore cursor"
+  cursorStyle="underscore"
+/>
+```
+
+### Without Cursor
+
+Hide the cursor completely.
+
+```svelte
+<TypingAnimation 
+  content="No cursor"
+  showCursor={false}
+/>
+```
+
+### Non-Blinking Cursor
+
+Show a static cursor without blinking.
+
+```svelte
+<TypingAnimation 
+  content="Static cursor"
+  blinkCursor={false}
+/>
+```
+
+### Start on View
+
+Begin animation when element enters viewport.
+
+```svelte
+<TypingAnimation 
+  content="Scroll to see me type"
+  startOnView={true}
+/>
+```
+
+### With Delay
+
+Delay the start of the animation.
+
+```svelte
+<TypingAnimation 
+  content="Starting in 2 seconds..."
+  delay={2000}
+/>
+```
+
+### Single Play (No Loop)
+
+Type once and stop (don't delete and restart).
+
+```svelte
+<TypingAnimation 
+  content="This types once"
+  loop={false}
+/>
+```
+
+### Multiple Words with Logo
+
+Combine with other elements for rich layouts.
+
+```svelte
+<div class="flex items-center gap-2">
+  <img src="/logo.svg" alt="Logo" class="w-8 h-8" />
+  <TypingAnimation 
+    words={["Innovation", "Quality", "Excellence"]}
+    class="text-2xl font-bold"
+  />
+</div>
+```
+
+### Custom Pause Between Words
+
+Adjust how long to pause before deleting.
+
+```svelte
+<TypingAnimation 
+  words={["First", "Second", "Third"]}
+  pauseDelay={3000}
+/>
+```
+
+## Props
+
+<ParamField path="content" type="string">
+  Single text string to type. Use this OR `words`, not both.
+</ParamField>
+
+<ParamField path="words" type="string[]">
+  Array of words to cycle through. Use this OR `content`, not both.
+</ParamField>
+
+<ParamField path="typeSpeed" type="number" default={100}>
+  Speed of typing in milliseconds per character. Lower is faster.
+</ParamField>
+
+<ParamField path="deleteSpeed" type="number" default={50}>
+  Speed of deleting in milliseconds per character. Defaults to half of `typeSpeed`.
+</ParamField>
+
+<ParamField path="duration" type="number" default={100}>
+  Deprecated. Use `typeSpeed` instead.
+</ParamField>
+
+<ParamField path="delay" type="number" default={0}>
+  Delay in milliseconds before animation starts.
+</ParamField>
+
+<ParamField path="pauseDelay" type="number" default={1000}>
+  Pause duration in milliseconds before deleting text (when using `words`).
+</ParamField>
+
+<ParamField path="loop" type="boolean" default={false}>
+  Whether to loop the animation. Only applies to single `content` mode.
+</ParamField>
+
+<ParamField path="startOnView" type="boolean" default={true}>
+  Whether to start animation when element enters viewport.
+</ParamField>
+
+<ParamField path="showCursor" type="boolean" default={true}>
+  Whether to show the typing cursor.
+</ParamField>
+
+<ParamField path="blinkCursor" type="boolean" default={true}>
+  Whether the cursor should blink.
+</ParamField>
+
+<ParamField path="cursorStyle" type="'line' | 'block' | 'underscore'" default="line">
+  The style of cursor to display:
+  - `line`: Vertical bar `|`
+  - `block`: Block character `▌`
+  - `underscore`: Underscore `_`
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## Behavior Modes
+
+### Single Content Mode
+
+When using `content` prop:
+- Types out the text once
+- Can loop if `loop={true}`
+- No deletion phase
+
+### Multiple Words Mode
+
+When using `words` prop:
+- Types each word
+- Pauses (using `pauseDelay`)
+- Deletes the word
+- Moves to next word
+- Cycles indefinitely
+
+## CSS Animation
+
+The cursor blink animation is added during installation:
+
+```css
+@keyframes blink-cursor {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+```
+
+The animation class:
+```css
+.animate-blink-cursor {
+  animation: blink-cursor 1.2s step-end infinite;
+}
+```
+
+## How It Works
+
+The typing effect uses:
+
+1. **Grapheme splitting**: Text is split into graphemes (handles emojis correctly)
+2. **State machine**: Cycles through typing, pause, and deleting phases
+3. **Viewport detection**: Uses motion-sv's `inView` for scroll-triggered animations
+4. **Timeout-based**: Uses setTimeout for precise character timing
+5. **Reactive state**: Svelte 5 runes for reactive state management
+
+## Customization
+
+### Fast Typing, Slow Delete
+
+```svelte
+<TypingAnimation 
+  words={["Quick", "Type"]}
+  typeSpeed={50}
+  deleteSpeed={150}
+/>
+```
+
+### Long Pause
+
+Let users read the text longer before deleting.
+
+```svelte
+<TypingAnimation 
+  words={["Read", "This", "Carefully"]}
+  pauseDelay={5000}
+/>
+```
+
+### Instant Delete
+
+Delete instantly after typing.
+
+```svelte
+<TypingAnimation 
+  words={["Instant", "Delete"]}
+  deleteSpeed={0}
+  pauseDelay={0}
+/>
+```
+
+### Styled Typography
+
+```svelte
+<TypingAnimation 
+  content="Beautiful Typography"
+  class="text-4xl font-bold text-gradient bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+/>
+```
+
+## Use Cases
+
+- **Hero sections**: Dynamic headlines that catch attention
+- **Job titles**: "I'm a Developer | Designer | Creator"
+- **Feature highlights**: Cycle through product features
+- **Loading states**: Show dynamic loading messages
+- **Search placeholders**: "Search for..." with different suggestions
+- **Role descriptions**: Animate job roles or capabilities
+- **Taglines**: Rotate through different brand messages
+
+## Best Practices
+
+1. **Word length**: Keep words similar in length for better visual consistency
+2. **Speed balance**: Typing slightly faster than deleting feels natural
+3. **Pause duration**: Give users time to read (1-2 seconds minimum)
+4. **Word count**: 3-5 words work best for cycling
+5. **Font choice**: Monospace fonts emphasize the typewriter effect
+
+## Accessibility
+
+The component handles text content properly:
+- The actual text is always present in the DOM
+- Screen readers can access the content
+- No critical information should rely solely on the typing animation
+- Consider providing alternative static text for accessibility
+
+<Info>
+The component uses grapheme splitting, which correctly handles complex characters like emojis, ensuring they type as single units: 👋, 🎉, 🚀
+</Info>
+
+<Warning>
+Very long text with very fast typing speed may appear instant. Balance text length with typing speed for the best effect.
+</Warning>

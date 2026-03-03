@@ -1,0 +1,165 @@
+---
+title: 'Contributing Overview'
+description: 'Learn how to contribute to Svelte 5 Animations through bug reports, feature requests, and pull requests'
+---
+
+## Welcome Contributors
+
+Thank you for your interest in contributing to Svelte 5 Animations! We welcome contributions from the community and appreciate your help in making this project better.
+
+## Ways to Contribute
+
+<AccordionGroup>
+  <Accordion title="Reporting Issues">
+    Before submitting a new issue:
+    
+    - Check if the issue already exists in [GitHub Issues](https://github.com/SikandarJODD/animations/issues)
+    - Provide a clear description of the problem
+    - Include reproduction steps if applicable
+    - Add relevant error messages or screenshots
+    
+    Good bug reports help maintainers understand and fix issues faster.
+  </Accordion>
+
+  <Accordion title="Suggesting Features">
+    Have an idea for a new animation component or feature?
+    
+    - Open a GitHub issue with the "enhancement" label
+    - Describe the use case and expected behavior
+    - Include examples or mockups if possible
+    - Explain how it benefits the community
+  </Accordion>
+
+  <Accordion title="Creating Components">
+    Want to contribute a new animation component?
+    
+    See our detailed [Creating Components](/contributing/creating-components) guide for the complete step-by-step process.
+  </Accordion>
+</AccordionGroup>
+
+## Getting Started
+
+<Steps>
+  <Step title="Fork and Clone">
+    Fork the repository and clone it to your local machine:
+    
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/animations.git
+    cd animations
+    pnpm install
+    ```
+  </Step>
+
+  <Step title="Create a Branch">
+    Create a new branch for your contribution:
+    
+    ```bash
+    git checkout -b feat/your-component-name
+    ```
+    
+    Use descriptive branch names like `feat/`, `fix/`, or `docs/` prefixes.
+  </Step>
+
+  <Step title="Make Your Changes">
+    Follow the project's coding standards:
+    
+    - Use TypeScript for type safety
+    - Follow the existing code style
+    - Test your changes thoroughly
+  </Step>
+
+  <Step title="Submit a Pull Request">
+    Push your changes and create a pull request:
+    
+    ```bash
+    git add .
+    git commit -m "feat: add your component"
+    git push origin feat/your-component-name
+    ```
+  </Step>
+</Steps>
+
+## Component Guidelines
+
+### Animation Best Practices
+
+When creating animation components:
+
+- **Use motion-sv**: Leverage `motion-sv` for animations when possible
+- **Customization**: Allow users to override animation timings and easing
+- **Responsive**: Test on different screen sizes
+- **Performance**: Consider performance on lower-end devices
+- **Accessibility**: Respect `prefers-reduced-motion` settings
+
+### Documentation Requirements
+
+Every component must include:
+
+- Clear description of what the component does
+- Complete list of props with types and defaults
+- At least one working example
+- Installation instructions
+- Usage examples with code snippets
+
+<Note>
+  Good documentation helps users understand and implement your component quickly.
+</Note>
+
+## Pull Request Review Process
+
+After submitting your PR:
+
+1. **Automated Checks**: CI/CD pipeline will run tests and type checking
+2. **Code Review**: Maintainers will review your code for quality and consistency
+3. **Feedback**: Address any requested changes or questions
+4. **Approval**: Once approved, your PR will be merged
+5. **Release**: Your contribution will be included in the next release
+
+<Note>
+  The review process may take a few days. Be patient and responsive to feedback.
+</Note>
+
+## Code of Conduct
+
+We are committed to providing a welcoming and inclusive environment for all contributors.
+
+### Our Pledge
+
+We pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+
+### Expected Behavior
+
+- Demonstrate empathy and kindness toward other people
+- Be respectful of differing opinions, viewpoints, and experiences
+- Give and gracefully accept constructive feedback
+- Accept responsibility and apologize for mistakes
+- Focus on what is best for the overall community
+
+### Unacceptable Behavior
+
+- Sexualized language or imagery, and sexual attention or advances
+- Trolling, insulting or derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information without permission
+- Other conduct inappropriate in a professional setting
+
+### Reporting Issues
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to:
+
+- Twitter: [@Sikandar_Bhide](https://twitter.com/Sikandar_Bhide)
+- GitHub: [Report an issue](https://github.com/SikandarJODD/animations/issues)
+
+All complaints will be reviewed and investigated promptly and fairly.
+
+## License
+
+By contributing to Svelte 5 Animations, you agree that your contributions will be licensed under the MIT License.
+
+## Resources
+
+- [GitHub Repository](https://github.com/SikandarJODD/animations)
+- [Creating Components Guide](/contributing/creating-components)
+- [Issue Tracker](https://github.com/SikandarJODD/animations/issues)
+
+Thank you for making Svelte 5 Animations better!

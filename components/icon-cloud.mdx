@@ -1,0 +1,149 @@
+---
+title: Icon Cloud
+description: An interactive 3D tag cloud component that displays icons or images in a sphere formation with smooth rotation and drag interactions.
+---
+
+<ComponentPreview name="icon-cloud-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@latest add icon-cloud
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Copy component source</Step>
+      Copy the component source code from the [repository](https://github.com/example/magic-ui).
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import IconCloud from "$lib/components/magic/icon-cloud/icon-cloud.svelte";
+  
+  const icons = [
+    "/logo1.png",
+    "/logo2.png",
+    "/logo3.png",
+    // Add more image URLs
+  ];
+</script>
+
+<IconCloud images={icons} />
+```
+
+## Props
+
+<ParamField path="icons" type="Component[]">
+  Array of Svelte components to render as icons in the cloud. Each component is rendered into a canvas for display.
+</ParamField>
+
+<ParamField path="images" type="string[]">
+  Array of image URLs to display in the cloud. Images are loaded and rendered into circular canvases.
+</ParamField>
+
+<ParamField path="class" type="string" default="''">
+  Additional CSS classes to apply to the canvas element.
+</ParamField>
+
+## Examples
+
+### With Images
+
+```svelte
+<script lang="ts">
+  const techLogos = [
+    "/images/react.png",
+    "/images/vue.png",
+    "/images/svelte.png",
+    "/images/angular.png",
+    "/images/node.png",
+  ];
+</script>
+
+<IconCloud images={techLogos} />
+```
+
+### Custom Styling
+
+```svelte
+<IconCloud 
+  images={logos} 
+  class="border-2 border-primary shadow-xl"
+/>
+```
+
+### Technology Stack Showcase
+
+```svelte
+<script lang="ts">
+  const stack = [
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-plain.svg",
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg",
+  ];
+</script>
+
+<div class="flex justify-center">
+  <IconCloud images={stack} />
+</div>
+```
+
+## Interactions
+
+The Icon Cloud supports multiple interaction methods:
+
+### Mouse Drag
+Click and drag anywhere on the canvas to manually rotate the sphere in any direction.
+
+### Auto-Rotation
+When not actively dragging, the sphere automatically rotates based on mouse position:
+- Moving the mouse toward edges increases rotation speed
+- Rotation direction follows mouse position relative to center
+
+### Click to Focus
+Click on any icon to smoothly animate the sphere and bring that icon to the front center. The animation:
+- Calculates the optimal rotation path
+- Uses eased animation (cubic ease-out)
+- Duration scales with rotation distance (800ms-2000ms)
+
+## How It Works
+
+1. **Sphere Generation**: Icons are positioned using the Fibonacci sphere algorithm for even distribution
+2. **3D Projection**: 3D coordinates are projected to 2D canvas space with perspective
+3. **Depth Sorting**: Icons are rendered back-to-front for proper occlusion
+4. **Scale & Opacity**: Icons closer to the viewer appear larger and more opaque
+5. **Canvas Rendering**: Each icon is pre-rendered to an off-screen canvas for performance
+
+## Technical Details
+
+- Canvas size: 400x400 pixels
+- Icon size: 40x40 pixels
+- Sphere radius: 100 units
+- Image clipping: Circular mask applied to all images
+- Animation: 60fps via requestAnimationFrame
+- Cross-origin: Images loaded with `crossOrigin="anonymous"`
+
+## Features
+
+- Smooth 3D sphere rotation with realistic physics
+- Interactive drag controls
+- Click-to-focus individual icons
+- Mouse position affects auto-rotation speed
+- Images automatically clipped to circular shape
+- Depth-based scaling and opacity
+- Performance-optimized canvas rendering
+- Responsive to mouse interactions
+- Clean lifecycle management
+
+## Accessibility
+
+The canvas includes an `aria-label="Interactive 3D Icon Cloud"` for screen readers.

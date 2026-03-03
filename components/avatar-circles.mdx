@@ -1,0 +1,137 @@
+---
+title: Avatar Circles
+description: A component that displays overlapping avatar circles with optional count indicator for showing team members or contributors.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add https://acme.com/r/avatar-circles
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { AvatarCircles } from "magic/avatar-circles";
+
+  const avatars = [
+    {
+      imageUrl: "https://avatars.githubusercontent.com/u/1",
+      profileUrl: "https://github.com/user1"
+    },
+    {
+      imageUrl: "https://avatars.githubusercontent.com/u/2",
+      profileUrl: "https://github.com/user2"
+    },
+    {
+      imageUrl: "https://avatars.githubusercontent.com/u/3",
+      profileUrl: "https://github.com/user3"
+    }
+  ];
+</script>
+
+<AvatarCircles avatarUrls={avatars} />
+```
+
+## Examples
+
+### Basic Avatar Stack
+
+```svelte
+<script lang="ts">
+  import { AvatarCircles } from "magic/avatar-circles";
+
+  const teamMembers = [
+    {
+      imageUrl: "/avatars/alice.jpg",
+      profileUrl: "/team/alice"
+    },
+    {
+      imageUrl: "/avatars/bob.jpg",
+      profileUrl: "/team/bob"
+    },
+    {
+      imageUrl: "/avatars/charlie.jpg",
+      profileUrl: "/team/charlie"
+    }
+  ];
+</script>
+
+<AvatarCircles avatarUrls={teamMembers} />
+```
+
+### With Overflow Count
+
+```svelte
+<script lang="ts">
+  import { AvatarCircles } from "magic/avatar-circles";
+
+  const contributors = [
+    { imageUrl: "/avatar1.jpg", profileUrl: "/user1" },
+    { imageUrl: "/avatar2.jpg", profileUrl: "/user2" },
+    { imageUrl: "/avatar3.jpg", profileUrl: "/user3" }
+  ];
+</script>
+
+<!-- Show 3 avatars + "5" indicator for 5 more people -->
+<AvatarCircles avatarUrls={contributors} numPeople={5} />
+```
+
+### Custom Styling
+
+```svelte
+<AvatarCircles 
+  avatarUrls={contributors} 
+  class="-space-x-6"
+/>
+```
+
+## Component API
+
+### AvatarCircles
+
+<ParamField path="avatarUrls" type="Avatar[]" required>
+  Array of avatar objects containing image and profile URLs.
+  
+  Each `Avatar` object has:
+  - `imageUrl`: string - URL of the avatar image
+  - `profileUrl`: string - URL to navigate when avatar is clicked
+</ParamField>
+
+<ParamField path="numPeople" type="number">
+  Number of additional people to display in the overflow indicator. When provided and greater than 0, shows a "+N" circle at the end.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the container. Default includes `-space-x-4` for overlapping effect.
+</ParamField>
+
+## Features
+
+- Overlapping avatar display with negative margin spacing
+- Clickable avatars that link to profile pages
+- Optional overflow count indicator
+- Automatic RTL support with `rtl:space-x-reverse`
+- Border styling for visual separation
+- Responsive design with fixed dimensions
+- Dark mode support
+
+## Styling
+
+The component includes:
+
+- **Avatar size**: 40px × 40px (h-10 w-10)
+- **Border**: 2px white border (dark: gray-800)
+- **Overlap**: -1rem spacing (-space-x-4)
+- **Shape**: Fully rounded (rounded-full)
+- **Overflow indicator**: Black background (dark: white) with centered text
+
+## Type Definitions
+
+```typescript
+interface Avatar {
+  imageUrl: string;
+  profileUrl: string;
+}
+```

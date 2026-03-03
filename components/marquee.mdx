@@ -1,0 +1,183 @@
+---
+title: Marquee
+description: A smooth scrolling marquee component with support for horizontal and vertical directions, pause on hover, and reverse animation.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add https://acme.com/r/marquee
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Marquee } from "magic/marquee";
+</script>
+
+<Marquee>
+  {#snippet children()}
+    <div class="mx-4">Item 1</div>
+    <div class="mx-4">Item 2</div>
+    <div class="mx-4">Item 3</div>
+  {/snippet}
+</Marquee>
+```
+
+## Examples
+
+### Horizontal Marquee
+
+```svelte
+<script lang="ts">
+  import { Marquee } from "magic/marquee";
+</script>
+
+<Marquee pauseOnHover>
+  {#snippet children()}
+    <div class="flex items-center gap-4">
+      <img src="/logo1.png" alt="Logo 1" class="h-12" />
+      <img src="/logo2.png" alt="Logo 2" class="h-12" />
+      <img src="/logo3.png" alt="Logo 3" class="h-12" />
+      <img src="/logo4.png" alt="Logo 4" class="h-12" />
+    </div>
+  {/snippet}
+</Marquee>
+```
+
+### Vertical Marquee
+
+```svelte
+<Marquee vertical pauseOnHover class="h-[400px]">
+  {#snippet children()}
+    <div class="my-4 p-4 bg-white rounded-lg">Testimonial 1</div>
+    <div class="my-4 p-4 bg-white rounded-lg">Testimonial 2</div>
+    <div class="my-4 p-4 bg-white rounded-lg">Testimonial 3</div>
+  {/snippet}
+</Marquee>
+```
+
+### Reverse Direction
+
+```svelte
+<Marquee reverse>
+  {#snippet children()}
+    <div class="mx-4">Item 1</div>
+    <div class="mx-4">Item 2</div>
+    <div class="mx-4">Item 3</div>
+  {/snippet}
+</Marquee>
+```
+
+### Custom Speed and Repeat
+
+```svelte
+<Marquee repeat={6} class="[--duration:30s] [--gap:2rem]">
+  {#snippet children()}
+    <div class="mx-4">Fast scrolling item</div>
+    <div class="mx-4">With more repeats</div>
+  {/snippet}
+</Marquee>
+```
+
+### Dual Marquee
+
+```svelte
+<div class="flex flex-col gap-4">
+  <Marquee>
+    {#snippet children()}
+      <div>Row 1 - Normal</div>
+    {/snippet}
+  </Marquee>
+  
+  <Marquee reverse>
+    {#snippet children()}
+      <div>Row 2 - Reverse</div>
+    {/snippet}
+  </Marquee>
+</div>
+```
+
+## Component API
+
+### Marquee
+
+<ParamField path="children" type="Snippet" required>
+  Content to scroll. The snippet will be repeated based on the `repeat` prop.
+</ParamField>
+
+<ParamField path="vertical" type="boolean" default="false">
+  Whether to scroll vertically instead of horizontally.
+</ParamField>
+
+<ParamField path="reverse" type="boolean" default="false">
+  Whether to reverse the scroll direction.
+</ParamField>
+
+<ParamField path="pauseOnHover" type="boolean" default="false">
+  Whether to pause the animation when hovering over the marquee.
+</ParamField>
+
+<ParamField path="repeat" type="number" default="4">
+  Number of times to repeat the children content.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes. Can be used to customize `--duration` and `--gap` CSS variables.
+</ParamField>
+
+## CSS Variables
+
+Customize the marquee using CSS variables:
+
+<ParamField path="--duration" type="string" default="40s">
+  Duration of one complete scroll cycle.
+  
+  Example: `class="[--duration:20s]"`
+</ParamField>
+
+<ParamField path="--gap" type="string" default="1rem">
+  Gap between repeated content blocks.
+  
+  Example: `class="[--gap:2rem]"`
+</ParamField>
+
+## Features
+
+- Smooth infinite scrolling animation
+- Horizontal and vertical scroll directions
+- Reverse animation support
+- Pause on hover functionality
+- Configurable repeat count
+- CSS variable-based customization
+- Responsive and performant
+- No JavaScript for animation (pure CSS)
+
+## Animations
+
+The component uses CSS keyframe animations:
+
+### Horizontal (marquee)
+```css
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+```
+
+### Vertical (marquee-vertical)
+```css
+@keyframes marquee-vertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-100% - var(--gap))); }
+}
+```
+
+## Styling Tips
+
+- Use `repeat` to ensure smooth continuous scrolling
+- Adjust `--duration` for faster/slower animation
+- Use `--gap` to control spacing between content blocks
+- For vertical marquees, set a fixed height on the container
+- Combine with `reverse` for opposite-direction rows

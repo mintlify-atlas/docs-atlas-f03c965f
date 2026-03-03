@@ -1,0 +1,387 @@
+---
+title: Confetti
+description: Celebration confetti effects with customizable particles, colors, and physics. Includes both a wrapper component and a ready-to-use button component.
+---
+
+# Confetti
+
+Add celebratory confetti effects to your application with customizable particles, colors, and physics. Built with `@neoconfetti/svelte`, this component provides both a flexible wrapper component and a convenient button component.
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte add https://animations.sikandar.in/magic/confetti
+```
+
+```bash Manual
+# Copy the component files to your project:
+# src/lib/components/magic-ui/confetti/confetti.svelte
+# src/lib/components/magic-ui/confetti/confetti-button.svelte
+# src/lib/components/magic-ui/confetti/index.ts
+```
+
+</CodeGroup>
+
+## Installation
+
+### Install Dependencies
+
+This component requires the neoconfetti library:
+
+```bash
+npm install @neoconfetti/svelte
+```
+
+## Components
+
+This package exports two components:
+
+1. **Confetti** - A wrapper component that triggers confetti around child elements
+2. **ConfettiButton** - A pre-styled button with built-in confetti trigger
+
+## Usage
+
+### Confetti Wrapper
+
+Wrap any element to add confetti effects:
+
+```svelte
+<script>
+  import { Confetti } from "$lib/components/magic-ui/confetti";
+  import { Button } from "$lib/components/ui/button";
+  
+  let active = $state(false);
+
+  function fire() {
+    active = false;
+    setTimeout(() => {
+      active = true;
+    }, 10);
+  }
+</script>
+
+<Confetti {active}>
+  <Button onclick={fire}>Fire Confetti</Button>
+</Confetti>
+```
+
+### Confetti Button
+
+Pre-built button with confetti effect:
+
+```svelte
+<script>
+  import { ConfettiButton } from "$lib/components/magic-ui/confetti";
+</script>
+
+<ConfettiButton>Click Me!</ConfettiButton>
+```
+
+### Custom Confetti Options
+
+```svelte
+<script>
+  import { Confetti } from "$lib/components/magic-ui/confetti";
+  import { Button } from "$lib/components/ui/button";
+  
+  let active = $state(false);
+
+  const confettiOptions = {
+    particleCount: 100,
+    force: 0.7,
+    colors: ["#ff0000", "#00ff00", "#0000ff"],
+    duration: 3000,
+  };
+
+  function fire() {
+    active = false;
+    setTimeout(() => {
+      active = true;
+    }, 10);
+  }
+</script>
+
+<Confetti {active} options={confettiOptions}>
+  <Button onclick={fire}>Celebrate!</Button>
+</Confetti>
+```
+
+### Custom Styled Button
+
+```svelte
+<script>
+  import { ConfettiButton } from "$lib/components/magic-ui/confetti";
+</script>
+
+<ConfettiButton 
+  class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+  options={{ particleCount: 75, force: 0.6 }}
+>
+  🎉 Celebrate!
+</ConfettiButton>
+```
+
+### With Custom Click Handler
+
+```svelte
+<script>
+  import { ConfettiButton } from "$lib/components/magic-ui/confetti";
+  
+  function handleSuccess() {
+    console.log("Celebration triggered!");
+    // Additional logic here
+  }
+</script>
+
+<ConfettiButton onclick={handleSuccess}>
+  Complete Task
+</ConfettiButton>
+```
+
+## Props
+
+### Confetti Component
+
+<ParamField path="active" type="boolean" default="false">
+  Controls when the confetti effect is triggered. Set to `false` then `true` to fire confetti. Use a small timeout (10ms) between state changes to ensure the animation triggers.
+</ParamField>
+
+<ParamField path="options" type="Partial<ConfettiOptions>" default="{}">
+  Configuration options for the confetti effect. See [Confetti Options](#confetti-options) below for available properties.
+</ParamField>
+
+<ParamField path="class" type="string" default="''">
+  Additional CSS classes to apply to the wrapper container.
+</ParamField>
+
+<ParamField path="confettiClass" type="string" default="''">
+  Additional CSS classes to apply specifically to the confetti effect container.
+</ParamField>
+
+<ParamField path="children" type="Snippet" default="undefined">
+  Child elements to wrap. The confetti will be positioned relative to this container.
+</ParamField>
+
+### ConfettiButton Component
+
+<ParamField path="options" type="Partial<ConfettiOptions>" default="{}">
+  Configuration options for the confetti effect. See [Confetti Options](#confetti-options) below.
+</ParamField>
+
+<ParamField path="class" type="string" default="''">
+  Additional CSS classes to customize the button appearance. Default styling includes blue background with hover effects.
+</ParamField>
+
+<ParamField path="onclick" type="function" default="undefined">
+  Click event handler. Called after confetti is triggered. Receives the click event as parameter.
+</ParamField>
+
+<ParamField path="children" type="Snippet" default="'Click Me!'">
+  Button content. If not provided, displays "Click Me!" as default text.
+</ParamField>
+
+<ParamField path="...props" type="HTMLButtonAttributes">
+  All other standard HTML button attributes (disabled, type, aria-label, etc.) are supported.
+</ParamField>
+
+## Confetti Options
+
+The `options` prop accepts any properties from `@neoconfetti/svelte`. Common options include:
+
+<ParamField path="particleCount" type="number" default="40">
+  Number of confetti particles to generate.
+</ParamField>
+
+<ParamField path="force" type="number" default="0.5">
+  Initial velocity/force of the particles. Range: 0-1.
+</ParamField>
+
+<ParamField path="stageHeight" type="number" default="800">
+  Height of the confetti stage area in pixels.
+</ParamField>
+
+<ParamField path="stageWidth" type="number" default="1600">
+  Width of the confetti stage area in pixels.
+</ParamField>
+
+<ParamField path="colors" type="string[]" default="['#ff0000', '#00ff00', '#0000ff']">
+  Array of color hex codes for the confetti particles.
+</ParamField>
+
+<ParamField path="duration" type="number" default="3000">
+  Duration of the confetti animation in milliseconds.
+</ParamField>
+
+<ParamField path="particleSize" type="number" default="10">
+  Size of individual confetti particles in pixels.
+</ParamField>
+
+<ParamField path="particleShape" type="'mix' | 'circles' | 'rectangles'" default="'mix'">
+  Shape of the confetti particles.
+</ParamField>
+
+For the complete list of options, see the [@neoconfetti/svelte documentation](https://github.com/PuruVJ/neoconfetti).
+
+## Examples
+
+### Success Notification
+
+```svelte
+<script>
+  import { Confetti } from "$lib/components/magic-ui/confetti";
+  import { toast } from "svelte-sonner";
+  
+  let showConfetti = $state(false);
+
+  async function handleSubmit() {
+    // Submit form logic
+    await submitForm();
+    
+    // Trigger confetti on success
+    showConfetti = false;
+    setTimeout(() => {
+      showConfetti = true;
+      toast.success("Form submitted successfully!");
+    }, 10);
+  }
+</script>
+
+<Confetti 
+  active={showConfetti}
+  options={{ particleCount: 100, force: 0.8 }}
+  class="fixed inset-0 pointer-events-none"
+>
+  <button onclick={handleSubmit}>Submit Form</button>
+</Confetti>
+```
+
+### Themed Confetti
+
+```svelte
+<script>
+  import { ConfettiButton } from "$lib/components/magic-ui/confetti";
+
+  const valentinesOptions = {
+    particleCount: 80,
+    colors: ["#FF1461", "#FF69B4", "#FF0080", "#FFFFFF"],
+    particleShape: "circles",
+    force: 0.6,
+  };
+</script>
+
+<ConfettiButton 
+  options={valentinesOptions}
+  class="bg-pink-500 hover:bg-pink-600"
+>
+  ❤️ Send Love
+</ConfettiButton>
+```
+
+### Multiple Confetti Bursts
+
+```svelte
+<script>
+  import { Confetti } from "$lib/components/magic-ui/confetti";
+  
+  let active = $state(false);
+
+  function fireBurst() {
+    // Fire multiple times with delays
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => {
+        active = false;
+        setTimeout(() => {
+          active = true;
+        }, 10);
+      }, i * 500);
+    }
+  }
+</script>
+
+<Confetti {active} options={{ particleCount: 50, force: 0.7 }}>
+  <button onclick={fireBurst}>Triple Burst! 🎊</button>
+</Confetti>
+```
+
+### Achievement Unlocked
+
+```svelte
+<script>
+  import { Confetti } from "$lib/components/magic-ui/confetti";
+  
+  let active = $state(false);
+  let score = $state(0);
+
+  function addPoints() {
+    score += 10;
+    
+    // Trigger confetti every 100 points
+    if (score % 100 === 0) {
+      active = false;
+      setTimeout(() => {
+        active = true;
+      }, 10);
+    }
+  }
+</script>
+
+<Confetti 
+  {active}
+  options={{
+    particleCount: 150,
+    force: 0.8,
+    colors: ["#FFD700", "#FFA500", "#FF8C00"],
+  }}
+  class="fixed inset-0 pointer-events-none z-50"
+>
+  <div>
+    <p>Score: {score}</p>
+    <button onclick={addPoints}>Add Points</button>
+  </div>
+</Confetti>
+```
+
+## Technical Details
+
+### How It Works
+
+The confetti effect is triggered by toggling the `active` prop from `false` to `true`. The component uses the `@neoconfetti/svelte` action which creates and animates confetti particles using CSS transforms and transitions.
+
+### Positioning
+
+By default, confetti originates from the center-top of the wrapper container. Use the `confettiClass` prop to adjust positioning:
+
+```svelte
+<Confetti 
+  {active}
+  confettiClass="left-1/4 top-1/2"
+>
+  <button>Custom Position</button>
+</Confetti>
+```
+
+### Performance
+
+The confetti animation is GPU-accelerated and performs well even with high particle counts. However, for optimal performance on mobile devices, consider reducing `particleCount` to 50 or fewer.
+
+## Tips
+
+<Tip>
+  Always use a small timeout (10ms) when toggling the `active` state to ensure the confetti animation triggers properly. Simply setting it to `true` without first setting it to `false` won't trigger the effect.
+</Tip>
+
+<Tip>
+  For full-screen confetti effects, wrap your entire page in the Confetti component with `class="fixed inset-0 pointer-events-none"` to position it above all content without blocking interactions.
+</Tip>
+
+<Warning>
+  Avoid triggering confetti too frequently, as it can be distracting and reduce the impact of the effect. Reserve it for meaningful moments like completing important actions.
+</Warning>
+
+## Accessibility
+
+The confetti effect is purely decorative and doesn't interfere with keyboard navigation or screen readers. However, consider the following:
+
+- Don't rely solely on confetti to communicate important information
+- Pair confetti with text confirmations or toast notifications
+- Consider users with motion sensitivity - provide a way to disable animations if possible

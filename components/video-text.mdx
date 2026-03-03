@@ -1,0 +1,367 @@
+---
+title: Video Text
+description: A component that displays video content masked by text, creating a text-shaped video effect with customizable typography.
+---
+
+<Note>
+This component requires the `runed` dependency.
+</Note>
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/video-text
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/video-text
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/video-text
+```
+
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { VideoText } from "$lib/components/magic/video-text";
+</script>
+
+<VideoText 
+  src="/path/to/video.mp4" 
+  content="AMAZING"
+/>
+```
+
+## Examples
+
+### Basic Example
+
+Simple video text with default settings.
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="HELLO"
+/>
+```
+
+### Large Heading
+
+Use larger font size for more dramatic effect.
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="BOLD"
+  fontSize={30}
+/>
+```
+
+### Custom Font Weight
+
+Adjust the weight of the text mask.
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="HEAVY"
+  fontWeight="900"
+/>
+```
+
+### Custom Font Family
+
+Use different fonts for varied effects.
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="SERIF"
+  fontFamily="serif"
+/>
+
+<VideoText 
+  src="/video.mp4" 
+  content="MONO"
+  fontFamily="monospace"
+/>
+```
+
+### Without Autoplay
+
+Control video playback manually.
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="PLAY"
+  autoPlay={false}
+/>
+```
+
+### With Sound
+
+Enable audio for the video.
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="SOUND"
+  muted={false}
+/>
+```
+
+### No Loop
+
+Play video only once.
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="ONCE"
+  loop={false}
+/>
+```
+
+### Custom Container Size
+
+Control the container dimensions.
+
+```svelte
+<div class="w-full h-96">
+  <VideoText 
+    src="/video.mp4" 
+    content="WIDE"
+  />
+</div>
+```
+
+### Responsive Font Size
+
+Use viewport-relative units (automatic with default settings).
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="RESPONSIVE"
+  fontSize={15}
+/>
+```
+
+## Props
+
+<ParamField path="src" type="string" required>
+  Path to the video file. Supports all HTML5 video formats (mp4, webm, ogg).
+</ParamField>
+
+<ParamField path="content" type="string" required>
+  The text to use as a mask for the video. The video will only be visible within the text shape.
+</ParamField>
+
+<ParamField path="fontSize" type="string | number" default={20}>
+  The font size for the text mask. Number values are converted to viewport width units (vw) for responsiveness. String values are used as-is.
+</ParamField>
+
+<ParamField path="fontWeight" type="string | number" default="bold">
+  The font weight of the text mask. Accepts CSS font-weight values.
+</ParamField>
+
+<ParamField path="fontFamily" type="string" default="sans-serif">
+  The font family to use for the text mask.
+</ParamField>
+
+<ParamField path="textAnchor" type="string" default="middle">
+  SVG text-anchor attribute. Controls horizontal alignment. Options: `start`, `middle`, `end`.
+</ParamField>
+
+<ParamField path="dominantBaseline" type="string" default="middle">
+  SVG dominant-baseline attribute. Controls vertical alignment.
+</ParamField>
+
+<ParamField path="autoPlay" type="boolean" default={true}>
+  Whether the video should start playing automatically.
+</ParamField>
+
+<ParamField path="muted" type="boolean" default={true}>
+  Whether the video should be muted. Note: Autoplay typically requires muted=true.
+</ParamField>
+
+<ParamField path="loop" type="boolean" default={true}>
+  Whether the video should loop continuously.
+</ParamField>
+
+<ParamField path="preload" type="'auto' | 'metadata' | 'none'" default="auto">
+  Video preload strategy. `auto` preloads the entire video, `metadata` preloads only metadata, `none` preloads nothing.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component container.
+</ParamField>
+
+## How It Works
+
+The video text effect is created using:
+
+1. **SVG mask generation**: Text is rendered as an SVG
+2. **Data URL encoding**: SVG is encoded as a data URL
+3. **CSS mask**: The data URL is used as a CSS mask-image
+4. **Video container**: Video plays in a container masked by the text
+5. **Responsive scaling**: Font size uses viewport units for responsiveness
+6. **Dynamic updates**: Mask regenerates when text or settings change
+
+## Technical Details
+
+### SVG Mask Structure
+
+```xml
+<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>
+  <text 
+    x='50%' 
+    y='50%' 
+    font-size='20vw' 
+    font-weight='bold' 
+    text-anchor='middle' 
+    dominant-baseline='middle' 
+    font-family='sans-serif'
+  >
+    YOUR TEXT
+  </text>
+</svg>
+```
+
+### CSS Masking
+
+The component applies:
+- `mask-image`: SVG as data URL
+- `mask-size: contain`: Scales mask to fit
+- `mask-repeat: no-repeat`: No tiling
+- `mask-position: center`: Centers the mask
+- `-webkit-` prefixes for Safari compatibility
+
+## Customization
+
+### Large Hero Text
+
+```svelte
+<div class="h-screen">
+  <VideoText 
+    src="/hero-video.mp4" 
+    content="BRAND"
+    fontSize={40}
+    fontWeight="900"
+  />
+</div>
+```
+
+### Multiple Lines
+
+Use multiple components or line breaks in content.
+
+```svelte
+<div class="flex flex-col gap-4">
+  <VideoText src="/video.mp4" content="LINE" fontSize={15} />
+  <VideoText src="/video.mp4" content="BY" fontSize={15} />
+  <VideoText src="/video.mp4" content="LINE" fontSize={15} />
+</div>
+```
+
+### Animated Video Background
+
+Use with gradient or animated video.
+
+```svelte
+<VideoText 
+  src="/gradient-animation.mp4" 
+  content="GRADIENT"
+  fontSize={25}
+/>
+```
+
+### Custom Aspect Ratio
+
+```svelte
+<div class="aspect-video w-full">
+  <VideoText 
+    src="/video.mp4" 
+    content="WIDE"
+    fontSize={20}
+  />
+</div>
+```
+
+### Fixed Font Size
+
+Use string values for non-responsive sizing.
+
+```svelte
+<VideoText 
+  src="/video.mp4" 
+  content="FIXED"
+  fontSize="120px"
+/>
+```
+
+## Use Cases
+
+- **Hero sections**: Create stunning landing page headlines
+- **Brand names**: Showcase brand with dynamic video
+- **Product launches**: Dramatic product name reveals
+- **Event titles**: Eye-catching event or conference names
+- **Creative portfolios**: Showcase work in text form
+- **Music videos**: Display artist or song names
+- **Sports highlights**: Dynamic team or player names
+
+## Best Practices
+
+1. **Video selection**: Use high-quality, visually interesting videos
+2. **Short text**: Works best with 1-3 words
+3. **Bold fonts**: Thicker fonts make the video more visible
+4. **Contrast**: Ensure video content is visible within text shape
+5. **Performance**: Optimize video file size for web
+6. **File format**: Use MP4 with H.264 codec for best compatibility
+
+## Video Optimization
+
+For best performance:
+- Compress videos to reduce file size
+- Use appropriate resolution (1080p is usually sufficient)
+- Consider using WebM format with MP4 fallback
+- Use shorter loops for background videos
+- Optimize bitrate based on content
+
+## Browser Compatibility
+
+CSS masking is supported in:
+- Chrome/Edge (full support)
+- Firefox (full support)
+- Safari (requires -webkit- prefix, included)
+- Mobile browsers (generally supported)
+
+## Accessibility
+
+The component includes:
+- Screen reader text with `sr-only` class
+- Semantic HTML with proper video attributes
+- `playsinline` for iOS compatibility
+
+<Info>
+The component automatically updates the mask when content or typography settings change, using Svelte's `watch` from the `runed` library.
+</Info>
+
+<Warning>
+Autoplay with sound typically requires user interaction first. Keep `muted={true}` for autoplay to work reliably.
+</Warning>
+
+## Performance Considerations
+
+- Video files should be optimized for web delivery
+- Consider lazy loading for below-the-fold content
+- Use appropriate preload strategies based on use case
+- Test on mobile devices for performance
+- Consider reduced motion preferences for accessibility

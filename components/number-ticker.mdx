@@ -1,0 +1,102 @@
+---
+title: Number Ticker
+description: An animated number counter component with spring physics that smoothly animates from a start value to an end value.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add number-ticker
+```
+
+## Usage
+
+```svelte
+<script>
+  import NumberTicker from '$lib/components/magic/number-ticker/number-ticker.svelte';
+</script>
+
+<NumberTicker value={100} />
+```
+
+## Examples
+
+### Count Up Animation
+
+```svelte
+<script>
+  import NumberTicker from '$lib/components/magic/number-ticker/number-ticker.svelte';
+</script>
+
+<NumberTicker value={1000} startValue={0} direction="up" />
+```
+
+### Count Down Animation
+
+```svelte
+<NumberTicker value={0} startValue={100} direction="down" />
+```
+
+### With Decimal Places
+
+```svelte
+<NumberTicker value={99.99} startValue={0} decimalPlaces={2} />
+```
+
+### With Delay
+
+```svelte
+<NumberTicker value={500} delay={1} />
+```
+
+### Large Numbers with Formatting
+
+```svelte
+<NumberTicker value={1000000} class="text-4xl font-bold" />
+```
+
+## Props
+
+<ParamField path="value" type="number" required>
+  The target value to animate to.
+</ParamField>
+
+<ParamField path="startValue" type="number" default={0}>
+  The initial value to start the animation from.
+</ParamField>
+
+<ParamField path="direction" type="'up' | 'down'" default="up">
+  The direction of the animation. `"up"` counts from startValue to value, `"down"` counts from value to startValue.
+</ParamField>
+
+<ParamField path="delay" type="number" default={0}>
+  Delay in seconds before the animation starts.
+</ParamField>
+
+<ParamField path="decimalPlaces" type="number" default={0}>
+  Number of decimal places to display.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## Features
+
+- Spring physics animation for natural movement
+- Automatic number formatting with locale support
+- Intersection observer triggers animation when visible
+- Support for both count-up and count-down animations
+- Configurable decimal places
+- Delay option for staggered animations
+
+## Animation Details
+
+- Uses spring physics with damping (60) and stiffness (100) for realistic motion
+- Animates at approximately 60fps for smooth visuals
+- Numbers are formatted using `Intl.NumberFormat` with en-US locale
+- Animation triggers when the element enters the viewport
+
+## Dependencies
+
+- motion-sv (for `inView` observer)

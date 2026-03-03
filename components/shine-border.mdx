@@ -1,0 +1,131 @@
+---
+title: Shine Border
+description: A component that adds a shining animated border effect with customizable colors, duration, and border width.
+---
+
+<ComponentPreview name="shine-border-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@next add shine-border
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Copy component source</Step>
+      <ComponentSource name="shine-border" />
+      <Step>Update Tailwind config</Step>
+      Add the following animations to your `tailwind.config.js`:
+      ```js
+      {
+        theme: {
+          extend: {
+            animation: {
+              shine: 'shine var(--duration) infinite linear'
+            },
+            keyframes: {
+              shine: {
+                '0%': { backgroundPosition: '0% 0%' },
+                '50%': { backgroundPosition: '100% 100%' },
+                '100%': { backgroundPosition: '0% 0%' }
+              }
+            }
+          }
+        }
+      }
+      ```
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { ShineBorder } from "$lib/components/magic/shine-border";
+</script>
+
+<div class="relative h-[200px] w-[400px] rounded-lg bg-white">
+  <ShineBorder />
+  <div class="relative z-10 p-8">Your content here</div>
+</div>
+```
+
+## Examples
+
+### Custom Color
+
+<ComponentPreview name="shine-border-custom-color" />
+
+```svelte
+<div class="relative rounded-lg bg-white">
+  <ShineBorder shineColor="#3b82f6" />
+  <div class="relative z-10 p-8">Blue shine effect</div>
+</div>
+```
+
+### Multiple Colors
+
+<ComponentPreview name="shine-border-multi-color" />
+
+```svelte
+<div class="relative rounded-lg bg-white">
+  <ShineBorder shineColor={['#ff00aa', '#00FFF1', '#ffaa00']} />
+  <div class="relative z-10 p-8">Rainbow shine effect</div>
+</div>
+```
+
+### Custom Border Width and Duration
+
+<ComponentPreview name="shine-border-custom" />
+
+```svelte
+<div class="relative rounded-lg bg-white">
+  <ShineBorder borderWidth={3} duration={8} shineColor="#10b981" />
+  <div class="relative z-10 p-8">Thicker, slower shine</div>
+</div>
+```
+
+### On Dark Background
+
+<ComponentPreview name="shine-border-dark" />
+
+```svelte
+<div class="relative rounded-lg bg-black">
+  <ShineBorder shineColor="#ffffff" />
+  <div class="relative z-10 p-8 text-white">White shine on dark</div>
+</div>
+```
+
+## Props
+
+<ParamField path="borderWidth" type="number" default="1">
+  The width of the shining border in pixels.
+</ParamField>
+
+<ParamField path="duration" type="number" default="14">
+  The duration of the shine animation in seconds.
+</ParamField>
+
+<ParamField path="shineColor" type="string | string[]" default="#000000">
+  The color(s) of the shine effect. Can be a single color string or an array of colors for a multi-color gradient effect.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the shine border element.
+</ParamField>
+
+<ParamField path="style" type="string">
+  Additional inline styles to apply to the component.
+</ParamField>
+
+## Implementation Details
+
+- Uses a radial gradient that animates across the border
+- Implements CSS masking to create the border-only effect
+- The component is absolutely positioned and should be placed inside a relative container
+- Automatically inherits the border radius from the parent container using `rounded-[inherit]`
+- Uses `pointer-events-none` so it doesn't interfere with interactions

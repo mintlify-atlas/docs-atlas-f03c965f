@@ -1,0 +1,142 @@
+---
+title: Ripple
+description: A component that creates expanding ripple circles with customizable size, opacity, and number of circles.
+---
+
+<ComponentPreview name="ripple-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@next add ripple
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Copy component source</Step>
+      <ComponentSource name="ripple" />
+      <Step>Update Tailwind config</Step>
+      Add the following animations to your `tailwind.config.js`:
+      ```js
+      {
+        theme: {
+          extend: {
+            animation: {
+              ripple: 'ripple var(--duration, 2s) ease calc(var(--i, 0) * 0.2s) infinite'
+            },
+            keyframes: {
+              ripple: {
+                '0%, 100%': {
+                  transform: 'translate(-50%, -50%) scale(1)'
+                },
+                '50%': {
+                  transform: 'translate(-50%, -50%) scale(0.9)'
+                }
+              }
+            }
+          }
+        }
+      }
+      ```
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { Ripple } from "$lib/components/magic/ripple";
+</script>
+
+<div class="relative flex h-[400px] w-full items-center justify-center overflow-hidden">
+  <Ripple />
+  <div class="relative z-10">Your content here</div>
+</div>
+```
+
+## Examples
+
+### Custom Circle Count
+
+<ComponentPreview name="ripple-custom-count" />
+
+```svelte
+<div class="relative flex h-[400px] w-full items-center justify-center overflow-hidden">
+  <Ripple numCircles={12} />
+  <div class="relative z-10">More ripples</div>
+</div>
+```
+
+### Custom Size and Opacity
+
+<ComponentPreview name="ripple-custom-size" />
+
+```svelte
+<div class="relative flex h-[400px] w-full items-center justify-center overflow-hidden">
+  <Ripple mainCircleSize={150} mainCircleOpacity={0.35} />
+  <div class="relative z-10">Smaller, more visible ripples</div>
+</div>
+```
+
+### Fewer Circles
+
+<ComponentPreview name="ripple-minimal" />
+
+```svelte
+<div class="relative flex h-[400px] w-full items-center justify-center overflow-hidden">
+  <Ripple numCircles={4} mainCircleSize={180} />
+  <div class="relative z-10">Minimal ripples</div>
+</div>
+```
+
+### Hero Section
+
+<ComponentPreview name="ripple-hero" />
+
+```svelte
+<div class="relative flex h-screen w-full items-center justify-center overflow-hidden bg-gradient-to-b from-background to-muted">
+  <Ripple numCircles={10} mainCircleSize={250} mainCircleOpacity={0.2} />
+  <div class="relative z-10 text-center">
+    <h1 class="text-6xl font-bold">Welcome</h1>
+    <p class="mt-4 text-xl text-muted-foreground">Beautiful ripple effect</p>
+  </div>
+</div>
+```
+
+## Props
+
+<ParamField path="mainCircleSize" type="number" default="210">
+  The size of the first (main) circle in pixels. Each subsequent circle increases by 70px.
+</ParamField>
+
+<ParamField path="mainCircleOpacity" type="number" default="0.24">
+  The opacity of the main circle. Each subsequent circle decreases by 0.03.
+</ParamField>
+
+<ParamField path="numCircles" type="number" default="8">
+  The number of ripple circles to render.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the ripple container.
+</ParamField>
+
+## Features
+
+- **Concentric Circles**: Creates multiple expanding circles from the center
+- **Staggered Animation**: Each circle has a delayed animation for a wave effect
+- **Gradient Mask**: Uses a linear gradient mask that fades to transparent at the bottom
+- **Responsive**: Works with any container size
+- **Customizable**: Full control over size, opacity, and number of circles
+- **Performance**: Uses CSS animations for smooth 60fps performance
+
+## Implementation Details
+
+- Each circle is positioned at the center using `translate(-50%, -50%)`
+- The animation delay increases by `0.06s` for each subsequent circle
+- Circles are styled with `bg-foreground/25` and adapt to your theme
+- Uses `pointer-events-none` so it doesn't interfere with interactions
+- The component should be placed in a container with `overflow-hidden` to clip the circles

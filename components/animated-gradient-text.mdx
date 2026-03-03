@@ -1,0 +1,187 @@
+---
+title: Animated Gradient Text
+description: An animated gradient background which transitions between colors for text.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn-svelte@latest add https://magicui.acme.com/r/animated-gradient-text
+```
+
+```bash pnpm
+pnpx shadcn-svelte@latest add https://magicui.acme.com/r/animated-gradient-text
+```
+
+```bash bun
+bunx shadcn-svelte@latest add https://magicui.acme.com/r/animated-gradient-text
+```
+
+</CodeGroup>
+
+<Note>
+This component requires CSS keyframes to be added to your global styles. The installation command will handle this automatically.
+</Note>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { AnimatedGradientText } from "$lib/components/magic/animated-gradient-text";
+</script>
+
+<AnimatedGradientText>
+  Introducing Magic UI
+</AnimatedGradientText>
+```
+
+## Examples
+
+### Basic Example
+
+Simple gradient text with default colors.
+
+```svelte
+<AnimatedGradientText>
+  Beautiful Gradient Text
+</AnimatedGradientText>
+```
+
+### With Custom Colors
+
+Customize the gradient colors using the `colorFrom` and `colorTo` props.
+
+```svelte
+<AnimatedGradientText 
+  colorFrom="#60a5fa" 
+  colorTo="#a78bfa"
+>
+  Custom Gradient Colors
+</AnimatedGradientText>
+```
+
+### Custom Speed
+
+Control the animation speed with the `speed` prop.
+
+```svelte
+<AnimatedGradientText speed={2}>
+  Faster Animation
+</AnimatedGradientText>
+
+<AnimatedGradientText speed={0.5}>
+  Slower Animation
+</AnimatedGradientText>
+```
+
+### In a Badge
+
+Combine with other components for a complete design.
+
+```svelte
+<script lang="ts">
+  import { AnimatedGradientText } from "$lib/components/magic/animated-gradient-text";
+  import { ChevronRight } from "@lucide/svelte";
+</script>
+
+<div
+  class="group relative mx-auto flex items-center justify-center rounded-full px-4 py-1.5 shadow-[inset_0_-8px_10px_#8fdfff1f]"
+>
+  <span
+    class="animate-gradient absolute inset-0 block h-full w-full rounded-[inherit] bg-gradient-to-r from-[#ffaa40]/50 via-[#9c40ff]/50 to-[#ffaa40]/50 bg-[length:300%_100%] p-[1px]"
+  ></span>
+  🎉
+  <hr class="mx-2 h-4 w-px shrink-0 bg-neutral-500" />
+  <AnimatedGradientText class="text-sm font-medium">
+    Introducing Magic UI
+  </AnimatedGradientText>
+  <ChevronRight class="ml-1 size-4" />
+</div>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet" required>
+  The text content to display with the animated gradient.
+</ParamField>
+
+<ParamField path="colorFrom" type="string" default="#ffaa40">
+  The starting color of the gradient. Accepts any valid CSS color value.
+</ParamField>
+
+<ParamField path="colorTo" type="string" default="#9c40ff">
+  The ending color of the gradient. Accepts any valid CSS color value.
+</ParamField>
+
+<ParamField path="speed" type="number" default={1}>
+  The speed multiplier for the animation. Higher values make the animation faster.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## CSS Animation
+
+The component uses a CSS keyframe animation that is automatically added during installation:
+
+```css
+@keyframes gradient {
+  to {
+    background-position: var(--bg-size, 300%) 0;
+  }
+}
+```
+
+The animation class:
+```css
+.animate-gradient {
+  animation: gradient 8s linear infinite;
+}
+```
+
+## Customization
+
+### Custom Gradient with Multiple Colors
+
+While the component accepts two colors, you can create more complex gradients using Tailwind classes:
+
+```svelte
+<span class="animate-gradient bg-gradient-to-r from-pink-500 via-purple-500 via-blue-500 to-pink-500 bg-clip-text text-transparent bg-[length:300%_100%]">
+  Multi-color Gradient
+</span>
+```
+
+### Different Animation Duration
+
+Override the animation duration using inline styles:
+
+```svelte
+<AnimatedGradientText 
+  class="[animation-duration:4s]"
+>
+  Faster Gradient
+</AnimatedGradientText>
+```
+
+### Typography Styling
+
+Combine with typography classes for emphasis:
+
+```svelte
+<AnimatedGradientText 
+  class="text-4xl font-bold tracking-tight"
+>
+  Large Gradient Heading
+</AnimatedGradientText>
+```
+
+<Info>
+The gradient animation works by shifting the background position of a gradient that's larger than the text. The text is made transparent using `bg-clip-text` to reveal the gradient beneath.
+</Info>
+
+<Warning>
+Make sure your gradient colors have sufficient contrast with your background for readability.
+</Warning>

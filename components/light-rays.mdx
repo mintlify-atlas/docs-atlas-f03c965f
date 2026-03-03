@@ -1,0 +1,149 @@
+---
+title: Light Rays
+description: A component that creates animated light rays with customizable count, color, blur, speed, and length.
+---
+
+# Light Rays
+
+An elegant component that creates animated light rays emanating from the top of a container. Perfect for adding atmospheric lighting effects to hero sections and feature cards.
+
+## Installation
+
+<CodeGroup>
+```bash npm
+npx shadcn-svelte@latest add https://sv-animations.vercel.app/r/light-rays.json
+```
+
+```bash pnpm
+pnpm dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/light-rays.json
+```
+
+```bash yarn
+yarn dlx shadcn-svelte@latest add https://sv-animations.vercel.app/r/light-rays.json
+```
+</CodeGroup>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { LightRays } from "$lib/components/magic-ui/light-rays";
+</script>
+
+<div class="relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg border bg-black">
+  <LightRays
+    count={7}
+    color="rgba(160, 210, 255, 0.2)"
+    blur={36}
+    speed={14}
+    length="70vh"
+  />
+  <p class="z-10 text-center text-5xl font-medium tracking-tighter text-white">
+    Light Rays
+  </p>
+</div>
+```
+
+## Props
+
+<ParamField path="count" type="number" default="7">
+  The number of light rays to display.
+</ParamField>
+
+<ParamField path="color" type="string" default="rgba(160, 210, 255, 0.2)">
+  The color of the light rays. Accepts any valid CSS color with transparency recommended.
+</ParamField>
+
+<ParamField path="blur" type="number" default="36">
+  The blur amount in pixels. Higher values create softer, more diffused rays.
+</ParamField>
+
+<ParamField path="speed" type="number" default="14">
+  The duration of the animation cycle in seconds. Lower values create faster animations.
+</ParamField>
+
+<ParamField path="length" type="string" default="70vh">
+  The length of each ray. Accepts any valid CSS length value (px, vh, %, etc.).
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the container element.
+</ParamField>
+
+<ParamField path="style" type="string">
+  Additional inline styles to apply to the container.
+</ParamField>
+
+## Examples
+
+### Basic Light Rays
+
+```svelte
+<LightRays />
+```
+
+### Blue Light Rays
+
+```svelte
+<LightRays
+  count={5}
+  color="rgba(59, 130, 246, 0.3)"
+  blur={40}
+/>
+```
+
+### Purple Ambient Light
+
+```svelte
+<LightRays
+  count={10}
+  color="rgba(168, 85, 247, 0.2)"
+  blur={50}
+  speed={20}
+/>
+```
+
+### Shorter, Faster Rays
+
+```svelte
+<LightRays
+  count={8}
+  length="50vh"
+  speed={8}
+  blur={30}
+/>
+```
+
+### Golden Light
+
+```svelte
+<LightRays
+  count={6}
+  color="rgba(251, 191, 36, 0.25)"
+  blur={45}
+  speed={16}
+/>
+```
+
+### Many Rays with Sharp Blur
+
+```svelte
+<LightRays
+  count={12}
+  blur={20}
+  speed={12}
+  length="80vh"
+/>
+```
+
+## Notes
+
+- Uses motion-sv for smooth animations
+- Each ray has randomized properties (position, rotation, width, swing, delay, duration, intensity)
+- Rays animate with opacity changes and gentle swinging motion
+- Includes subtle radial gradient backgrounds for ambient glow
+- Uses mix-blend-mode: screen for additive light blending
+- Rays are positioned absolutely from the top of the container
+- Animation creates a continuous loop with slight delays between cycles
+- Best used with dark backgrounds for maximum effect
+- The component is pointer-events-none to avoid interfering with content

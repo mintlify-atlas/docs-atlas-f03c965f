@@ -1,0 +1,246 @@
+---
+title: File Tree
+description: An interactive file tree component with expandable folders, selectable files, and smooth animations.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add https://acme.com/r/file-tree
+```
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import { FileTree, Folder, File } from "magic/file-tree";
+  import type { TreeViewElement } from "magic/file-tree";
+
+  const elements: TreeViewElement[] = [
+    {
+      id: "1",
+      name: "src",
+      children: [
+        { id: "2", name: "components", children: [
+          { id: "3", name: "Button.svelte" },
+          { id: "4", name: "Input.svelte" }
+        ]},
+        { id: "5", name: "App.svelte" }
+      ]
+    }
+  ];
+</script>
+
+<FileTree {elements}>
+  <Folder value="1" element="src">
+    <Folder value="2" element="components">
+      <File value="3">Button.svelte</File>
+      <File value="4">Input.svelte</File>
+    </Folder>
+    <File value="5">App.svelte</File>
+  </Folder>
+</FileTree>
+```
+
+## Examples
+
+### Basic File Tree
+
+```svelte
+<script lang="ts">
+  import { FileTree, Folder, File } from "magic/file-tree";
+</script>
+
+<FileTree initialExpandedItems={["root"]}>
+  <Folder value="root" element="project">
+    <Folder value="src" element="src">
+      <File value="app">App.svelte</File>
+      <File value="main">main.ts</File>
+    </Folder>
+    <Folder value="public" element="public">
+      <File value="index">index.html</File>
+    </Folder>
+    <File value="package">package.json</File>
+  </Folder>
+</FileTree>
+```
+
+### With Initial Selection
+
+```svelte
+<FileTree initialSelectedId="app" initialExpandedItems={["root", "src"]}>
+  <Folder value="root" element="project">
+    <Folder value="src" element="src">
+      <File value="app">App.svelte</File>
+      <File value="main">main.ts</File>
+    </Folder>
+  </Folder>
+</FileTree>
+```
+
+### Custom Icons
+
+```svelte
+<script lang="ts">
+  import { FileTree, Folder, File } from "magic/file-tree";
+  import { FolderOpen, FolderClosed, FileIcon } from "@lucide/svelte";
+</script>
+
+<FileTree>
+  {#snippet openIcon()}
+    <FolderOpen class="h-4 w-4" />
+  {/snippet}
+  {#snippet closeIcon()}
+    <FolderClosed class="h-4 w-4" />
+  {/snippet}
+
+  <Folder value="src" element="src">
+    <File value="app">
+      {#snippet fileIcon()}
+        <FileIcon class="h-4 w-4" />
+      {/snippet}
+      App.svelte
+    </File>
+  </Folder>
+</FileTree>
+```
+
+### Non-Selectable Items
+
+```svelte
+<FileTree>
+  <Folder value="root" element="project" isSelectable={false}>
+    <File value="readme" isSelectable={false}>README.md</File>
+    <File value="app">App.svelte</File>
+  </Folder>
+</FileTree>
+```
+
+## Component API
+
+### FileTree
+
+<ParamField path="children" type="Snippet" required>
+  Child components (Folder and File components).
+</ParamField>
+
+<ParamField path="initialSelectedId" type="string">
+  ID of the initially selected item.
+</ParamField>
+
+<ParamField path="initialExpandedItems" type="string[]" default="[]">
+  Array of IDs for initially expanded folders.
+</ParamField>
+
+<ParamField path="elements" type="TreeViewElement[]">
+  Tree structure data (optional, used for data-driven rendering).
+</ParamField>
+
+<ParamField path="indicator" type="boolean" default="true">
+  Whether to show the vertical indicator line for nested items.
+</ParamField>
+
+<ParamField path="openIcon" type="Snippet">
+  Custom icon snippet for open folders.
+</ParamField>
+
+<ParamField path="closeIcon" type="Snippet">
+  Custom icon snippet for closed folders.
+</ParamField>
+
+<ParamField path="dir" type="'rtl' | 'ltr'" default="'ltr'">
+  Text direction for the tree.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the container.
+</ParamField>
+
+### Folder
+
+<ParamField path="element" type="string" required>
+  The folder name/label to display.
+</ParamField>
+
+<ParamField path="value" type="string" required>
+  Unique identifier for this folder.
+</ParamField>
+
+<ParamField path="isSelectable" type="boolean" default="true">
+  Whether the folder can be selected.
+</ParamField>
+
+<ParamField path="isSelect" type="boolean">
+  Override to manually control selection state.
+</ParamField>
+
+<ParamField path="children" type="Snippet" required>
+  Child components (nested Folder and File components).
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the folder.
+</ParamField>
+
+### File
+
+<ParamField path="value" type="string" required>
+  Unique identifier for this file.
+</ParamField>
+
+<ParamField path="isSelectable" type="boolean" default="true">
+  Whether the file can be selected.
+</ParamField>
+
+<ParamField path="isSelect" type="boolean">
+  Override to manually control selection state.
+</ParamField>
+
+<ParamField path="fileIcon" type="Snippet">
+  Custom icon snippet for the file.
+</ParamField>
+
+<ParamField path="children" type="Snippet" required>
+  File name/label content.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the file.
+</ParamField>
+
+## Features
+
+- Smooth expand/collapse animations with motion-sv
+- Vertical indicator lines for nested structure
+- Selectable files and folders with visual feedback
+- Support for non-selectable items
+- Custom icon support for folders and files
+- RTL support
+- Keyboard accessible
+- Context-based state management
+- Default SVG icons included
+
+## Type Definitions
+
+```typescript
+export type TreeViewElement = {
+  id: string;
+  name: string;
+  isSelectable?: boolean;
+  children?: TreeViewElement[];
+};
+```
+
+## Animation Details
+
+Folder expansion uses:
+
+- **Initial**: `height: 0, opacity: 0`
+- **Animate**: `height: "auto", opacity: 1`
+- **Exit**: `height: 0, opacity: 0`
+- **Duration**: 0.2s with easeInOut easing
+
+## Dependencies
+
+- @lucide/svelte
+- motion-sv

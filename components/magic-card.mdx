@@ -1,0 +1,208 @@
+---
+title: Magic Card
+description: A spotlight effect that follows your mouse cursor and highlights borders on hover.
+---
+
+<ComponentPreview name="magic-card-demo" />
+
+## Installation
+
+<Tabs items={["CLI", "Manual"]}>
+  <Tab value="CLI">
+    ```bash
+    npx shadcn-svelte@latest add magic-card
+    ```
+  </Tab>
+  <Tab value="Manual">
+    <Steps>
+      <Step>Install dependencies</Step>
+      ```bash
+      npm install motion-sv
+      ```
+      <Step>Copy component source</Step>
+      Copy the component source code from the [repository](https://github.com/example/magic-ui).
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```svelte
+<script lang="ts">
+  import MagicCard from "$lib/components/magic/magic-card/magic-card.svelte";
+</script>
+
+<MagicCard>
+  <div class="p-6">
+    <h3>Card Title</h3>
+    <p>Card content goes here</p>
+  </div>
+</MagicCard>
+```
+
+## Props
+
+<ParamField path="children" type="Snippet">
+  The content to display inside the card.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the card container.
+</ParamField>
+
+<ParamField path="gradientSize" type="number" default="200">
+  Radius of the gradient spotlight effect in pixels.
+</ParamField>
+
+<ParamField path="gradientColor" type="string" default="'#262626'">
+  Color of the overlay gradient spotlight.
+</ParamField>
+
+<ParamField path="gradientOpacity" type="number" default="0.8">
+  Opacity of the gradient overlay (0-1).
+</ParamField>
+
+<ParamField path="gradientFrom" type="string" default="'#9E7AFF'">
+  Starting color of the border gradient (visible on hover).
+</ParamField>
+
+<ParamField path="gradientTo" type="string" default="'#FE8BBB'">
+  Ending color of the border gradient (visible on hover).
+</ParamField>
+
+## Examples
+
+### Basic Card
+
+```svelte
+<MagicCard>
+  <div class="p-8 text-center">
+    <h2 class="text-2xl font-bold">Magic Card</h2>
+    <p class="mt-4 text-muted-foreground">
+      Hover to see the spotlight effect
+    </p>
+  </div>
+</MagicCard>
+```
+
+### Custom Colors
+
+```svelte
+<MagicCard
+  gradientFrom="#3b82f6"
+  gradientTo="#8b5cf6"
+  gradientColor="#1e293b"
+>
+  <div class="p-6">
+    <h3>Blue to Purple</h3>
+    <p>Custom gradient colors</p>
+  </div>
+</MagicCard>
+```
+
+### Larger Spotlight
+
+```svelte
+<MagicCard gradientSize={300}>
+  <div class="p-6">
+    <h3>Larger Effect</h3>
+    <p>Increased gradient radius</p>
+  </div>
+</MagicCard>
+```
+
+### Lower Opacity
+
+```svelte
+<MagicCard gradientOpacity={0.4}>
+  <div class="p-6">
+    <h3>Subtle Effect</h3>
+    <p>Reduced overlay opacity</p>
+  </div>
+</MagicCard>
+```
+
+### Card Grid
+
+```svelte
+<div class="grid grid-cols-3 gap-4">
+  {#each items as item}
+    <MagicCard>
+      <div class="p-6">
+        <h4 class="font-semibold">{item.title}</h4>
+        <p class="text-sm text-muted-foreground">{item.description}</p>
+      </div>
+    </MagicCard>
+  {/each}
+</div>
+```
+
+### Feature Showcase
+
+```svelte
+<MagicCard 
+  gradientFrom="#06b6d4" 
+  gradientTo="#3b82f6"
+  class="max-w-md"
+>
+  <div class="p-8">
+    <div class="mb-4 text-4xl">🚀</div>
+    <h3 class="mb-2 text-xl font-bold">Fast Performance</h3>
+    <p class="text-sm text-muted-foreground">
+      Lightning-fast load times and smooth animations
+    </p>
+  </div>
+</MagicCard>
+```
+
+## How It Works
+
+The Magic Card creates a layered effect:
+
+1. **Border Layer**: Animated gradient that follows the mouse
+2. **Background Layer**: Fills the card interior
+3. **Overlay Layer**: Semi-transparent spotlight effect
+4. **Content Layer**: Your card content on top
+
+The gradients use `motion-sv` with `useMotionTemplate` and `useMotionValue` for smooth, performance-optimized animations.
+
+## Mouse Tracking
+
+The component automatically:
+- Tracks mouse position within the card
+- Updates gradient positions in real-time
+- Resets when the mouse leaves the card
+- Handles window blur and visibility changes
+- Works with touch/pointer events
+
+## Features
+
+- Mouse-following spotlight effect
+- Animated gradient border
+- Customizable gradient colors and size
+- Smooth transitions with motion-sv
+- Automatic cleanup and reset handling
+- Responsive to visibility changes
+- GPU-accelerated animations
+- Semantic HTML structure
+- Accessible with proper ARIA roles
+
+## Styling Tips
+
+- The card inherits border radius from parent styles
+- Use `rounded-lg`, `rounded-xl`, etc. on the parent for rounded corners
+- The component uses CSS custom properties for border colors
+- Combine with other utility classes for spacing and layout
+
+```svelte
+<MagicCard class="rounded-xl shadow-lg">
+  <!-- content -->
+</MagicCard>
+```
+
+## Performance
+
+- Uses `transform-gpu` for hardware acceleration
+- Efficient pointer event tracking
+- Automatic cleanup of event listeners
+- Minimal re-renders with reactive motion values

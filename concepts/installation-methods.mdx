@@ -1,0 +1,304 @@
+---
+title: Installation Methods
+description: Learn the different ways to add Svelte 5 animation components to your project
+---
+
+## Overview
+
+There are two primary methods to install Svelte 5 animation components: using the CLI (recommended) or manual copy-paste. Both methods work with the component registry system.
+
+## CLI Installation (Recommended)
+
+The fastest way to add components is using the `shadcn-svelte` CLI, which automatically handles dependencies and setup.
+
+### Prerequisites
+
+First, ensure you have a Svelte 5 project set up with the required dependencies:
+
+```bash
+npm install svelte@^5.0.0 @sveltejs/kit
+```
+
+### Install a Component
+
+Use the CLI to add any component from the registry:
+
+```bash
+npx shadcn-svelte@latest add [REGISTRY_URL] [component-name]
+```
+
+For example, to install the Border Beam component:
+
+```bash
+npx shadcn-svelte@latest add https://sv5-animations.vercel.app border-beam
+```
+
+### What Gets Installed
+
+The CLI automatically:
+
+1. Downloads the component files to your project
+2. Installs required npm dependencies
+3. Adds necessary CSS variables to your config
+4. Sets up animation keyframes
+5. Places files in the correct directory structure
+
+<Note>
+Components are installed to `src/lib/components/magic/` by default.
+</Note>
+
+## Manual Installation
+
+For more control, you can manually copy component code into your project.
+
+### Step 1: Create Directory Structure
+
+Create a directory for the component:
+
+```bash
+mkdir -p src/lib/components/magic/shine-border
+```
+
+### Step 2: Copy Component Files
+
+Copy the component Svelte file and index file from the registry or documentation.
+
+For simple components like Shine Border:
+
+<CodeGroup>
+```svelte src/lib/components/magic/shine-border/shine-border.svelte
+<script lang="ts">
+  import { cn } from "$lib/utils";
+  import type { HTMLAttributes } from "svelte/elements";
+
+  interface Props extends HTMLAttributes<HTMLDivElement> {
+    borderWidth?: number;
+    duration?: number;
+    shineColor?: string | string[];
+  }
+
+  let {
+    borderWidth = 1,
+    duration = 14,
+    shineColor = "#000000",
+    class: className,
+    style,
+    ...restProps
+  }: Props = $props();
+  
+  // ... rest of component
+</script>
+```
+
+```typescript src/lib/components/magic/shine-border/index.ts
+import ShineBorder from "./shine-border.svelte";
+export { ShineBorder };
+```
+</CodeGroup>
+
+### Step 3: Install Dependencies
+
+Check the registry entry for required dependencies and install them:
+
+```json registry.json
+{
+  "name": "border-beam",
+  "dependencies": ["motion-sv"]
+}
+```
+
+Install the dependencies:
+
+```bash
+npm install motion-sv
+```
+
+### Step 4: Add CSS Variables
+
+Some components require CSS variables and keyframes. Add these to your Tailwind configuration.
+
+For Shine Border, add to `tailwind.config.js`:
+
+```javascript tailwind.config.js
+export default {
+  theme: {
+    extend: {
+      animation: {
+        shine: "shine var(--duration) infinite linear"
+      },
+      keyframes: {
+        shine: {
+          "0%": { "background-position": "0% 0%" },
+          "50%": { "background-position": "100% 100%" },
+          "100%": { "background-position": "0% 0%" }
+        }
+      }
+    }
+  }
+}
+```
+
+### Step 5: Copy Type Definitions
+
+For complex components with separate type files, copy those too:
+
+```typescript src/lib/components/magic/animated-beam/types.ts
+export interface AnimatedBeamProps {
+  class?: string;
+  containerRef: HTMLElement | null;
+  fromRef: HTMLElement | null;
+  toRef: HTMLElement | null;
+  curvature?: number;
+  reverse?: boolean;
+  // ... more props
+}
+```
+
+## Understanding the Registry
+
+The component registry (`registry.json`) defines all available components and their metadata.
+
+### Registry Entry Structure
+
+Each component has an entry like this:
+
+```json
+{
+  "name": "animated-beam",
+  "type": "registry:block",
+  "title": "Animated Beam",
+  "description": "A component for creating animated beam effects between elements",
+  "files": [
+    {
+      "path": "./src/lib/components/magic-ui/animated-beam/animated-beam.svelte",
+      "type": "registry:component",
+      "target": "magic/animated-beam/animated-beam.svelte"
+    },
+    {
+      "path": "./src/lib/components/magic-ui/animated-beam/types.ts",
+      "type": "registry:file",
+      "target": "magic/animated-beam/types.ts"
+    }
+  ],
+  "registryDependencies": [],
+  "dependencies": ["motion-sv"]
+}
+```
+
+### Key Fields
+
+- **name** - Unique identifier for the component
+- **files** - Array of component files to install
+- **dependencies** - npm packages required
+- **registryDependencies** - Other components from the registry this depends on
+- **cssVars** - Tailwind animation configuration
+- **css** - Keyframe definitions
+
+## Registry URL Pattern
+
+Components follow this URL structure for registry access:
+
+```
+https://sv5-animations.vercel.app/registry/[component-name].json
+```
+
+For example:
+- Border Beam: `https://sv5-animations.vercel.app/registry/border-beam.json`
+- Shine Border: `https://sv5-animations.vercel.app/registry/shine-border.json`
+
+## Common Dependencies
+
+These packages are commonly used across components:
+
+### Core Animation Libraries
+
+```bash
+npm install motion-sv runed
+```
+
+- **motion-sv** (v0.1.10+) - Svelte 5 motion library for animations
+- **runed** (v0.37.1+) - Svelte 5 runes utilities
+
+### UI Libraries
+
+```bash
+npm install @lucide/svelte bits-ui
+```
+
+- **@lucide/svelte** - Icon library (for interactive components)
+- **bits-ui** - Headless UI components (for buttons)
+
+### Specialized Libraries
+
+```bash
+npm install svg-dotted-map tailwind-variants
+```
+
+- **svg-dotted-map** - For the Dotted Map component
+- **tailwind-variants** - For component variants (Rainbow Button)
+
+## CSS Variables Setup
+
+Many components require CSS custom properties for animations.
+
+### Via Tailwind Config
+
+Add to `tailwind.config.js`:
+
+```javascript
+export default {
+  theme: {
+    extend: {
+      animation: {
+        'marquee': 'marquee var(--duration) linear infinite',
+        'orbit': 'orbit calc(var(--duration) * 1s) linear infinite',
+        'meteor': 'meteor 5s linear infinite'
+      },
+      keyframes: {
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-100% - var(--gap)))' }
+        },
+        orbit: {
+          '0%': {
+            transform: 'rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg))'
+          },
+          '100%': {
+            transform: 'rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg))'
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## Utilities Setup
+
+Components require the `cn()` utility function for class merging:
+
+```typescript src/lib/utils.ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+Install dependencies:
+
+```bash
+npm install clsx tailwind-merge
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Component Structure" icon="cube" href="/concepts/component-structure">
+    Understand how components are organized
+  </Card>
+  <Card title="Customization" icon="paintbrush" href="/concepts/customization">
+    Learn how to customize components
+  </Card>
+</CardGroup>

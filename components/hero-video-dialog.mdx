@@ -1,0 +1,140 @@
+---
+title: Hero Video Dialog
+description: A video dialog component with animated entrance effects, thumbnail support, and customizable animation styles.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add hero-video-dialog
+```
+
+## Usage
+
+```svelte
+<script>
+  import HeroVideoDialog from '$lib/components/magic/hero-video-dialog/hero-video-dialog.svelte';
+</script>
+
+<HeroVideoDialog
+  videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  thumbnailSrc="/images/video-thumbnail.jpg"
+  thumbnailAlt="Video preview"
+/>
+```
+
+## Examples
+
+### Basic Video Dialog
+
+```svelte
+<script>
+  import HeroVideoDialog from '$lib/components/magic/hero-video-dialog/hero-video-dialog.svelte';
+</script>
+
+<HeroVideoDialog
+  videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  thumbnailSrc="/images/thumbnail.jpg"
+/>
+```
+
+### From Bottom Animation
+
+```svelte
+<HeroVideoDialog
+  animationStyle="from-bottom"
+  videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  thumbnailSrc="/images/thumbnail.jpg"
+/>
+```
+
+### Fade Animation
+
+```svelte
+<HeroVideoDialog
+  animationStyle="fade"
+  videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  thumbnailSrc="/images/thumbnail.jpg"
+/>
+```
+
+### Vimeo Video
+
+```svelte
+<HeroVideoDialog
+  videoSrc="https://player.vimeo.com/video/123456789"
+  thumbnailSrc="/images/vimeo-thumbnail.jpg"
+  animationStyle="from-center"
+/>
+```
+
+## Props
+
+<ParamField path="videoSrc" type="string" required>
+  The URL of the video to display. Supports YouTube, Vimeo, and other embeddable video sources.
+</ParamField>
+
+<ParamField path="thumbnailSrc" type="string" required>
+  The URL of the thumbnail image to display before the video opens.
+</ParamField>
+
+<ParamField path="thumbnailAlt" type="string" default="Video thumbnail">
+  Alt text for the thumbnail image for accessibility.
+</ParamField>
+
+<ParamField path="animationStyle" type="AnimationStyle" default="from-center">
+  The animation style for the video dialog entrance and exit.
+  
+  Available options:
+  - `"from-bottom"` - Slides in from bottom
+  - `"from-center"` - Scales from center (default)
+  - `"from-top"` - Slides in from top
+  - `"from-left"` - Slides in from left
+  - `"from-right"` - Slides in from right
+  - `"fade"` - Simple fade effect
+  - `"top-in-bottom-out"` - Slides in from top, exits to bottom
+  - `"left-in-right-out"` - Slides in from left, exits to right
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component wrapper.
+</ParamField>
+
+## Features
+
+- Smooth animated entrance and exit effects
+- Multiple animation style options
+- Play button overlay on thumbnail
+- Hover effects on thumbnail and play button
+- Full-screen modal dialog
+- Backdrop blur effect
+- Close button with keyboard support (Escape, Enter, Space)
+- Click outside to close
+- Responsive design with mobile support
+- Embedded iframe for video playback
+
+## Keyboard Shortcuts
+
+- `Escape` - Close the video dialog
+- `Enter` - Close the video dialog
+- `Space` - Close the video dialog
+
+## Animation Details
+
+The component uses spring physics for smooth, natural animations:
+- Damping: 30
+- Stiffness: 300
+
+Each animation style has unique initial, animate, and exit states for different visual effects.
+
+## Dependencies
+
+- motion-sv (for animations and `AnimatePresence`)
+- @lucide/svelte (for icons)
+
+## Accessibility
+
+- Thumbnail image includes alt text
+- Play button has aria-label
+- Keyboard navigation support
+- Focus management for modal dialog

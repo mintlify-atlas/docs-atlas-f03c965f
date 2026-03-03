@@ -1,0 +1,87 @@
+---
+title: Scroll Progress
+description: A fixed progress bar component that indicates page scroll progress with a gradient color effect.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add scroll-progress
+```
+
+## Usage
+
+```svelte
+<script>
+  import ScrollProgress from '$lib/components/magic/scroll-progress/scroll-progress.svelte';
+</script>
+
+<ScrollProgress />
+```
+
+## Examples
+
+### Basic Usage
+
+```svelte
+<script>
+  import ScrollProgress from '$lib/components/magic/scroll-progress/scroll-progress.svelte';
+</script>
+
+<ScrollProgress />
+```
+
+### Custom Gradient Colors
+
+```svelte
+<ScrollProgress
+  class="bg-linear-to-r from-blue-500 via-purple-500 to-pink-500"
+/>
+```
+
+### Custom Height
+
+```svelte
+<ScrollProgress class="h-2" />
+```
+
+### Bottom Position
+
+```svelte
+<ScrollProgress class="top-auto bottom-0" />
+```
+
+## Props
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component. Use this to customize the gradient colors, height, or position.
+</ParamField>
+
+## Features
+
+- Fixed position at the top of the viewport
+- Animated width based on scroll progress
+- Beautiful gradient color transition by default
+- Smooth animation using motion-sv
+- Fully customizable via Tailwind classes
+
+## Default Styling
+
+By default, the component includes:
+- Fixed position at top of viewport (`fixed inset-x-0 top-0`)
+- High z-index for visibility (`z-50`)
+- 4px height (`h-1`)
+- Gradient from purple to pink to orange (`from-[#A97CF8] via-[#F38CB8] to-[#FDCC92]`)
+- Origin at top-left for scale animation
+
+## How It Works
+
+The component uses `useScroll()` from motion-sv to track the scroll position. The `scaleX` style property is bound to `scrollYProgress`, which automatically updates as the user scrolls, creating a smooth progress indicator.
+
+## Dependencies
+
+- motion-sv (for `useScroll` and `motion.div`)
+
+## Accessibility
+
+The scroll progress bar is purely decorative and does not require ARIA attributes. It provides visual feedback about scroll position but does not affect functionality or navigation.

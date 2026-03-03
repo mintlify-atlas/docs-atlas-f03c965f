@@ -1,0 +1,104 @@
+---
+title: Animated Circular Progress Bar
+description: A circular progress bar component with animated transitions between primary and secondary colors.
+---
+
+## Installation
+
+```bash
+npx shadcn-svelte@latest add animated-circular-progress-bar
+```
+
+## Usage
+
+```svelte
+<script>
+  import AnimatedCircularProgressBar from '$lib/components/magic/animated-circular-progress-bar/animated-circular-progress-bar.svelte';
+</script>
+
+<AnimatedCircularProgressBar
+  value={75}
+  gaugePrimaryColor="rgb(79, 70, 229)"
+  gaugeSecondaryColor="rgba(0, 0, 0, 0.1)"
+/>
+```
+
+## Examples
+
+### Basic Progress Bar
+
+```svelte
+<script>
+  import AnimatedCircularProgressBar from '$lib/components/magic/animated-circular-progress-bar/animated-circular-progress-bar.svelte';
+</script>
+
+<AnimatedCircularProgressBar
+  value={60}
+  gaugePrimaryColor="rgb(59, 130, 246)"
+  gaugeSecondaryColor="rgba(59, 130, 246, 0.1)"
+/>
+```
+
+### Custom Range
+
+```svelte
+<AnimatedCircularProgressBar
+  value={250}
+  min={0}
+  max={500}
+  gaugePrimaryColor="rgb(34, 197, 94)"
+  gaugeSecondaryColor="rgba(34, 197, 94, 0.1)"
+/>
+```
+
+### Custom Size and Style
+
+```svelte
+<AnimatedCircularProgressBar
+  value={85}
+  gaugePrimaryColor="rgb(239, 68, 68)"
+  gaugeSecondaryColor="rgba(239, 68, 68, 0.1)"
+  class="size-32 text-xl"
+/>
+```
+
+## Props
+
+<ParamField path="value" type="number" required>
+  The current progress value.
+</ParamField>
+
+<ParamField path="gaugePrimaryColor" type="string" required>
+  The color of the filled progress arc.
+</ParamField>
+
+<ParamField path="gaugeSecondaryColor" type="string" required>
+  The color of the unfilled background arc.
+</ParamField>
+
+<ParamField path="max" type="number" default={100}>
+  The maximum value of the progress bar.
+</ParamField>
+
+<ParamField path="min" type="number" default={0}>
+  The minimum value of the progress bar.
+</ParamField>
+
+<ParamField path="class" type="string">
+  Additional CSS classes to apply to the component.
+</ParamField>
+
+## Features
+
+- Animated transitions with smooth easing
+- Displays percentage in the center
+- Customizable size and colors
+- Support for custom min/max ranges
+- Auto-calculated percentage display
+
+## Notes
+
+- The component automatically calculates and displays the percentage based on the value, min, and max props
+- The progress bar uses a circular SVG with animated stroke-dasharray for smooth animations
+- The default size is 160px (size-40), which can be customized using the class prop
+- When the percentage exceeds 90%, the secondary arc is hidden to prevent visual overlap
