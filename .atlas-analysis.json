@@ -1,0 +1,177 @@
+{
+  "projectType": "frontend",
+  "projectName": "Svelte 5 Animations",
+  "projectDescription": "Beautiful, copy-paste animation components for Svelte 5 built with motion-sv and Tailwind CSS",
+  "theme": "palm",
+  "primaryColor": "#9c40ff",
+  "lightColor": "#ffaa40",
+  "darkColor": "#7c2fd9",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "concepts/component-structure",
+              "concepts/installation-methods",
+              "concepts/customization"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing/overview",
+              "contributing/creating-components"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Components",
+        "groups": [
+          {
+            "group": "Text Animations",
+            "pages": [
+              "components/text-animate",
+              "components/animated-gradient-text",
+              "components/animated-shiny-text",
+              "components/aurora-text",
+              "components/hyper-text",
+              "components/line-shadow-text",
+              "components/morphing-text",
+              "components/stagger-text",
+              "components/typing-animation",
+              "components/word-rotate",
+              "components/video-text"
+            ]
+          },
+          {
+            "group": "Background Patterns",
+            "pages": [
+              "components/animated-grid-pattern",
+              "components/dot-pattern",
+              "components/flickering-grid",
+              "components/grid-pattern",
+              "components/retro-grid",
+              "components/striped-pattern",
+              "components/warp-background",
+              "components/light-rays",
+              "components/meteors"
+            ]
+          },
+          {
+            "group": "Interactive Elements",
+            "pages": [
+              "components/animated-beam",
+              "components/blur-fade",
+              "components/cool-mode",
+              "components/icon-cloud",
+              "components/lens",
+              "components/magic-card",
+              "components/orbiting-circles",
+              "components/smooth-cursor"
+            ]
+          },
+          {
+            "group": "Buttons & CTAs",
+            "pages": [
+              "components/interactive-hover-button",
+              "components/pulsating-button",
+              "components/rainbow-button",
+              "components/ripple-button",
+              "components/shimmer-button",
+              "components/shiny-button"
+            ]
+          },
+          {
+            "group": "Layout Components",
+            "pages": [
+              "components/animated-list",
+              "components/avatar-circles",
+              "components/bento-grid",
+              "components/dock",
+              "components/file-tree",
+              "components/marquee",
+              "components/progressive-blur",
+              "components/terminal"
+            ]
+          },
+          {
+            "group": "Cards & Borders",
+            "pages": [
+              "components/border-beam",
+              "components/neon-gradient-card",
+              "components/shine-border",
+              "components/ripple"
+            ]
+          },
+          {
+            "group": "Progress & Media",
+            "pages": [
+              "components/animated-circular-progress-bar",
+              "components/number-ticker",
+              "components/scroll-progress",
+              "components/hero-video-dialog",
+              "components/pixel-image",
+              "components/dotted-map"
+            ]
+          },
+          {
+            "group": "Utilities & Effects",
+            "pages": [
+              "components/animated-theme-toggler",
+              "components/dither-shader",
+              "components/confetti"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "56+ ready-to-use animation components for Svelte 5",
+    "CLI-based installation via shadcn-svelte registry",
+    "Built with motion-sv for smooth animations",
+    "Fully customizable with Tailwind CSS",
+    "Copy-paste component architecture",
+    "TypeScript support with full type definitions",
+    "Accessible animations with ARIA support",
+    "Zero-config installation with automatic dependency management"
+  ],
+  "publicApiSurface": [
+    "text-animate - Text animation with blur, slide, scale effects",
+    "animated-gradient-text - Animated gradient background for text",
+    "animated-beam - Animated beam effects between elements",
+    "blur-fade - Content animation with blur and fade effects",
+    "border-beam - Animated border beam effects",
+    "animated-grid-pattern - Dynamic background grid pattern",
+    "marquee - Smooth scrolling marquee component",
+    "typing-animation - Typewriter effect component",
+    "morphing-text - Text morphing with blur transitions",
+    "orbiting-circles - Circular orbit animations",
+    "icon-cloud - 3D tag cloud with rotation",
+    "dock - macOS-style dock with magnification",
+    "file-tree - Interactive file tree component",
+    "hero-video-dialog - Video dialog with animations",
+    "number-ticker - Animated number counter",
+    "rainbow-button - Button with rainbow gradient",
+    "shimmer-button - Button with shimmer effect",
+    "ripple-button - Button with ripple effect",
+    "terminal - Terminal UI with typing animations",
+    "bento-grid - Flexible grid layout system",
+    "animated-theme-toggler - Theme toggler with View Transition API",
+    "scroll-progress - Page scroll progress indicator",
+    "cool-mode - Particle effect on interactions",
+    "confetti - Confetti celebration effect"
+  ]
+}
